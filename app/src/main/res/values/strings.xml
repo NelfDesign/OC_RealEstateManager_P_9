@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">OC_RealEstateManager_P_9</string>
+
+    <!-- navigation drawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="avatar">avatar</string>
+
+    <!-- menu drawer -->
+    <string name="home">property for sale</string>
+    <string name="simulation">simulation</string>
+    <string name="settings">settings</string>
+    <string name="logout">logout</string>
+    <string name="my_sales">my sales</string>
+
+    <!-- connexion activity -->
+    <string name="welcome_on_real_estate_manager">Welcome on Real Estate Manager</string>
+    <string name="your_name">Your name</string>
+    <string name="your_password">Your password</string>
+    <string name="connexion">Connexion</string>
+    <string name="remenber_me">Remenber me</string>
+</resources>

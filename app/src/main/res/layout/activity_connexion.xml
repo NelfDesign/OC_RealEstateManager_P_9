@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/new_york_night"
+    tools:context=".ui.activity.ConnexionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/opacity"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/width_200"
+            android:layout_height="@dimen/height_100"
+            android:layout_marginTop="@dimen/margin_150"
+            app:srcCompat="@drawable/logo"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            style="@style/text_connexion_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome_on_real_estate_manager" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput"
+                android:layout_width="@dimen/width_300"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@drawable/border_edit_radius">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_connexion_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/your_name"
+                    android:padding="@dimen/margin_10"
+                    android:textSize="18sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_password"
+                android:layout_width="@dimen/width_300"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@drawable/border_edit_radius">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_connexion_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:padding="@dimen/margin_10"
+                    android:hint="@string/your_password" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                android:id="@+id/checkbox_connexion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remenber_me"
+                android:textColor="@color/icons"/>
+
+            <Button
+                android:layout_margin="@dimen/margin_20"
+                android:layout_width="@dimen/width_200"
+                android:layout_height="wrap_content"
+                android:text="@string/connexion"
+                android:background="@drawable/border_radius"
+                android:textColor="@color/icons"
+                android:shadowColor="@color/opacity"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
