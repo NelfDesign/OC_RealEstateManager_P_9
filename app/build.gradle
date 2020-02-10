@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.4.0'
     //ROOM
     implementation "android.arch.persistence.room:runtime:$room"
-    annotationProcessor "android.arch.persistence.room:compiler:$room"
+    kapt "android.arch.persistence.room:compiler:$room"
     //VIEW MODEL & LIVE DATA
     implementation "android.arch.lifecycle:extensions:$room"
     androidTestImplementation "android.arch.core:core-testing:$room"
