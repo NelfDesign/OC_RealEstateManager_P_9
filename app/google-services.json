@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "168677832982",
+    "firebase_url": "https://ocrealestatemanagerp9-df718.firebaseio.com",
+    "project_id": "ocrealestatemanagerp9-df718",
+    "storage_bucket": "ocrealestatemanagerp9-df718.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168677832982:android:c44529ad590f43288e7837",
+        "android_client_info": {
+          "package_name": "fr.nelfdesign.oc_realestatemanager_p_9"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168677832982-0t1oem9d67gs23fmha49ic49g5ah3gqi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.nelfdesign.oc_realestatemanager_p_9",
+            "certificate_hash": "c27dc98f188abbf187815e4e05ebd0403e61fb36"
+          }
+        },
+        {
+          "client_id": "168677832982-bk89o3a222j6rqhb77gt37f0cutedvcp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYopsoyoOqHbL4lVMJ-sJXKdyFJy1Rkm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "168677832982-bk89o3a222j6rqhb77gt37f0cutedvcp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

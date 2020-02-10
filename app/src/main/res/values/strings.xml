@@ -9,9 +9,12 @@
     <!-- menu drawer -->
     <string name="home">property for sale</string>
     <string name="simulation">simulation</string>
-    <string name="settings">settings</string>
+    <string name="settings">tools</string>
     <string name="logout">logout</string>
     <string name="my_sales">my sales</string>
+    <string name="my_profile">my profile</string>
+    <string name="send_new_property">send new property</string>
+    <string name="add_property">add property</string>
 
     <!-- connexion activity -->
     <string name="welcome_on_real_estate_manager">Welcome on Real Estate Manager</string>
@@ -19,4 +22,7 @@
     <string name="your_password">Your password</string>
     <string name="connexion">Connexion</string>
     <string name="remenber_me">Remenber me</string>
+    <string name="property_image">property image</string>
+
+
 </resources>

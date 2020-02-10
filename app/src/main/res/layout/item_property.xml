@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/image_property"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_70"
+            android:layout_weight="20"
+            tools:src="@drawable/penthouse"
+            android:layout_margin="@dimen/margin_5"
+            android:layout_gravity="center"
+            android:contentDescription="@string/property_image" />
+
+        <LinearLayout
+            android:id="@+id/text_property"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/margin_5"
+            android:padding="@dimen/margin_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Penthouse"
+                style="@style/text_item_property"
+                android:padding="@dimen/margin_5"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="ville"
+                android:textSize="@dimen/text_14"
+                android:padding="@dimen/margin_5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/margin_5"
+            android:padding="@dimen/margin_5"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="$ 1,200,000"
+                style="@style/text_item_price"
+                android:textColor="@color/accent"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

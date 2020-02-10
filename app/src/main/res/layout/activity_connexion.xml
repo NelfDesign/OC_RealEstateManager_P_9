@@ -28,17 +28,19 @@
             android:text="@string/welcome_on_real_estate_manager" />
 
         <LinearLayout
+            android:id="@+id/linear_connection"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInput"
                 android:layout_width="@dimen/width_300"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_10"
-                android:background="@drawable/border_edit_radius">
+                android:textColorHint="@color/icons"
+                app:hintTextColor="@color/icons">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_connexion_name"
@@ -46,7 +48,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/your_name"
                     android:padding="@dimen/margin_10"
-                    android:textSize="18sp"/>
+                    android:textColor="@color/icons"
+                    android:textSize="18sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,15 +58,18 @@
                 android:layout_width="@dimen/width_300"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_10"
-                android:background="@drawable/border_edit_radius">
+                android:textColorHint="@color/icons"
+                app:hintTextColor="@color/icons">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_connexion_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:hint="@string/your_password"
+                    android:inputType="textPassword"
                     android:padding="@dimen/margin_10"
-                    android:hint="@string/your_password" />
+                    android:textColor="@color/icons"
+                    android:textSize="18sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,16 +78,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/remenber_me"
-                android:textColor="@color/icons"/>
+                android:textColor="@color/icons"
+                android:textStyle="bold"
+                app:buttonTint="@color/icons" />
 
             <Button
-                android:layout_margin="@dimen/margin_20"
+                android:id="@+id/connexion_button"
                 android:layout_width="@dimen/width_200"
                 android:layout_height="wrap_content"
-                android:text="@string/connexion"
+                android:layout_margin="@dimen/margin_20"
                 android:background="@drawable/border_radius"
-                android:textColor="@color/icons"
-                android:shadowColor="@color/opacity"/>
+                android:shadowColor="@color/opacity"
+                android:text="@string/connexion"
+                android:textColor="@color/icons" />
 
         </LinearLayout>
     </LinearLayout>

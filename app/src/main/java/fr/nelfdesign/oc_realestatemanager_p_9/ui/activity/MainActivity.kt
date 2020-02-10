@@ -79,7 +79,7 @@ class MainActivity : BaseActivity() {
      */
     private fun updateMainFragment(menuItem: MenuItem): Boolean? {
         when (menuItem.itemId) {
-            R.id.nav_home -> {
+            R.id.nav_property-> {
 
                 mToolbar.title = "home"
             }
