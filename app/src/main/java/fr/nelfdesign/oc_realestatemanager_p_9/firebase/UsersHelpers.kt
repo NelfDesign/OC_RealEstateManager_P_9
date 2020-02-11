@@ -18,13 +18,13 @@ class UsersHelpers {
     val db = FirebaseFirestore.getInstance()
 
     // --- COLLECTION REFERENCE ---
-    fun getUsersCollection(): CollectionReference {
+    private fun getUsersCollection(): CollectionReference {
         return db.collection(COLLECTION_NAME)
     }
 
     // --- CREATE ---
-    fun createUser(name: String, surname: String, login: String, password: String, telephone: String) : Task<Void> {
-        val userToCreate = User(name, surname, login, password, telephone)
+    fun createUser(name: String, surname: String, avatar : String, mail :String, login: String, password: String, telephone: String) : Task<Void> {
+        val userToCreate = User(name, surname, avatar, mail, login, password, telephone)
         return UsersHelpers().getUsersCollection().document().set(userToCreate)
     }
 
