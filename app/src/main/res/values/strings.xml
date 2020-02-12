@@ -24,5 +24,17 @@
     <string name="remenber_me">Remenber me</string>
     <string name="property_image">property image</string>
 
+    <!-- Profile text -->
+    <string name="modify_your_avatar">Modify your avatar</string>
+    <string name="confirm">Confirm</string>
+    <string name="modify_your_mail">Modify your mail</string>
+    <string name="modify_your_telephone_number">Modify your telephone number</string>
+    <string name="confirm_your_password">Confirm your password</string>
+    <string name="modify_your_password">Modify your password</string>
+    <string name="your_login">Your login :</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

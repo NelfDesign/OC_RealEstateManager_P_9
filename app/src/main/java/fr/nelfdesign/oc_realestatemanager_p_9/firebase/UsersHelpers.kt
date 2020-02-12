@@ -34,11 +34,13 @@ class UsersHelpers {
     }
 
     // --- UPDATE ---
-    fun updateUser(password : String, uid : String, telephone : String) {
+    fun updateUser(password : String, mail : String, avatar : String, uid : String, telephone : String) {
 
         val data : MutableMap<String, Any> = HashMap()
         data["password"] = password
         data["telephone"] = telephone
+        data["mail"] = mail
+        data["avatar"] = avatar
         UsersHelpers().getUsersCollection().document(uid).update(data)
     }
 

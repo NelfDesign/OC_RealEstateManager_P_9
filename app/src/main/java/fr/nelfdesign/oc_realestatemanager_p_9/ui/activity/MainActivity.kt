@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import butterknife.BindView
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
@@ -19,8 +20,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot
 import fr.nelfdesign.oc_realestatemanager_p_9.R
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.firebase.UsersHelpers
+import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.ProfileFragment
+import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.PropertyListFragment
 
-class MainActivity : BaseActivity() {
+
+class MainActivity : BaseActivity(), ProfileFragment.onClickConfirmButtonListener {
 
     //Butterknife
     @BindView(R.id.drawer_layout)
@@ -34,7 +38,10 @@ class MainActivity : BaseActivity() {
 
     //Fields
     private lateinit var mQuery: Query
-    private lateinit var login: String
+
+    companion object loginUser{
+         var LOGIN_USER : String = ""
+    }
 
     /*****************************************************************************************
      * override method
@@ -51,7 +58,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         this.configureToolBar("Real Estate Manager")
 
-        login = intent.getStringExtra("login")!!
+        LOGIN_USER = intent.getStringExtra("login")!!
 
         drawerLayoutConfiguration()
         configureNavigationHeader()
@@ -89,7 +96,7 @@ class MainActivity : BaseActivity() {
         val textViewNavName = headerNav.findViewById<TextView>(R.id.text_name)
         val textViewNavMail = headerNav.findViewById<TextView>(R.id.text_mail)
 
-        mQuery = UsersHelpers().getAllUsers().whereEqualTo("login", login)
+        mQuery = UsersHelpers().getAllUsers().whereEqualTo("login", LOGIN_USER)
         mQuery.get().addOnCompleteListener {
             if (it.isSuccessful) {
                 for (document: QueryDocumentSnapshot in it.result!!) {
@@ -146,7 +153,8 @@ class MainActivity : BaseActivity() {
                 mToolbar.title = "Settings"
             }
             R.id.nav_profile -> {
-                logOutApplication()
+                configureFragment(ProfileFragment())
+                //logOutApplication()
                 mToolbar.title = "Modify my profile"
             }
             R.id.logout -> {
@@ -161,6 +169,17 @@ class MainActivity : BaseActivity() {
     }
 
     /**
+     * create new fragment
+     *
+     * @param fragment to configure
+     */
+    private fun configureFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_main, fragment)
+            .commit()
+    }
+
+    /**
      *
      */
     private fun logOutApplication() {
@@ -171,5 +190,9 @@ class MainActivity : BaseActivity() {
 
         startActivity(Intent(this, ConnexionActivity::class.java))
         finishAffinity()
+    }
+
+    override fun onClickConfirmButton() {
+        configureFragment(PropertyListFragment())
     }
 }

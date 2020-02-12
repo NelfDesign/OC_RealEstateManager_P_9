@@ -19,7 +19,7 @@ abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val view: View = inflater.inflate(getFragmentLayout(), container, false)
+        val view : View = inflater.inflate(getFragmentLayout(), container, false)
         ButterKnife.bind(this, view)
         return view
     }

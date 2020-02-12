@@ -48,7 +48,7 @@ dependencies {
     implementation "com.google.android.material:material:$appcompat"
     implementation "androidx.navigation:navigation-fragment:$navigation"
     implementation "androidx.navigation:navigation-ui:$navigation"
-    implementation "androidx.lifecycle:lifecycle-extensions:$navigation"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
 
@@ -57,6 +57,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
     //ButterKnife
     implementation "com.jakewharton:butterknife:$butter"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "com.jakewharton:butterknife-compiler:$butter"
     //Firebase
     implementation 'com.google.firebase:firebase-firestore:21.4.0'
