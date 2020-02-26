@@ -17,10 +17,13 @@ abstract class BaseFragment : Fragment() {
     // Methods
     abstract fun getFragmentLayout(): Int
 
+    abstract fun configureDesign()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view : View = inflater.inflate(getFragmentLayout(), container, false)
-        ButterKnife.bind(this, view)
+       // ButterKnife.bind(this, view)
+        this.configureDesign()
         return view
     }
 }

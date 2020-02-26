@@ -28,6 +28,7 @@
                 android:text="@string/your_login" />
 
             <TextView
+                android:id="@+id/text_user"
                 style="@style/text_item_property"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

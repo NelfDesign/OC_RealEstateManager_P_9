@@ -2,6 +2,9 @@ package fr.nelfdesign.oc_realestatemanager_p_9.utils;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -58,5 +61,9 @@ public class Utils {
     public static Boolean isInternetAvailable(Context context) {
         WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         return wifi != null && wifi.isWifiEnabled();
+    }
+
+    public static void makeSnackbar(View view, String message){
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 }

@@ -23,8 +23,8 @@ class UsersHelpers {
     }
 
     // --- CREATE ---
-    fun createUser(name: String, surname: String, avatar : String, mail :String, login: String, password: String, telephone: String) : Task<Void> {
-        val userToCreate = User(name, surname, avatar, mail, login, password, telephone)
+    fun createUser(id:Int, name: String, surname: String, avatar : String, mail :String, login: String, password: String, telephone: String) : Task<Void> {
+        val userToCreate = User(id,name, surname, avatar, mail, login, password, telephone)
         return UsersHelpers().getUsersCollection().document().set(userToCreate)
     }
 
