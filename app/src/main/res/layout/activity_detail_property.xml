@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.DetailProperty">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_detail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_150"
+        android:layout_margin="@dimen/margin_5"
+        tools:listitem="@layout/item_photo_detail"/>
+
+    <TextView
+        android:id="@+id/text_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/text_item_price"
+        android:gravity="center"
+        android:textColor="@color/accent"
+        tools:text="$ 1 200 000 "/>
+
+    <TextView
+        android:id="@+id/text_description"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        style="@style/text_item_property"
+        android:layout_margin="@dimen/margin_5"
+        android:scrollbars="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        tools:text="Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page.une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/margin_5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_area"
+                android:gravity="center"
+                android:padding="@dimen/margin_5"
+                style="@style/text_item_property"
+                android:drawableTint="@color/accent"
+                android:drawablePadding="@dimen/margin_5"
+                android:text="@string/property_area"
+                tools:targetApi="m" />
+
+            <TextView
+                android:id="@+id/property_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/text_item_property"
+                android:layout_marginStart="@dimen/margin_10"
+                tools:text="250"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_home"
+                android:gravity="center"
+                android:padding="@dimen/margin_5"
+                style="@style/text_item_property"
+                android:drawableTint="@color/accent"
+                android:drawablePadding="@dimen/margin_5"
+                android:text="@string/number_of_room"
+                tools:targetApi="m" />
+
+            <TextView
+                android:id="@+id/property_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/text_item_property"
+                android:layout_marginStart="@dimen/margin_10"
+                tools:text="8"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_bedroom"
+                android:gravity="center"
+                android:padding="@dimen/margin_5"
+                style="@style/text_item_property"
+                android:drawableTint="@color/accent"
+                android:drawablePadding="@dimen/margin_5"
+                android:text="@string/number_of_bedroom"
+                tools:targetApi="m" />
+
+            <TextView
+                android:id="@+id/property_bedroom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/text_item_property"
+                android:layout_marginStart="@dimen/margin_10"
+                tools:text="4"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_bath"
+                android:gravity="center"
+                android:padding="@dimen/margin_5"
+                style="@style/text_item_property"
+                android:drawableTint="@color/accent"
+                android:drawablePadding="@dimen/margin_5"
+                android:text="@string/number_of_bathroom"
+                tools:targetApi="m" />
+
+            <TextView
+                android:id="@+id/property_bathroom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/text_item_property"
+                android:layout_marginStart="@dimen/margin_10"
+                tools:text="2"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/margin_10">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_location"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/margin_5"
+                    style="@style/text_item_property"
+                    android:drawableTint="@color/accent"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:text="@string/location"
+                    tools:targetApi="m" />
+
+                <TextView
+                    android:id="@+id/property_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    style="@style/text_item_property"
+                    android:layout_marginStart="@dimen/margin_10"
+                    tools:text="21 jump street, NewYork 10000"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/miniMap"
+            android:layout_margin="@dimen/margin_5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="50"/>
+
+    </LinearLayout>
+</LinearLayout>

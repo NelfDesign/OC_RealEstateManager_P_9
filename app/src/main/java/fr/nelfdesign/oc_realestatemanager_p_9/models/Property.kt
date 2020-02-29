@@ -21,7 +21,10 @@ data class Property(
                     val area : Int,
                     @ColumnInfo(name = "room_number")
                     val roomNumber : Int,
+                    val bedroomNumber : Int,
+                    val bathroomNumber : Int,
                     var description : String,
+                    var photo: String?,
                     val address : String,
                     val pois : String?,
                     var status : Boolean,
@@ -43,6 +46,7 @@ data class Photo (
                     val id : Int,
                     @ColumnInfo(name = "url_photo")
                     val urlPhoto : String,
-                    val description : String,
+
+                    val name : String,
                     @ColumnInfo(name = "property_id")
                     var propertyId : Int)

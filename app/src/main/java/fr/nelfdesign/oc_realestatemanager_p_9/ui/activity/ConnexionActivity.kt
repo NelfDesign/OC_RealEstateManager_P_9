@@ -6,7 +6,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import butterknife.BindView
 import butterknife.OnClick
+import com.github.ybq.android.spinkit.SpinKitView
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import fr.nelfdesign.oc_realestatemanager_p_9.R
@@ -18,6 +20,9 @@ import timber.log.Timber
 
 
 class ConnexionActivity : BaseActivity() {
+
+    @BindView(R.id.loading_indicator)
+    lateinit var loadingIndicator: SpinKitView
 
     //FIELDS
     private lateinit var mQuery: Query
@@ -67,6 +72,7 @@ class ConnexionActivity : BaseActivity() {
      * check if the login and password is correct with the BDD
      */
     private fun checkName() {
+        loadingIndicator.visibility = View.VISIBLE
         mQuery = UsersHelpers().getAllUsers()
         mQuery.get().addOnCompleteListener {
             if (it.isSuccessful) {

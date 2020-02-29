@@ -1,7 +1,5 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.repository
 
-import android.app.Application
-import android.content.Context
 import androidx.work.*
 
 /**
@@ -22,4 +20,14 @@ class PropertyRepository {
         WorkManager.getInstance().beginUniqueWork("syncProperty", ExistingWorkPolicy.KEEP, work)
             .enqueue()
     }
+
+    fun syncPhotoNow(){
+        val work = OneTimeWorkRequestBuilder<SyncRepositoryPhotoWorker>()
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance().beginUniqueWork("syncProperty", ExistingWorkPolicy.KEEP, work)
+            .enqueue()
+    }
+
 }

@@ -21,7 +21,7 @@
     <string name="your_name">Your name</string>
     <string name="your_password">Your password</string>
     <string name="connexion">Connexion</string>
-    <string name="remenber_me">Remenber me</string>
+    <string name="remember_me">Remember me</string>
     <string name="property_image">property image</string>
 
     <!-- Profile text -->
@@ -32,11 +32,15 @@
     <string name="confirm_your_password">Confirm your password</string>
     <string name="modify_your_password">Modify your password</string>
     <string name="your_login">Your login :</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tel">Tel :</string>
-    <string name="app_logo">app_logo</string>
+
+    <!-- Detail page -->
+    <string name="image_detail">image detail</string>
+    <string name="number_of_room">Number of room</string>
+    <string name="number_of_bedroom">Number of bedroom</string>
+    <string name="number_of_bathroom">Number of bathroom</string>
+    <string name="property_area">Property area</string>
+    <string name="location">Location</string>
 
 
 </resources>

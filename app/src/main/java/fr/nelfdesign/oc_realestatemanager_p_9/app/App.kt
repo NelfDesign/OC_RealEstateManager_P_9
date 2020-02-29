@@ -26,7 +26,8 @@ class App : Application() {
         db = Room.databaseBuilder(this, Database::class.java, DATABASE_NAME)
             .build()
 
-       /* repository = PropertyRepository()
-        repository.syncPropertyNow()*/
+        //repository = PropertyRepository()
+        //repository.syncPropertyNow()
+        //repository.syncPhotoNow()
     }
 }

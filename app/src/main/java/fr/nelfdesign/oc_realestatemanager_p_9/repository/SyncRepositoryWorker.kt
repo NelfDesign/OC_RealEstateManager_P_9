@@ -21,3 +21,16 @@ class SyncRepositoryWorker(appContext: Context, workerParams: WorkerParameters) 
         return Result.success()
     }
 }
+
+class SyncRepositoryPhotoWorker(appContext: Context, workerParams: WorkerParameters) : Worker(appContext, workerParams) {
+
+    override fun doWork(): Result {
+        Timber.i("Synchronize database ...")
+        val propertyApi = FakePropertyApi()
+        val photoDao = App.db.PhotoDao()
+        photoDao.insertPhotos(propertyApi.getAllPhotos())
+
+        return Result.success()
+    }
+}
+

@@ -17,6 +17,12 @@ interface PhotoDao {
     @Query("SELECT * FROM photo")
     fun getAllPhotos() : LiveData<List<Photo>>
 
+    @Query("""SELECT * FROM photo
+                    JOIN property ON property.id = property_id
+                    WHERE property.id = :propertyId
+    """)
+    fun getPhotosForPropertyId(propertyId : Int) : LiveData<List<Photo>>
+
     @Insert
     fun insertPhotos(photos : List<Photo>)
 

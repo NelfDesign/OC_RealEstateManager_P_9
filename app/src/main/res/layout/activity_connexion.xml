@@ -77,20 +77,43 @@
                 android:id="@+id/checkbox_connexion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/remenber_me"
+                android:text="@string/remember_me"
                 android:textColor="@color/icons"
                 android:textStyle="bold"
                 app:buttonTint="@color/icons" />
 
-            <Button
+            <RelativeLayout
                 android:id="@+id/connexion_button"
-                android:layout_width="@dimen/width_200"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_20"
-                android:background="@drawable/border_radius"
-                android:shadowColor="@color/opacity"
-                android:text="@string/connexion"
-                android:textColor="@color/icons" />
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@color/accent">
+
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/loading_indicator"
+                    style="@style/SpinKitView.Circle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:SpinKit_Color="@color/icons" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:padding="5dp"
+                    android:background="@null"
+                    android:layout_centerInParent="true"
+                    android:text="@string/connexion"
+                    android:textColor="@color/icons"
+                    android:clickable="false"
+                    android:textSize="18sp"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
     </LinearLayout>
