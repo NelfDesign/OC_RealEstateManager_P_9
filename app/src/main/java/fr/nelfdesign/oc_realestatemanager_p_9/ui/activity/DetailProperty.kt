@@ -1,6 +1,7 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.ui.activity
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -10,11 +11,13 @@ import fr.nelfdesign.oc_realestatemanager_p_9.R
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Photo
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
+import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.Injection
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PhotoListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PropertyListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.DetailAdapter
 import kotlinx.android.synthetic.main.activity_detail_property.*
 import timber.log.Timber
+
 
 class DetailProperty : BaseActivity() {
 
@@ -49,10 +52,11 @@ class DetailProperty : BaseActivity() {
     }
 
     private fun configureViewModel(propertyId : Int){
-        photoViewModel = ViewModelProvider(this).get(PhotoListViewModel::class.java)
+        val factory = Injection.provideViewModelFactory()
+        photoViewModel = ViewModelProvider(this, factory).get(PhotoListViewModel::class.java)
         photoViewModel.getPhotoToDisplay(propertyId).observe(this, Observer { liste -> updatePhotos(liste) })
 
-        propertyViewModel = ViewModelProvider(this).get(PropertyListViewModel::class.java)
+        propertyViewModel = ViewModelProvider(this, factory).get(PropertyListViewModel::class.java)
         propertyViewModel.getPropertyById(propertyId).observe(this, Observer { property -> updateProperty(property) })
     }
 
@@ -75,9 +79,12 @@ class DetailProperty : BaseActivity() {
     private fun updateProperty(property: Property) {
         text_price.text = property.price.toString()
         text_description.text = property.description
+        text_description.movementMethod = ScrollingMovementMethod()
         property_area.text = property.area.toString()
         property_address.text = property.address
         property_room.text = property.roomNumber.toString()
+        property_bathroom.text = property.bathroomNumber.toString()
+        property_bedroom.text = property.bedroomNumber.toString()
     }
 
 }

@@ -10,4 +10,5 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
     <color name="opacity">#B3BDBDBD</color>
+    <color name="backgroundActivity">#77E8E6F1</color>
 </resources>

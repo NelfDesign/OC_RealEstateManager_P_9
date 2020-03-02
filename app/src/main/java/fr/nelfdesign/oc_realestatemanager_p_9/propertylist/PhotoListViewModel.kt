@@ -2,16 +2,20 @@ package fr.nelfdesign.oc_realestatemanager_p_9.propertylist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import fr.nelfdesign.oc_realestatemanager_p_9.app.App
+import fr.nelfdesign.oc_realestatemanager_p_9.app.App.Companion.db
+import fr.nelfdesign.oc_realestatemanager_p_9.database.repository.PhotoDaoRepository
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Photo
+import java.util.concurrent.Executor
 
 /**
  * Created by Nelfdesign at 28/02/2020
  * fr.nelfdesign.oc_realestatemanager_p_9.propertylist
  */
-class PhotoListViewModel : ViewModel() {
+class PhotoListViewModel(val executor: Executor) : ViewModel() {
 
-    val photos : LiveData<List<Photo>> = App.db.PhotoDao().getAllPhotos()
+    val photoRepository : PhotoDaoRepository = PhotoDaoRepository(db.PhotoDao())
 
-    fun getPhotoToDisplay(propertyId : Int) : LiveData<List<Photo>> = App.db.PhotoDao().getPhotosForPropertyId(propertyId)
+    val photos : LiveData<List<Photo>> = photoRepository.photos
+
+    fun getPhotoToDisplay(propertyId : Int) : LiveData<List<Photo>> = photoRepository.getPhotoToDisplay(propertyId)
 }

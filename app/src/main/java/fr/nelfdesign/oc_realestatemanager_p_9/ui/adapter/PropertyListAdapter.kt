@@ -1,5 +1,6 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,10 +45,19 @@ class PropertyListAdapter(private val properties : List<Property>, private val l
            propertyAddress.text = property.address
            price.text = "$" + property.price.toString()
 
-           Glide.with(this.cardView)
-               .load(property.photo)
+           val resources: Resources = holder.itemView.resources
+
+           val intPhoto = resources.getIdentifier(property.photo, "drawable","")
+
+           Glide.with(holder.itemView)
+               .load(intPhoto)
                .placeholder(R.drawable.ic_launcher_foreground)
                .into(imageProperty)
+
+           /*Glide.with(this.cardView)
+               .load(property.photo)
+               .placeholder(R.drawable.ic_launcher_foreground)
+               .into(imageProperty)*/
        }
     }
 
