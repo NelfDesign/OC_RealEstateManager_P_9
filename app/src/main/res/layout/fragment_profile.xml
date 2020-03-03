@@ -10,7 +10,7 @@
         android:id="@+id/linear_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_50"
+        android:layout_marginTop="@dimen/height_50"
         android:orientation="vertical">
 
         <LinearLayout

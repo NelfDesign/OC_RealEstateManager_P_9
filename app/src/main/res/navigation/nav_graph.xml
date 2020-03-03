@@ -17,4 +17,11 @@
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 
+    <fragment
+        android:id="@+id/nav_add_property"
+        android:name="fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.AddPropertyFragment"
+        android:label="Add Property"
+        tools:layout="@layout/fragment_add_property" >
+    </fragment>
+
 </navigation>

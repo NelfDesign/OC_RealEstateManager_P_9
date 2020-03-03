@@ -43,9 +43,9 @@ class PropertyListAdapter(private val properties : List<Property>, private val l
            cardView.tag = property
            propertyType.text = property.type
            propertyAddress.text = property.address
-           price.text = "$" + property.price.toString()
 
            val resources: Resources = holder.itemView.resources
+           price.text = resources.getString(R.string.devise, property.price)
 
            val intPhoto = resources.getIdentifier(property.photo, "drawable","")
 

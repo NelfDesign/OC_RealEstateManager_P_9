@@ -30,9 +30,9 @@ class DetailAdapter(private val photos : List<Photo>) : RecyclerView.Adapter<Det
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val photo =photos[position]
         val resources: Resources = holder.itemView.resources
-        val intPhoto = resources.getIdentifier(photo.urlPhoto, "drawable","")
+        val intPhoto = resources.getIdentifier(photo.urlPhoto, "drawable","fr.nelfdesign.oc_realestatemanager_p_9")
         with(holder){
-           Glide.with(holder.itemView)
+          Glide.with(holder.itemView)
                .load(intPhoto)
                .into(image)
            textDetail.text = photo.name

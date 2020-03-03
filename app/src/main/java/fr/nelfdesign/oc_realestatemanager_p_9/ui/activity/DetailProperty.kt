@@ -77,7 +77,7 @@ class DetailProperty : BaseActivity() {
     }
 
     private fun updateProperty(property: Property) {
-        text_price.text = property.price.toString()
+        text_price.text = resources.getString(R.string.devise, property.price)
         text_description.text = property.description
         text_description.movementMethod = ScrollingMovementMethod()
         property_area.text = property.area.toString()

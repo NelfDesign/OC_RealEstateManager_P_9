@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activity.DetailProperty"></activity>
+        <activity android:name=".ui.activity.PhotoActivity"></activity>
         <activity android:name=".ui.activity.ConnexionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.MainActivity" />
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.activity.DetailProperty" />
     </application>
 
 </manifest>

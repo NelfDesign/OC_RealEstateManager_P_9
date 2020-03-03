@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -18,6 +19,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.firebase.UsersHelpers
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_add_property.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 

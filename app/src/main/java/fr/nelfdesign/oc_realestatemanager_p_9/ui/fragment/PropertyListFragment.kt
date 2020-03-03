@@ -48,6 +48,7 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
         properties = mutableListOf()
         photos = mutableListOf()
         propertyListAdapter = PropertyListAdapter(propertyListToDisplay, this)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

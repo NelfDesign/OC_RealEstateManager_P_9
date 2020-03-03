@@ -41,6 +41,15 @@
     <string name="number_of_bathroom">Number of bathroom</string>
     <string name="property_area">Property area</string>
     <string name="location">Location</string>
+    <string name="devise">$ %1$d</string>
+
+    <!-- Add fragment-->
+    <string name="type">Type :</string>
+    <string name="address">Address</string>
+    <string name="technical_informations">Technical informations</string>
+    <string name="property_description">Property description</string>
+    <string name="property_price">Property price</string>
+    <string name="status">Status</string>
 
 
 </resources>

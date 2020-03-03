@@ -1,6 +1,7 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.app
 
 import android.app.Application
+import android.graphics.Typeface
 import androidx.room.Room
 import fr.nelfdesign.oc_realestatemanager_p_9.database.DATABASE_NAME
 import fr.nelfdesign.oc_realestatemanager_p_9.database.Database
