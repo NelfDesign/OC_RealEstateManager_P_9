@@ -52,7 +52,7 @@ class PropertyDaoTest {
 
     @Test
     @Throws(InterruptedException::class)
-    fun insertProperty() {
+    fun insertProperty_WithSuccess() {
         // BEFORE : Adding properties
         this.db.PropertyDao().createProperty(property1)
         this.db.PropertyDao().createProperty(property2)
@@ -66,7 +66,7 @@ class PropertyDaoTest {
 
     @Test
     @Throws(InterruptedException::class)
-    fun getProperty() {
+    fun getProperty_WithSuccess() {
         // BEFORE : Adding properties
         this.db.PropertyDao().insertProperties(properties)
         // TEST
@@ -80,7 +80,7 @@ class PropertyDaoTest {
 
     @Test
     @Throws(InterruptedException::class)
-    fun updateProperty(){
+    fun updateProperty_WithSuccess(){
         // BEFORE : Adding properties list
         this.db.PropertyDao().insertProperties(properties)
         //Get property 1
@@ -99,7 +99,7 @@ class PropertyDaoTest {
 
     @Test
     @Throws(InterruptedException::class)
-    fun deleteProperty(){
+    fun deleteProperty_WithSuccess(){
         // BEFORE : Adding properties list
         this.db.PropertyDao().insertProperties(properties)
 
