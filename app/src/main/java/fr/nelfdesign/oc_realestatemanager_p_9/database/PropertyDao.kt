@@ -20,6 +20,9 @@ interface PropertyDao {
     @Insert
     fun insertProperties(properties : List<Property>)
 
+    @Insert
+    fun createProperty(properties : Property) : Long
+
     @Update
     fun updateProperty(property : Property)
 

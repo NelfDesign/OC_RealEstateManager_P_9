@@ -23,7 +23,7 @@ class Injection {
         }
 
         fun provideViewModelFactory() : ViewModelFactory{
-            val propertyDataSource = providePropertyDataSource()
+           // val propertyDataSource = providePropertyDataSource()
             val executor = provideExecutor()
             return ViewModelFactory(executor)
         }

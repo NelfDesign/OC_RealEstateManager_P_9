@@ -7,21 +7,15 @@
 
     <fragment
         android:id="@+id/nav_property"
-        android:name="fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.PropertyListFragment"
+        android:name="fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.PropertyListFragment"
         android:label="Property List"
         tools:layout="@layout/fragment_property_list" />
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.ProfileFragment"
+        android:name="fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 
-    <fragment
-        android:id="@+id/nav_add_property"
-        android:name="fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.AddPropertyFragment"
-        android:label="Add Property"
-        tools:layout="@layout/fragment_add_property" >
-    </fragment>
 
 </navigation>

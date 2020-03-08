@@ -1,6 +1,7 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.repository
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatActivity
 import androidx.work.*
 
 /**
@@ -18,7 +19,7 @@ class PropertyRepository {
             .setConstraints(constraints)
             .build()
 
-        WorkManager.getInstance().beginUniqueWork("syncProperty", ExistingWorkPolicy.KEEP, work)
+        WorkManager.getInstance(AppCompatActivity().applicationContext).beginUniqueWork("syncProperty", ExistingWorkPolicy.KEEP, work)
             .enqueue()
     }
 
@@ -27,7 +28,7 @@ class PropertyRepository {
             .setConstraints(constraints)
             .build()
 
-        WorkManager.getInstance().beginUniqueWork("syncProperty", ExistingWorkPolicy.KEEP, work)
+        WorkManager.getInstance(AppCompatActivity().applicationContext).beginUniqueWork("syncProperty", ExistingWorkPolicy.KEEP, work)
             .enqueue()
     }
 

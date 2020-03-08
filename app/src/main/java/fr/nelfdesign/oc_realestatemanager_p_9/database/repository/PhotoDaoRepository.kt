@@ -15,4 +15,6 @@ class PhotoDaoRepository(val photoDao: PhotoDao) {
     val photos : LiveData<List<Photo>> = photoDao.getAllPhotos()
 
     fun getPhotoToDisplay(propertyId : Int) : LiveData<List<Photo>> = photoDao.getPhotosForPropertyId(propertyId)
+
+    fun insertPhoto(photos : List<Photo>) = photoDao.insertPhotos(photos)
 }

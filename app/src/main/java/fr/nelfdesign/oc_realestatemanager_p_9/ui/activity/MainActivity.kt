@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -17,9 +16,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot
 import fr.nelfdesign.oc_realestatemanager_p_9.R
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.firebase.UsersHelpers
-import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.ProfileFragment
+import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_add_property.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
@@ -53,7 +51,7 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_property, R.id.nav_settings, R.id.nav_add_property, R.id.logout,
+                R.id.nav_property, R.id.nav_settings, R.id.logout,
                 R.id.nav_my_sales, R.id.nav_profile, R.id.nav_send_property, R.id.nav_simulation
             ), drawer_layout
         )

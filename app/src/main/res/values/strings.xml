@@ -43,13 +43,18 @@
     <string name="location">Location</string>
     <string name="devise">$ %1$d</string>
 
-    <!-- Add fragment-->
+    <!-- Add activity-->
     <string name="type">Type :</string>
     <string name="address">Address</string>
     <string name="technical_informations">Technical informations</string>
     <string name="property_description">Property description</string>
     <string name="property_price">Property price</string>
     <string name="status">Status</string>
+    <string name="photo_name">Photo name</string>
+    <string name="ok">OK</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="error_message_add">You must enter valid informations.</string>
 
 
 </resources>

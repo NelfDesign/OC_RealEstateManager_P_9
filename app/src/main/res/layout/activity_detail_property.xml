@@ -11,7 +11,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_detail"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_150"
+        android:layout_height="@dimen/image_height_120"
         android:layout_margin="@dimen/margin_5"
         tools:listitem="@layout/item_photo_detail" />
 

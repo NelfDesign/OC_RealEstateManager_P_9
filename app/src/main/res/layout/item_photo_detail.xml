@@ -7,15 +7,15 @@
 
     <ImageView
         android:id="@+id/image_detail"
-        android:layout_width="@dimen/margin_150"
-        android:layout_height="@dimen/margin_150"
+        android:layout_width="@dimen/image_height_120"
+        android:layout_height="@dimen/image_height_120"
         android:contentDescription="@string/image_detail"
         android:scaleType="centerCrop"
         tools:src="@drawable/manoir_chambre" />
 
     <TextView
         android:id="@+id/text_image_detail"
-        android:layout_width="@dimen/margin_150"
+        android:layout_width="@dimen/image_height_120"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/image_detail"
         android:background="@color/opacity"

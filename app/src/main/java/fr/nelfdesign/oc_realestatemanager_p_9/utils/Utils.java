@@ -3,11 +3,15 @@ package fr.nelfdesign.oc_realestatemanager_p_9.utils;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -66,4 +70,27 @@ public class Utils {
     public static void makeSnackbar(View view, String message){
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
+
+    /**
+     * Configure spinner array list
+     * @param context activity
+     * @param array string list
+     * @param spinner to configure
+     */
+    public static void  configureSpinnerType(Context context, int array, Spinner spinner) {
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(context, array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    /**
+     *
+     * @param text tobe checked
+     * @return true if able
+     */
+    public static boolean checkEditTextInput(String text){
+        return text != null && !text.equals("");
+    }
+
+
 }

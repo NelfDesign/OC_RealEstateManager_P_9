@@ -10,7 +10,13 @@ import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
  */
 class PropertyDaoRepository(val propertyDao : PropertyDao) {
 
+    var long : Long = 0
     val properties = propertyDao.getAllProperties()
 
     fun getPropertyById(propertyId : Int) : LiveData<Property> = propertyDao.getProperty(propertyId)
+
+    fun createProperty(property : Property) : Long {
+        long = propertyDao.createProperty(property)
+        return long
+    }
 }

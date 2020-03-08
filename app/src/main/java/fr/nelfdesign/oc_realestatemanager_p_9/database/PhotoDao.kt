@@ -1,10 +1,7 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Photo
 
 /**
@@ -23,7 +20,7 @@ interface PhotoDao {
     """)
     fun getPhotosForPropertyId(propertyId : Int) : LiveData<List<Photo>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPhotos(photos : List<Photo>)
 
     @Update

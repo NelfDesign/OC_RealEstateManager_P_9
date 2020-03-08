@@ -47,17 +47,17 @@ class PropertyListAdapter(private val properties : List<Property>, private val l
            val resources: Resources = holder.itemView.resources
            price.text = resources.getString(R.string.devise, property.price)
 
-           val intPhoto = resources.getIdentifier(property.photo, "drawable","")
+           if (property.photo.contains("images")){
+                   Glide.with(holder.itemView)
+                       .load(property.photo)
+                       .into(imageProperty)
+           } else{
+            val intPhoto = resources.getIdentifier(property.photo, "drawable","")
+                   Glide.with(holder.itemView)
+                       .load(intPhoto)
+                       .into(imageProperty)
+           }
 
-           Glide.with(holder.itemView)
-               .load(intPhoto)
-               .placeholder(R.drawable.ic_launcher_foreground)
-               .into(imageProperty)
-
-           /*Glide.with(this.cardView)
-               .load(property.photo)
-               .placeholder(R.drawable.ic_launcher_foreground)
-               .into(imageProperty)*/
        }
     }
 

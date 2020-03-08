@@ -1,10 +1,7 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -24,10 +21,10 @@ data class Property(
                     val bedroomNumber : Int,
                     val bathroomNumber : Int,
                     var description : String,
-                    var photo: String?,
+                    var photo: String,
                     val address : String,
                     val pois : String?,
-                    var status : Boolean,
+                    var status : String,
                     @ColumnInfo(name = "entry_date")
                     val entryDate : String,
                     @ColumnInfo(name = "sell_date")
@@ -40,13 +37,14 @@ data class Property(
         foreignKeys = [ForeignKey(entity = Property::class,
                         parentColumns = arrayOf("id"),
                         childColumns = arrayOf("property_id"),
-                        onDelete = CASCADE)])
+                        onDelete = CASCADE)],
+        indices = [Index(value = ["property_id"])]
+)
 data class Photo (
                     @PrimaryKey(autoGenerate = true)
                     val id : Int,
                     @ColumnInfo(name = "url_photo")
                     val urlPhoto : String,
-
                     val name : String,
                     @ColumnInfo(name = "property_id")
                     var propertyId : Int)

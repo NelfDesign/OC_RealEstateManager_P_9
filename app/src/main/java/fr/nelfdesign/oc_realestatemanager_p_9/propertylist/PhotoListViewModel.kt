@@ -18,4 +18,10 @@ class PhotoListViewModel(val executor: Executor) : ViewModel() {
     val photos : LiveData<List<Photo>> = photoRepository.photos
 
     fun getPhotoToDisplay(propertyId : Int) : LiveData<List<Photo>> = photoRepository.getPhotoToDisplay(propertyId)
+
+    fun insertPhotos(photos : List<Photo>){
+        executor.execute{
+            photoRepository.insertPhoto(photos)
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment
+package fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation
 
 import android.content.Context
 import android.os.Bundle

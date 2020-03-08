@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_add"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_alignParentBottom="true"
     android:background="@color/backgroundActivity"
-    tools:context=".ui.fragment.AddPropertyFragment">
+    tools:context=".ui.activity.AddPropertyActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/toolbar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_55"
+        android:layout_marginBottom="@dimen/image_height_65"
+        android:padding="@dimen/margin_10">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_margin="@dimen/margin_5"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -28,13 +41,13 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/text_item_property"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="30"
                     android:gravity="center"
-                    android:text="@string/type"
-                    style="@style/text_item_property"/>
+                    android:text="@string/type" />
 
                 <Spinner
                     android:id="@+id/spinner_type"
@@ -55,14 +68,16 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/address"
                 android:textColorHint="@color/accent"
-                app:hintTextColor="@color/accent">
+                app:hintTextColor="@color/accent"
+                app:startIconDrawable="@drawable/ic_location"
+                app:startIconTint="@color/accent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/card_address"
                     style="@style/edit_text_add"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/address" />
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,15 +119,18 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/property_area"
                         android:textColorHint="@color/accent"
-                        app:hintTextColor="@color/accent">
+                        app:hintTextColor="@color/accent"
+                        app:startIconDrawable="@drawable/ic_area"
+                        app:startIconTint="@color/accent">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/text_area"
                             style="@style/edit_text_add"
                             android:layout_height="wrap_content"
-                            android:hint="@string/property_area"
                             android:inputType="number" />
+
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -126,14 +144,16 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/number_of_room"
                         android:textColorHint="@color/accent"
-                        app:hintTextColor="@color/accent">
+                        app:hintTextColor="@color/accent"
+                        app:startIconDrawable="@drawable/ic_home"
+                        app:startIconTint="@color/accent">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/card_rooms"
                             style="@style/edit_text_add"
                             android:layout_height="wrap_content"
-                            android:hint="@string/number_of_room"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -148,14 +168,16 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/number_of_bedroom"
                         android:textColorHint="@color/accent"
-                        app:hintTextColor="@color/accent">
+                        app:hintTextColor="@color/accent"
+                        app:startIconDrawable="@drawable/ic_bedroom"
+                        app:startIconTint="@color/accent">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/card_bedroom"
                             style="@style/edit_text_add"
                             android:layout_height="wrap_content"
-                            android:hint="@string/number_of_bedroom"
                             android:inputType="number" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -171,14 +193,16 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/number_of_bathroom"
                         android:textColorHint="@color/accent"
-                        app:hintTextColor="@color/accent">
+                        app:hintTextColor="@color/accent"
+                        app:startIconDrawable="@drawable/ic_bath"
+                        app:startIconTint="@color/accent">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/card_bathroom"
                             style="@style/edit_text_add"
                             android:layout_height="wrap_content"
-                            android:hint="@string/number_of_bathroom"
                             android:inputType="number" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -195,14 +219,16 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/property_description"
                 android:textColorHint="@color/accent"
-                app:hintTextColor="@color/accent">
+                app:hintTextColor="@color/accent"
+                app:startIconDrawable="@drawable/ic_description"
+                app:startIconTint="@color/accent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/card_description"
                     style="@style/edit_text_add"
                     android:layout_height="match_parent"
-                    android:hint="@string/property_description"
                     android:inputType="textLongMessage" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -217,14 +243,16 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/property_price"
                 android:textColorHint="@color/accent"
-                app:hintTextColor="@color/accent">
+                app:hintTextColor="@color/accent"
+                app:startIconDrawable="@drawable/ic_monetization"
+                app:startIconTint="@color/accent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/card_price"
                     style="@style/edit_text_add"
                     android:layout_height="wrap_content"
-                    android:hint="@string/property_price"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -243,13 +271,13 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/text_item_property"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="30"
                     android:gravity="center"
-                    android:text="@string/status"
-                    style="@style/text_item_property"/>
+                    android:text="@string/status" />
 
                 <Spinner
                     android:id="@+id/spinner_status"
@@ -262,17 +290,71 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            style="@style/cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_photo_detail" />
+
+        </androidx.cardview.widget.CardView>
+
     </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
-        android:id="@+id/bottom_Navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:mbn_backgroundBottomColor="@color/primary"
-        app:mbn_circleColor="@color/accent"
-        app:mbn_defaultIconColor="@color/icons"
-        app:mbn_selectedIconColor="@color/icons"
-        app:mbn_shadowColor="@color/backgroundActivity" />
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            style="@style/Widget.MaterialComponents.BottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:backgroundTint="@color/primary"
+            app:fabAlignmentMode="center">
 
-</RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_16"
+                android:weightSum="3">
+
+                <ImageButton
+                    android:id="@+id/camera"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:tint="@color/icons"
+                    app:srcCompat="@drawable/ic_camera" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent" />
+
+                <ImageButton
+                    android:id="@+id/gallery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:srcCompat="@drawable/ic_image" />
+            </LinearLayout>
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/accent"
+            app:layout_anchor="@id/bottomAppBar"
+            app:srcCompat="@drawable/ic_add_circle"
+            app:tint="@color/icons"
+            tools:ignore="UnusedAttribute" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

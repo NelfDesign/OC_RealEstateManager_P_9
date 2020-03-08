@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/accent</item>
     </style>
 
+    <style name="addProperty" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+
+    </style>
+
     <style name="text_connexion_title">
         <item name="android:textSize">@dimen/text_24</item>
         <item name="android:textColor">@color/icons</item>
@@ -36,9 +40,7 @@
     </style>
 
     <style name="edit_text_add">
-        <item name="android:layout_width">@dimen/width_300</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:textSize">@dimen/text_14</item>
         <item name="android:textColor">@color/accent</item>
         <item name="android:padding">@dimen/margin_10</item>

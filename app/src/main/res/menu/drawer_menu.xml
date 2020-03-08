@@ -17,10 +17,6 @@
                 android:icon="@drawable/ic_send"
                 android:title="@string/send_new_property"/>
             <item
-                android:id="@+id/nav_add_property"
-                android:icon="@drawable/ic_add_circle"
-                android:title="@string/add_property"/>
-            <item
                 android:id="@+id/nav_my_sales"
                 android:icon="@drawable/ic_sale"
                 android:title="@string/my_sales"/>
