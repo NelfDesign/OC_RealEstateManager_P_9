@@ -7,14 +7,15 @@
     <string name="avatar">avatar</string>
 
     <!-- menu drawer -->
-    <string name="home">property for sale</string>
-    <string name="simulation">simulation</string>
-    <string name="settings">tools</string>
-    <string name="logout">logout</string>
-    <string name="my_sales">my sales</string>
+    <string name="home">Property for sale</string>
+    <string name="simulation">Simulation</string>
+    <string name="settings">Tools</string>
+    <string name="logout">Logout</string>
+    <string name="map">Map view</string>
     <string name="my_profile">my profile</string>
-    <string name="send_new_property">send new property</string>
-    <string name="add_property">add property</string>
+    <string name="send_new_property">Send new property</string>
+    <string name="money_used">Money used</string>
+    <string name="filter">Filter</string>
 
     <!-- connexion activity -->
     <string name="welcome_on_real_estate_manager">Welcome on Real Estate Manager</string>
@@ -55,6 +56,13 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="error_message_add">You must enter valid informations.</string>
+    <string name="entry_date">Entry date :</string>
+    <string name="compromise_signed">Compromise signed</string>
+    <string name="sold_date">Sold date</string>
+    <string name="update_property_informations">Update property informations</string>
+    <string name="camera_button">camera button</string>
+    <string name="none">none</string>
+    <string name="gallery_button">gallery button</string>
 
 
 </resources>

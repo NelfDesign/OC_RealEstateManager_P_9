@@ -24,7 +24,10 @@ interface PhotoDao {
     fun insertPhotos(photos : List<Photo>)
 
     @Update
-    fun updatePhotos(photos : Photo)
+     fun updatePhotos(photos : Photo)
+
+    @Delete
+     fun deletePhotosList(photo : List<Photo>)
 
     @Delete
     fun deletePhoto(photo : Photo)

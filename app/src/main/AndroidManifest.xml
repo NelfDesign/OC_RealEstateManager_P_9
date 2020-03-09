@@ -31,7 +31,9 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:windowSoftInputMode="adjustPan" />
+
         <activity android:name=".ui.activity.DetailProperty" />
+
         <activity android:name=".ui.activity.AddPropertyActivity"
             android:theme="@style/addProperty"/>
     </application>

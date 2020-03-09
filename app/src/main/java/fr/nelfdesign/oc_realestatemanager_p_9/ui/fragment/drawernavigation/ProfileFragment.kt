@@ -73,6 +73,10 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun getData() {
+        if (passText == "" || confirmText == ""){
+            Utils.makeSnackbar(this.linear_profile, "Password are necessary")
+            return
+        }
         passText = password_edit.text.toString()
         confirmText = confirm_edit.text.toString()
         telText = tel_edit.text.toString()

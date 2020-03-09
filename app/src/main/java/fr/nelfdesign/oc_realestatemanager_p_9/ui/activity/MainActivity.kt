@@ -1,15 +1,14 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.ui.activity
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -17,7 +16,9 @@ import fr.nelfdesign.oc_realestatemanager_p_9.R
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.firebase.UsersHelpers
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.ProfileFragment
+import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
@@ -52,7 +53,7 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_property, R.id.nav_settings, R.id.logout,
-                R.id.nav_my_sales, R.id.nav_profile, R.id.nav_send_property, R.id.nav_simulation
+                R.id.nav_map, R.id.nav_profile, R.id.nav_send_property, R.id.nav_simulation
             ), drawer_layout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -61,6 +62,19 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
         LOGIN_USER = intent.getStringExtra("login")!!
 
         updateNavigationHeader()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.change_money -> Utils.makeSnackbar(this.drawer_layout, "Change money")
+            R.id.filter -> Utils.makeSnackbar(this.drawer_layout, "Filter")
+        }
+        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 
     /**

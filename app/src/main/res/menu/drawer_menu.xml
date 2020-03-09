@@ -17,9 +17,9 @@
                 android:icon="@drawable/ic_send"
                 android:title="@string/send_new_property"/>
             <item
-                android:id="@+id/nav_my_sales"
-                android:icon="@drawable/ic_sale"
-                android:title="@string/my_sales"/>
+                android:id="@+id/nav_map"
+                android:icon="@drawable/ic_map"
+                android:title="@string/map"/>
 
         </group>
 

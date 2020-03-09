@@ -27,6 +27,8 @@ data class Property(
                     var status : String,
                     @ColumnInfo(name = "entry_date")
                     val entryDate : String,
+                    @ColumnInfo(name = "compromise_date")
+                    val compromiseDate : String?,
                     @ColumnInfo(name = "sell_date")
                     val sellDate : String?,
                     @ColumnInfo(name = "user_id")

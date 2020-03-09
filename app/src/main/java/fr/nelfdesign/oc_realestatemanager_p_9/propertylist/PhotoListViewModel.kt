@@ -24,4 +24,11 @@ class PhotoListViewModel(val executor: Executor) : ViewModel() {
             photoRepository.insertPhoto(photos)
         }
     }
+
+    fun updatePhotos(photos : List<Photo>, newList: List<Photo>){
+        executor.execute{
+            photoRepository.insertPhoto(newList)
+            photoRepository.deletePhotosList(photos)
+        }
+    }
 }

@@ -19,7 +19,7 @@ class PropertyRepository {
             .setConstraints(constraints)
             .build()
 
-        WorkManager.getInstance(AppCompatActivity().applicationContext).beginUniqueWork("syncProperty", ExistingWorkPolicy.KEEP, work)
+        WorkManager.getInstance().beginUniqueWork("syncProperty", ExistingWorkPolicy.KEEP, work)
             .enqueue()
     }
 
@@ -28,7 +28,7 @@ class PropertyRepository {
             .setConstraints(constraints)
             .build()
 
-        WorkManager.getInstance(AppCompatActivity().applicationContext).beginUniqueWork("syncProperty", ExistingWorkPolicy.KEEP, work)
+        WorkManager.getInstance().beginUniqueWork("syncProperty", ExistingWorkPolicy.KEEP, work)
             .enqueue()
     }
 

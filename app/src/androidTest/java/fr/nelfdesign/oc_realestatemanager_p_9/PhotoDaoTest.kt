@@ -40,9 +40,9 @@ class PhotoDaoTest {
             .build()
         //Add a property to Foreign key
         this.db.PropertyDao().createProperty(Property(1,"Manoir", 1200000, 250, 6, 4,1,"New dream mansion by the water with a serene view of the bay and the Indian Creek golf course! Inside, a spectacular contemporary design including open and open living spaces surrounded by oversized glass walls, an interior garden, a formal dining room, a chef's kitchen + a 2nd full kitchen, a large upper living room, a sauna and high-end finishes. Exceptional exterior with an infinity pool, spa, summer kitchen and a ready roof - ideal for entertaining and dolphin watching. Deluxe Master offers an ultra-lux marble bathtub, a terrace, a dressing room and endless sunsets! Equipped with Lutron lighting and blinds, 2 car garage with elevator, lush landscape. Live in the exclusive islands of Bay Harbor, minutes from Bal Harbor!",
-            R.drawable.manoir_de_dubourvieux.toString(), "21 jump street, New York 10001 ", "", "On sale", "24/02/2020", null, 1))
+            R.drawable.manoir_de_dubourvieux.toString(), "21 jump street, New York 10001 ", "", "On sale", "24/02/2020", null,null, 1))
         this.db.PropertyDao().createProperty(Property(2,"Manoir", 1200000, 250, 6, 4,1,"New dream mansion by the water with a serene view of the bay and the Indian Creek golf course! Inside, a spectacular contemporary design including open and open living spaces surrounded by oversized glass walls, an interior garden, a formal dining room, a chef's kitchen + a 2nd full kitchen, a large upper living room, a sauna and high-end finishes. Exceptional exterior with an infinity pool, spa, summer kitchen and a ready roof - ideal for entertaining and dolphin watching. Deluxe Master offers an ultra-lux marble bathtub, a terrace, a dressing room and endless sunsets! Equipped with Lutron lighting and blinds, 2 car garage with elevator, lush landscape. Live in the exclusive islands of Bay Harbor, minutes from Bal Harbor!",
-            R.drawable.manoir_de_dubourvieux.toString(), "21 jump street, New York 10001 ", "", "On sale", "24/02/2020", null, 2))
+            R.drawable.manoir_de_dubourvieux.toString(), "21 jump street, New York 10001 ", "", "On sale", "24/02/2020", null, null,2))
     }
 
     @After
@@ -79,19 +79,18 @@ class PhotoDaoTest {
     @Test
     @Throws(InterruptedException::class)
     fun updatePhoto(){
-        // BEFORE : Adding photos list
+        // BEFORE : Adding photos list 1
         this.db.PhotoDao().insertPhotos(photos)
-        //Get photo 1
+        //Get photoList for property 1
         val photoList = LiveDataTestUtils.getValue(this.db.PhotoDao().getPhotosForPropertyId(1))
-        //Update name of photo 1
-        val photoUpdate = photoList[1].copy(name = "Loft")
-        // update photo in BDD
-        this.db.PhotoDao().updatePhotos(photoUpdate)
-        //Get photo updated
+        val photo = photoList[0].copy(name = "Loft")
+        //Update with new photo name
+        this.db.PhotoDao().updatePhotos(photo)
+        //Get photo updated for propertyId 1
         val photoUpdated = LiveDataTestUtils.getValue(this.db.PhotoDao().getAllPhotos())
 
-        Assert.assertNotSame(photo1.name, photoUpdated[0].name)
-        Assert.assertEquals("Loft",  photoUpdated[0].name)
+        Assert.assertNotSame(photoList[0].name, photoUpdated[0].name)
+        Assert.assertEquals("Loft", photoUpdated[0].name)
     }
 
     @Test
@@ -100,7 +99,7 @@ class PhotoDaoTest {
         // BEFORE : Adding photos list
         this.db.PhotoDao().insertPhotos(photos)
         // delete photo with id 1
-        this.db.PhotoDao().deletePhoto(photo1)
+        this.db.PhotoDao().deletePhoto(photos[1])
         // get all photos
         val photosAfterDelete = LiveDataTestUtils.getValue(this.db.PhotoDao().getAllPhotos())
 

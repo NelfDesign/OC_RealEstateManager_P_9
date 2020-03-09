@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/addProperty"
     tools:context=".ui.fragment.drawernavigation.ProfileFragment">
 
     <LinearLayout
@@ -11,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/height_50"
+        android:padding="@dimen/margin_10"
         android:orientation="vertical">
 
         <LinearLayout
@@ -38,82 +40,89 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="@dimen/width_300"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_10"
-            app:endIconMode="password_toggle">
+            android:hint="@string/your_password"
+            android:textColorHint="@color/accent"
+            app:hintTextColor="@color/accent"
+            app:startIconDrawable="@drawable/ic_security"
+            app:startIconTint="@color/accent"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/accent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/modify_your_password"
                 android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="@dimen/width_300"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_10"
+            android:textColorHint="@color/accent"
+            app:hintTextColor="@color/accent"
+            android:hint="@string/confirm_your_password"
+            app:startIconDrawable="@drawable/ic_confirm"
+            app:startIconTint="@color/accent"
+            app:endIconTint="@color/accent"
             app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirm_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/confirm_your_password"
                 android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="@dimen/width_300"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_10"
-            app:endIconDrawable="@drawable/ic_phone"
-            app:endIconMode="custom">
+            android:textColorHint="@color/accent"
+            app:hintTextColor="@color/accent"
+            android:hint="@string/modify_your_telephone_number"
+            app:startIconDrawable="@drawable/ic_phone"
+            app:startIconTint="@color/accent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tel_edit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/modify_your_telephone_number" />
+                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="@dimen/width_300"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_10"
-            app:endIconDrawable="@drawable/ic_mail"
-            app:endIconMode="custom">
+            android:textColorHint="@color/accent"
+            app:hintTextColor="@color/accent"
+            android:hint="@string/modify_your_mail"
+            app:startIconDrawable="@drawable/ic_mail"
+            app:startIconTint="@color/accent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/mail_edit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/modify_your_mail" />
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="@dimen/width_300"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_10"
-            app:endIconDrawable="@drawable/ic_image"
-            app:endIconMode="custom">
+            android:textColorHint="@color/accent"
+            app:hintTextColor="@color/accent"
+            app:startIconDrawable="@drawable/ic_image"
+            app:startIconTint="@color/accent"
+            android:hint="@string/modify_your_avatar" >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/avatar_edit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/modify_your_avatar" />
+                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>

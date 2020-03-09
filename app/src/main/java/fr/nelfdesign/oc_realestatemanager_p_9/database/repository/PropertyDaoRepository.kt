@@ -19,4 +19,8 @@ class PropertyDaoRepository(val propertyDao : PropertyDao) {
         long = propertyDao.createProperty(property)
         return long
     }
+
+    fun updateProperty(property: Property) {
+        propertyDao.updateProperty(property)
+    }
 }
