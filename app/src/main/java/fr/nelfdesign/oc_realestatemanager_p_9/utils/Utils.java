@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -71,16 +72,11 @@ public class Utils {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
-    /**
-     * Configure spinner array list
-     * @param context activity
-     * @param array string list
-     * @param spinner to configure
-     */
-    public static void  configureSpinnerType(Context context, int array, Spinner spinner) {
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(context, array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+    public static String formatNumber(Double number){
+        DecimalFormat f = new DecimalFormat();
+        f.setMaximumFractionDigits(2);
+        f.setGroupingSize(3);
+        return f.format(number);
     }
 
     /**

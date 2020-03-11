@@ -12,9 +12,9 @@ import kotlin.collections.ArrayList
 @Entity(tableName = "property")
 data class Property(
                     @PrimaryKey(autoGenerate = true)
-                    val id : Int,
+                    var id : Int,
                     var type : String,
-                    var price : Int,
+                    var price : Double,
                     val area : Int,
                     @ColumnInfo(name = "room_number")
                     val roomNumber : Int,
@@ -37,16 +37,17 @@ data class Property(
 
 @Entity(tableName = "photo",
         foreignKeys = [ForeignKey(entity = Property::class,
-                        parentColumns = arrayOf("id"),
-                        childColumns = arrayOf("property_id"),
+                        parentColumns = ["id"],
+                        childColumns =["property_id"],
                         onDelete = CASCADE)],
         indices = [Index(value = ["property_id"])]
 )
 data class Photo (
                     @PrimaryKey(autoGenerate = true)
-                    val id : Int,
+                    @ColumnInfo(name = "id_photo")
+                    var idPhoto : Int,
                     @ColumnInfo(name = "url_photo")
-                    val urlPhoto : String,
-                    val name : String,
+                    var urlPhoto : String,
+                    var name : String,
                     @ColumnInfo(name = "property_id")
                     var propertyId : Int)

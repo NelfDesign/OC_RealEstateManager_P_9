@@ -17,5 +17,11 @@
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 
+    <fragment
+        android:id="@+id/nav_simulation"
+        android:name="fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.SimulatorFragment"
+        android:label="Credit simulator"
+        tools:layout="@layout/fragment_simulator" />
+
 
 </navigation>

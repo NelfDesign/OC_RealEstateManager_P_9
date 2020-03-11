@@ -45,6 +45,20 @@
         <item name="android:padding">@dimen/margin_10</item>
     </style>
 
+    <style name="text_title_simulator">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/text_18</item>
+        <item name="android:padding">@dimen/margin_10</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="text_simulator">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textSize">@dimen/text_14</item>
+        <item name="android:padding">@dimen/margin_5</item>
+        <item name="android:textColor">@color/icons</item>
+    </style>
+
     <style name="cardview">
         <item name="cardCornerRadius">@dimen/margin_5</item>
         <item name="android:layout_margin">@dimen/margin_2</item>

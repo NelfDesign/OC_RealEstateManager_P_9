@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_detail_property.*
 import timber.log.Timber
 
 
-class DetailProperty : BaseActivity() {
+class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private lateinit var adapterDetail: DetailAdapter
     private lateinit var photoViewModel : PhotoListViewModel
@@ -52,7 +52,7 @@ class DetailProperty : BaseActivity() {
         photos = mutableListOf()
 
         configureViewModel(propertyId)
-        adapterDetail = DetailAdapter(photos)
+        adapterDetail = DetailAdapter(photos, this)
 
         configureRecyclerView()
     }
@@ -90,6 +90,7 @@ class DetailProperty : BaseActivity() {
     }
 
     private fun updateProperty(property: Property) {
+        text_type.text = property.type
         text_price.text = resources.getString(R.string.devise, property.price)
         text_description.text = property.description
         text_description.movementMethod = ScrollingMovementMethod()
@@ -108,6 +109,12 @@ class DetailProperty : BaseActivity() {
             layout.visibility = View.VISIBLE
             textView.text = text
         }
+    }
+
+    /**
+     * click on the image may do nothing in detail page
+     */
+    override fun onClickItem(image : Photo) {
     }
 
 }

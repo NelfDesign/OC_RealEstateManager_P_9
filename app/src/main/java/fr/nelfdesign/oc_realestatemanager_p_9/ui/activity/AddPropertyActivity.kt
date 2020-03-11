@@ -10,10 +10,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -42,29 +39,29 @@ import kotlinx.android.synthetic.main.activity_addproperty.*
 import kotlinx.android.synthetic.main.toolbar.*
 import timber.log.Timber
 
-class AddPropertyActivity : BaseActivity() {
+class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     //FIELDS
-    private lateinit var type: String
     private lateinit var status: String
     private lateinit var address: String
     private lateinit var description: String
     private lateinit var entryDate: String
     private lateinit var adapterDetail: DetailAdapter
-    private lateinit var photos: MutableList<Photo>
     private lateinit var propertyViewModel: PropertyListViewModel
     private lateinit var photoViewModel: PhotoListViewModel
     private lateinit var uri: Uri
     private lateinit var image: Photo
 
+    private var type: String = ""
     private var area: Int = 0
     private var rooms: Int = 0
-    private var price: Int = 0
+    private var price: Double = 0.0
     private var bedrooms: Int = 0
     private var bathrooms: Int = 0
     private var imageDescription: String = ""
     private var propertyId: Int = 0
     private var photosListDetail: MutableList<Photo> = mutableListOf()
+    private var photos: MutableList<Photo> = mutableListOf()
     private var compromiseDate: String? = null
     private var soldDate: String? = null
 
@@ -87,13 +84,11 @@ class AddPropertyActivity : BaseActivity() {
         this.configureToolBar("Add property")
 
         propertyId = intent.getIntExtra(PROPERTY_ID, 0)
+        Timber.d("Property add = $propertyId")
 
-        photos = mutableListOf()
-
-        adapterDetail = DetailAdapter(photosListDetail)
+        adapterDetail = DetailAdapter(photos, this)
 
         configureRecyclerView()
-        configureSpinnerType()
         date_on_sale.text = getTodayDate()
 
         val factory = Injection.provideViewModelFactory()
@@ -101,6 +96,8 @@ class AddPropertyActivity : BaseActivity() {
         photoViewModel = ViewModelProvider(this, factory).get(PhotoListViewModel::class.java)
 
         if (propertyId > 0) {
+            this.configureToolBar("Update property")
+
             propertyViewModel.getPropertyById(propertyId)
                 .observe(this, Observer { property -> updateUi(property) })
             photoViewModel.getPhotoToDisplay(propertyId)
@@ -111,10 +108,10 @@ class AddPropertyActivity : BaseActivity() {
     private fun updateAdapter(photoList: List<Photo>) {
         photosListDetail.clear()
         photosListDetail.addAll(photoList)
-        adapterDetail.notifyDataSetChanged()
     }
 
     private fun updateUi(property: Property) {
+        text_type.setText(property.type)
         card_address.setText(property.address)
         card_description.setText(property.description)
         text_area.setText(property.area.toString())
@@ -132,6 +129,9 @@ class AddPropertyActivity : BaseActivity() {
         }
         fab.visibility = View.GONE
         fab_update.visibility = View.VISIBLE
+        photos.clear()
+        photos.addAll(photosListDetail)
+        adapterDetail.notifyDataSetChanged()
     }
 
 
@@ -162,44 +162,23 @@ class AddPropertyActivity : BaseActivity() {
         }
     }
 
-    private fun configureSpinnerType() {
-        configureSpinnerType(this, R.array.type, spinner_type)
-        spinner_type.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val text = parent?.getItemAtPosition(position).toString()
-                type = text
-            }
-        }
-    }
-
     private fun checkPropertyInformation() {
-        if (!checkEditTextInput(card_address.text.toString()) || !checkEditTextInput(
-                card_description.text.toString()
-            )
+        if (!checkEditTextInput(card_address.text.toString()) || !checkEditTextInput(card_description.text.toString())
             || !checkEditTextInput(text_area.text.toString()) || !checkEditTextInput(card_rooms.text.toString())
-            || !checkEditTextInput(card_bedroom.text.toString()) || !checkEditTextInput(
-                card_bathroom.text.toString()
-            )
-            || !checkEditTextInput(card_price.text.toString())
-        ) {
+            || !checkEditTextInput(card_bedroom.text.toString()) || !checkEditTextInput(card_bathroom.text.toString())
+            || !checkEditTextInput(card_price.text.toString())) {
 
             makeSnackbar(constraint_add, getString(R.string.error_message_add))
 
         } else {
+            type = text_type.text.toString()
             address = card_address.text.toString()
             description = card_description.text.toString()
             area = Integer.parseInt(text_area.text.toString())
             rooms = Integer.parseInt(card_rooms.text.toString())
             bedrooms = Integer.parseInt(card_bedroom.text.toString())
             bathrooms = Integer.parseInt(card_bathroom.text.toString())
-            price = Integer.parseInt(card_price.text.toString())
+            price = card_price.text.toString().toDouble()
             entryDate = date_on_sale.text.toString()
             compromiseDate = date_compromise.text.toString()
             soldDate =  date_sold.text.toString()
@@ -218,7 +197,7 @@ class AddPropertyActivity : BaseActivity() {
     private fun createPropertyInBdd() {
         val property = Property(
             0, type, price, area, rooms, bedrooms, bathrooms, description,
-            photosListDetail[0].urlPhoto, address, null, status, entryDate, null, null, 1
+            photos[0].urlPhoto, address, null, status, entryDate, null, null, 1
         )
 
         propertyViewModel.createProperty(property, photos)
@@ -229,12 +208,14 @@ class AddPropertyActivity : BaseActivity() {
 
     private fun updateBddWithNewInformation() {
         val property = Property(propertyId, type, price, area, rooms, bedrooms, bathrooms, description,
-            photosListDetail[0].urlPhoto, address, null, status, entryDate, compromiseDate, soldDate, 1)
+            photos[0].urlPhoto, address, null, status, entryDate, compromiseDate, soldDate, 1)
 
-        photos.addAll(photosListDetail)
-
+        Timber.d("photoListDetail = ${photosListDetail.size}, $photosListDetail")
+        Timber.d("photos = ${photos.size}, $photos")
         propertyViewModel.updateProperty(property, photos)
-        photoViewModel.updatePhotos(photosListDetail, photos)
+
+        photoViewModel.deletePhotos(photosListDetail)
+        photoViewModel.insertPhotos(photos)
         finish()
     }
 
@@ -244,7 +225,6 @@ class AddPropertyActivity : BaseActivity() {
         intent.type = "image/*"
         startActivityForResult(intent, RESULT_GALLERY_CODE)
     }
-
 
     private fun openCamera() {
         val contentValues = ContentValues()
@@ -331,12 +311,29 @@ class AddPropertyActivity : BaseActivity() {
             imageDescription = descriptionEditText.text.toString()
 
             image = Photo(0, path, imageDescription, 0)
-            photosListDetail.add(image)
+            photos.add(image)
 
             adapterDetail.notifyDataSetChanged()
         }
 
         builder.show()
+    }
+
+    private fun showDeleteImageDialog(image : Photo){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.delete_message))
+
+        builder.setPositiveButton(getString(R.string.ok)) { _, _ ->
+
+            photos.remove(image)
+
+            adapterDetail.notifyDataSetChanged()
+        }
+        builder.show()
+    }
+
+    override fun onClickItem(image : Photo) {
+        showDeleteImageDialog(image)
     }
 
 }

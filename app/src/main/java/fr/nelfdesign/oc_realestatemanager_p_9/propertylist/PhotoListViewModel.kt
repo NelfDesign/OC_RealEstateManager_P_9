@@ -11,9 +11,9 @@ import java.util.concurrent.Executor
  * Created by Nelfdesign at 28/02/2020
  * fr.nelfdesign.oc_realestatemanager_p_9.propertylist
  */
-class PhotoListViewModel(val executor: Executor) : ViewModel() {
+class PhotoListViewModel(private val executor: Executor) : ViewModel() {
 
-    val photoRepository : PhotoDaoRepository = PhotoDaoRepository(db.PhotoDao())
+    private val photoRepository : PhotoDaoRepository = PhotoDaoRepository(db.PhotoDao())
 
     val photos : LiveData<List<Photo>> = photoRepository.photos
 
@@ -21,14 +21,26 @@ class PhotoListViewModel(val executor: Executor) : ViewModel() {
 
     fun insertPhotos(photos : List<Photo>){
         executor.execute{
-            photoRepository.insertPhoto(photos)
+            /*for (p in photos){
+                photoRepository.insertPhoto(p)
+            }*/
+            photoRepository.insertPhotos(photos)
         }
     }
 
-    fun updatePhotos(photos : List<Photo>, newList: List<Photo>){
+    fun updatePhoto(photos : List<Photo>){
         executor.execute{
-            photoRepository.insertPhoto(newList)
-            photoRepository.deletePhotosList(photos)
+            for (p in photos){
+                photoRepository.updatePhoto(p)
+            }
+        }
+    }
+
+    fun deletePhotos(photos : List<Photo>){
+        executor.execute{
+            for (p in photos){
+                photoRepository.deletePhoto(p)
+            }
         }
     }
 }

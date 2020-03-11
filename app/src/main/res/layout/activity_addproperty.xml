@@ -41,22 +41,22 @@
                     android:layout_margin="@dimen/margin_2"
                     android:orientation="horizontal">
 
-                    <TextView
-                        style="@style/text_item_property"
-                        android:layout_width="0dp"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="30"
-                        android:gravity="center"
-                        android:text="@string/type" />
+                        android:hint="@string/type"
+                        android:textColorHint="@color/accent"
+                        app:hintTextColor="@color/accent"
+                        app:startIconDrawable="@drawable/ic_type"
+                        app:startIconTint="@color/accent">
 
-                    <Spinner
-                        android:id="@+id/spinner_type"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/margin_2"
-                        android:layout_weight="70" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_type"
+                            style="@style/edit_text_add"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

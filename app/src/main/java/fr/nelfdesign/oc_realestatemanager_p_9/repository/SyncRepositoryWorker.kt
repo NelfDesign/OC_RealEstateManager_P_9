@@ -28,7 +28,9 @@ class SyncRepositoryPhotoWorker(appContext: Context, workerParams: WorkerParamet
         Timber.i("Synchronize database ...")
         val propertyApi = FakePropertyApi()
         val photoDao = App.db.PhotoDao()
-        photoDao.insertPhotos(propertyApi.getAllPhotos())
+        for (p in propertyApi.getAllPhotos()){
+            photoDao.insertPhoto(p)
+        }
 
         return Result.success()
     }

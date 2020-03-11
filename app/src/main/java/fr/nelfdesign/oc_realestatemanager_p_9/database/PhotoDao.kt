@@ -23,11 +23,14 @@ interface PhotoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPhotos(photos : List<Photo>)
 
+    @Insert
+    fun insertPhoto(photo : Photo)
+
     @Update
      fun updatePhotos(photos : Photo)
 
     @Delete
-     fun deletePhotosList(photo : List<Photo>)
+    fun deletePhotosList(photo : List<Photo>)
 
     @Delete
     fun deletePhoto(photo : Photo)

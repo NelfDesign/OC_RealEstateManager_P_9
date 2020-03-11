@@ -15,7 +15,12 @@ import kotlinx.android.synthetic.main.item_photo_detail.view.*
  * Created by Nelfdesign at 29/02/2020
  * fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter
  */
-class DetailAdapter(private val photos : List<Photo>) : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
+class DetailAdapter(private val photos : List<Photo>, private val listener : DetailAdapter.onClickItemListener)
+    : RecyclerView.Adapter<DetailAdapter.ViewHolder>(), View.OnClickListener {
+
+    interface onClickItemListener{
+        fun onClickItem(image : Photo)
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var image = itemView.image_detail!!
@@ -31,23 +36,27 @@ class DetailAdapter(private val photos : List<Photo>) : RecyclerView.Adapter<Det
         val photo = photos[position]
         val resources: Resources = holder.itemView.resources
 
-       if (photo.urlPhoto.contains("images")){
-           with(holder){
-               Glide.with(holder.itemView)
-                   .load(photo.urlPhoto)
-                   .into(image)
-               textDetail.text = photo.name
-           }
-       }else{
-           val intPhoto = resources.getIdentifier(photo.urlPhoto, "drawable","fr.nelfdesign.oc_realestatemanager_p_9")
-           with(holder){
-               Glide.with(holder.itemView)
-                   .load(intPhoto)
-                   .into(image)
-               textDetail.text = photo.name
-           }
-       }
+        with(holder) {
+            image.tag = photo
+            image.setOnClickListener(this@DetailAdapter)
+            textDetail.text = photo.name
+            if (photo.urlPhoto.contains("images")) {
+                Glide.with(holder.itemView)
+                    .load(photo.urlPhoto)
+                    .into(image)
+            } else {
+                val intPhoto = resources.getIdentifier(photo.urlPhoto, "drawable", "fr.nelfdesign.oc_realestatemanager_p_9")
+                Glide.with(holder.itemView)
+                    .load(intPhoto)
+                    .into(image)
+            }
+        }
     }
-
     override fun getItemCount() = photos.size
+
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.image_detail -> listener.onClickItem(v.tag as Photo)
+        }
+    }
 }
