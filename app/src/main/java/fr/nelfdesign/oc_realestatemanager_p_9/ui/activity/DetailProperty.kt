@@ -62,6 +62,7 @@ class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
         intent = Intent(this, AddPropertyActivity::class.java)
         intent.putExtra(PROPERTY_ID, propertyId)
         startActivity(intent)
+        finish()
     }
 
     private fun configureViewModel(propertyId : Int){
@@ -91,7 +92,7 @@ class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun updateProperty(property: Property) {
         text_type.text = property.type
-        text_price.text = resources.getString(R.string.devise, property.price)
+        text_price.text = resources.getString(R.string.devise_dollars, property.price.toString())
         text_description.text = property.description
         text_description.movementMethod = ScrollingMovementMethod()
         property_area.text = property.area.toString()
@@ -100,6 +101,9 @@ class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
         property_bathroom.text = property.bathroomNumber.toString()
         property_bedroom.text = property.bedroomNumber.toString()
         entry_date.text = property.entryDate
+        if (property.hospital) poi_hospital.visibility = View.VISIBLE
+        if (property.school) poi_school.visibility = View.VISIBLE
+        if (property.market) poi_market.visibility = View.VISIBLE
         showCompromiseAndSoldText(property.compromiseDate, compromise_date, layout_compromise)
         showCompromiseAndSoldText(property.sellDate, sold_date, layout_sold)
     }

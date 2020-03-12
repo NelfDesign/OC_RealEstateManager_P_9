@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import fr.nelfdesign.oc_realestatemanager_p_9.R
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
+import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.PropertyListFragment
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils
 import kotlinx.android.synthetic.main.item_property.view.*
 
@@ -46,7 +47,11 @@ class PropertyListAdapter(private val properties : List<Property>, private val l
            propertyAddress.text = property.address
 
            val resources: Resources = holder.itemView.resources
-           price.text = resources.getString(R.string.devise,Utils.formatNumber(property.price))
+           if (PropertyListFragment.DEVISE == "dollars"){
+               price.text = resources.getString(R.string.devise_dollars, Utils.formatNumber(property.price))
+           }else{
+               price.text = resources.getString(R.string.devise_euros, Utils.formatNumber(property.price))
+           }
 
            if (property.photo.contains("images")){
                    Glide.with(holder.itemView)

@@ -330,12 +330,30 @@
                         tools:text="21 jump street, NewYork 10000" />
 
                     <TextView
-                        android:id="@+id/pois_list"
+                        android:id="@+id/poi_hospital"
                         style="@style/text_item_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_10"
-                        tools:text="hospital, scholl, university" />
+                        android:text="@string/hospital"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:id="@+id/poi_school"
+                        style="@style/text_item_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:text="@string/school"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:id="@+id/poi_market"
+                        style="@style/text_item_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:text="@string/market"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 

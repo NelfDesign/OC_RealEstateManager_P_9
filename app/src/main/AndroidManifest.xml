@@ -36,6 +36,8 @@
 
         <activity android:name=".ui.activity.AddPropertyActivity"
             android:theme="@style/addProperty"/>
+
+        <receiver android:name=".notification.NotificationReceiver"/>
     </application>
 
 </manifest>

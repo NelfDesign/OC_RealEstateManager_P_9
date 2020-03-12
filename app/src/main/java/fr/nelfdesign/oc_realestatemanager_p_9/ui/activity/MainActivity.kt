@@ -46,7 +46,6 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.configureToolBar("Real Estate Manager")
 
         navController = findNavController(R.id.navHostFragment)
 
@@ -64,16 +63,7 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
         updateNavigationHeader()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.change_money -> Utils.makeSnackbar(this.drawer_layout, "Change money")
-            R.id.filter -> Utils.makeSnackbar(this.drawer_layout, "Filter")
-        }
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 

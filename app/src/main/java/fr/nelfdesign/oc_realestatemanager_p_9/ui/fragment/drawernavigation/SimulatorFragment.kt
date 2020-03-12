@@ -61,6 +61,7 @@ class SimulatorFragment : BaseFragment(){
         notary_fees.text = formatNumber(notary)
         notary_fees2.text = formatNumber(notary)
         mortgage1.text = formatNumber(mortgage)
+        mortgage2.text = formatNumber(mortgage)
         personal_contribution.text =formatNumber(personalContribution)
         personal_contribution2.text = formatNumber(personalContribution)
         borrowing1.text = formatNumber(borrowing)
@@ -74,6 +75,8 @@ class SimulatorFragment : BaseFragment(){
         rate_2.text = (rate2 * 100).toString()
         payment.text = formatNumber(calculateMonthlyPayment(year, rate))
         payment2.text = formatNumber(calculateMonthlyPayment(year2, rate2))
+        paymentCapacity_1.text = formatNumber(paymentCapacity)
+        paymentCapacity_2.text = formatNumber(paymentCapacity)
     }
 
     private fun monthlyAmountCalculation(year : Double, rate : Double, capital : Double) : Double {
@@ -111,11 +114,11 @@ class SimulatorFragment : BaseFragment(){
     private fun yearForTwoSimulation(){
         val yearCalculate = calculateYearCredit()
         when{
-            yearCalculate < 15 ->{
+            yearCalculate < 14.0 ->{
                 year = 10.0
                 year2 = 15.0
             }
-            yearCalculate in 16.0..20.0 -> {
+            yearCalculate in 15.0..19.0 -> {
                 year = 15.0
                 year2 = 20.0
             }

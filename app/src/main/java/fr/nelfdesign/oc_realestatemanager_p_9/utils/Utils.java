@@ -25,12 +25,12 @@ public class Utils {
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
-     *
+     *Le taux du dollars ayant changé j'ai adapté la valeur
      * @param dollars price in dollars
      * @return price in Euros
      */
     public static int convertDollarToEuro(int dollars) {
-        return (int) Math.round(dollars * 0.812);
+        return (int) Math.round(dollars * 0.89);
     }
 
     /**
@@ -41,7 +41,7 @@ public class Utils {
      * @return price in Dollars
      */
     public static int convertEuroToDollar(int euro) {
-        return (int) Math.round(euro * 1.10);
+        return (int) Math.round(euro * 1.13);
     }
 
     /**

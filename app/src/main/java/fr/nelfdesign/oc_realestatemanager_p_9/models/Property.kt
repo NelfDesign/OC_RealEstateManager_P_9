@@ -23,7 +23,9 @@ data class Property(
                     var description : String,
                     var photo: String,
                     val address : String,
-                    val pois : String?,
+                    val hospital : Boolean = false,
+                    val school : Boolean = false,
+                    val market : Boolean = false,
                     var status : String,
                     @ColumnInfo(name = "entry_date")
                     val entryDate : String,

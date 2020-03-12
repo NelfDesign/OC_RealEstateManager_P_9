@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,11 +14,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import butterknife.OnClick
+import com.google.android.material.chip.Chip
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -26,6 +31,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
 import fr.nelfdesign.oc_realestatemanager_p_9.R
+import fr.nelfdesign.oc_realestatemanager_p_9.app.App
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Photo
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
@@ -51,6 +57,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     private lateinit var photoViewModel: PhotoListViewModel
     private lateinit var uri: Uri
     private lateinit var image: Photo
+    private lateinit var notificationManager : NotificationManagerCompat
 
     private var type: String = ""
     private var area: Int = 0
@@ -64,6 +71,9 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     private var photos: MutableList<Photo> = mutableListOf()
     private var compromiseDate: String? = null
     private var soldDate: String? = null
+    private var hospital: Boolean = false
+    private var school: Boolean = false
+    private var market: Boolean = false
 
     companion object {
         private const val RESULT_CAMERA_CODE = 20
@@ -83,6 +93,8 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
         this.configureToolBar("Add property")
 
+        notificationManager = NotificationManagerCompat.from(this)
+
         propertyId = intent.getIntExtra(PROPERTY_ID, 0)
         Timber.d("Property add = $propertyId")
 
@@ -98,10 +110,10 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         if (propertyId > 0) {
             this.configureToolBar("Update property")
 
-            propertyViewModel.getPropertyById(propertyId)
-                .observe(this, Observer { property -> updateUi(property) })
             photoViewModel.getPhotoToDisplay(propertyId)
                 .observe(this, Observer { photoList -> updateAdapter(photoList) })
+            propertyViewModel.getPropertyById(propertyId)
+                .observe(this, Observer { property -> updateUi(property) })
         }
     }
 
@@ -127,6 +139,18 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
             check_compromise.isClickable = false
             date_compromise.text = property.compromiseDate
         }
+        if (property.hospital){
+            chip_hospital.isChecked = true
+            stateChip(chip_hospital)
+        }
+        if (property.school){
+            chip_school.isChecked = true
+            stateChip(chip_school)
+        }
+        if (property.market){
+            chip_market.isChecked = true
+            stateChip(chip_market)
+        }
         fab.visibility = View.GONE
         fab_update.visibility = View.VISIBLE
         photos.clear()
@@ -135,12 +159,14 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     }
 
 
-    @OnClick(R.id.fab, R.id.camera, R.id.gallery, R.id.fab_update, R.id.check_compromise, R.id.check_sold)
+    @OnClick(R.id.fab, R.id.camera, R.id.gallery, R.id.fab_update, R.id.check_compromise, R.id.check_sold,
+                R.id.chip_hospital, R.id.chip_market, R.id.chip_school)
     fun onClickBottomNavigation(view: View) {
         when (view.id) {
             R.id.fab -> {
                 checkPropertyInformation()
                 createPropertyInBdd()
+                notificationCreated()
             }
             R.id.fab_update -> {
                 checkPropertyInformation()
@@ -150,6 +176,9 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
             R.id.gallery -> checkPermissionsGallery()
             R.id.check_compromise -> if (date_compromise.text == "") date_compromise.text = getTodayDate() else date_compromise.text = ""
             R.id.check_sold -> if (date_sold.text == "") date_sold.text = getTodayDate() else date_sold.text = ""
+            R.id.chip_hospital -> stateChip(chip_hospital)
+            R.id.chip_market -> stateChip(chip_market)
+            R.id.chip_school -> stateChip(chip_school)
         }
     }
 
@@ -179,12 +208,25 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
             bedrooms = Integer.parseInt(card_bedroom.text.toString())
             bathrooms = Integer.parseInt(card_bathroom.text.toString())
             price = card_price.text.toString().toDouble()
+            if (chip_hospital.isChecked) hospital = true
+            if (chip_school.isChecked) school = true
+            if (chip_market.isChecked) market = true
             entryDate = date_on_sale.text.toString()
             compromiseDate = date_compromise.text.toString()
             soldDate =  date_sold.text.toString()
             status = getStatus()
         }
 
+    }
+
+    private fun stateChip(chip: Chip){
+        if (chip.isChecked){
+            chip.setTextColor(resources.getColor(R.color.accent))
+            chip.setChipIconTintResource(R.color.accent)
+        }else{
+            chip.setTextColor(resources.getColor(R.color.icons))
+            chip.setChipIconTintResource(R.color.icons)
+        }
     }
 
     private fun getStatus(): String {
@@ -197,7 +239,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     private fun createPropertyInBdd() {
         val property = Property(
             0, type, price, area, rooms, bedrooms, bathrooms, description,
-            photos[0].urlPhoto, address, null, status, entryDate, null, null, 1
+            photos[0].urlPhoto, address, hospital, school, market, status, entryDate, null, null, 1
         )
 
         propertyViewModel.createProperty(property, photos)
@@ -208,7 +250,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun updateBddWithNewInformation() {
         val property = Property(propertyId, type, price, area, rooms, bedrooms, bathrooms, description,
-            photos[0].urlPhoto, address, null, status, entryDate, compromiseDate, soldDate, 1)
+            photos[0].urlPhoto, address, hospital, school, market, status, entryDate, compromiseDate, soldDate, 1)
 
         Timber.d("photoListDetail = ${photosListDetail.size}, $photosListDetail")
         Timber.d("photos = ${photos.size}, $photos")
@@ -332,8 +374,33 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         builder.show()
     }
 
+    private fun notificationCreated(){
+        val title : String = getString(R.string.app_name)
+        val contentText  = "Property $type has been well created"
+
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.new_york_night)
+        //intent for action if we tap on the notification
+        //val intent = Intent(this, MainActivity::class.java)
+        //val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+        val builder = NotificationCompat.Builder(this, App.channelId)
+            .setSmallIcon(R.drawable.logo)
+            .setContentTitle(title)
+            .setContentText(contentText)
+            .setLargeIcon(bitmap)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+            .setColor(Color.BLUE)
+            .setAutoCancel(true)
+            //.setContentIntent(pendingIntent)
+            .setOnlyAlertOnce(true)
+            .build()
+        notificationManager.notify(1,builder)
+    }
+
     override fun onClickItem(image : Photo) {
         showDeleteImageDialog(image)
     }
+
 
 }

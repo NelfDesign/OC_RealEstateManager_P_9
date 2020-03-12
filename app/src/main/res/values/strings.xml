@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OC_RealEstateManager_P_9</string>
+    <string name="app_name">Real Estate Manager</string>
 
     <!-- navigation drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -42,7 +42,8 @@
     <string name="number_of_bathroom">Number of bathroom</string>
     <string name="property_area">Property area</string>
     <string name="location">Location</string>
-    <string name="devise">$ %1$s</string>
+    <string name="devise_dollars">$ %1$s</string>
+    <string name="devise_euros">€ %1$s</string>
 
     <!-- Add activity-->
     <string name="type">Type</string>
@@ -86,6 +87,11 @@
     <string name="rate">Rate :</string>
     <string name="monthly_payment">Monthly payment:</string>
     <string name="property_cost">Property cost</string>
+    <string name="go_to_detail_page">Go to detail page</string>
+    <string name="payment_capacity">Payment capacity</string>
+    <string name="hospital">Hospital</string>
+    <string name="school">School</string>
+    <string name="market">Market</string>
 
 
 </resources>
