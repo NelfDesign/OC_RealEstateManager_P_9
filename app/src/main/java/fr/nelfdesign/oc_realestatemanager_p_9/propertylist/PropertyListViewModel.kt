@@ -18,18 +18,18 @@ class PropertyListViewModel(private val executor: Executor) : ViewModel() {
 
     val properties : LiveData<List<Property>> = repositoryProperty.properties
 
-    fun getPropertyById(propertyId : Int) : LiveData<Property> = repositoryProperty.getPropertyById(propertyId)
+    fun getPropertyById(propertyId : Long) : LiveData<Property> = repositoryProperty.getPropertyById(propertyId)
 
     fun createProperty(property : Property, photos : List<Photo>){
         executor.execute{
            val long =  repositoryProperty.createProperty(property)
             for (p in photos){
-                p.propertyId = long.toInt()
+                p.propertyId = long
             }
         }
     }
 
-    fun updateProperty(property: Property, photos: List<Photo>){
+    fun updateProperty(property : Property, photos: List<Photo>){
         executor.execute{
             for (p in photos){
                 p.propertyId = property.id

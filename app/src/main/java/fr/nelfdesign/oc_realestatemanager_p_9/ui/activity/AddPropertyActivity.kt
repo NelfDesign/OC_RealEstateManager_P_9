@@ -66,7 +66,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     private var bedrooms: Int = 0
     private var bathrooms: Int = 0
     private var imageDescription: String = ""
-    private var propertyId: Int = 0
+    private var propertyId: Long = 0
     private var photosListDetail: MutableList<Photo> = mutableListOf()
     private var photos: MutableList<Photo> = mutableListOf()
     private var compromiseDate: String? = null
@@ -95,7 +95,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
         notificationManager = NotificationManagerCompat.from(this)
 
-        propertyId = intent.getIntExtra(PROPERTY_ID, 0)
+        propertyId = intent.getLongExtra(PROPERTY_ID, 0)
         Timber.d("Property add = $propertyId")
 
         adapterDetail = DetailAdapter(photos, this)

@@ -13,7 +13,7 @@ class PropertyDaoRepository(val propertyDao : PropertyDao) {
     var long : Long = 0
     val properties = propertyDao.getAllProperties()
 
-    fun getPropertyById(propertyId : Int) : LiveData<Property> = propertyDao.getProperty(propertyId)
+    fun getPropertyById(propertyId : Long) : LiveData<Property> = propertyDao.getProperty(propertyId)
 
     fun createProperty(property : Property) : Long {
         long = propertyDao.createProperty(property)

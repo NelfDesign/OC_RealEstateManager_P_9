@@ -1,9 +1,9 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.models
 
+import android.content.ContentValues
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import java.util.*
-import kotlin.collections.ArrayList
+
 
 /**
  * Created by Nelfdesign at 25/02/2020
@@ -11,45 +11,80 @@ import kotlin.collections.ArrayList
  */
 @Entity(tableName = "property")
 data class Property(
-                    @PrimaryKey(autoGenerate = true)
-                    var id : Int,
-                    var type : String,
-                    var price : Double,
-                    val area : Int,
-                    @ColumnInfo(name = "room_number")
-                    val roomNumber : Int,
-                    val bedroomNumber : Int,
-                    val bathroomNumber : Int,
-                    var description : String,
-                    var photo: String,
-                    val address : String,
-                    val hospital : Boolean = false,
-                    val school : Boolean = false,
-                    val market : Boolean = false,
-                    var status : String,
-                    @ColumnInfo(name = "entry_date")
-                    val entryDate : String,
-                    @ColumnInfo(name = "compromise_date")
-                    val compromiseDate : String?,
-                    @ColumnInfo(name = "sell_date")
-                    val sellDate : String?,
-                    @ColumnInfo(name = "user_id")
-                    val userId : Int)
+    @PrimaryKey(autoGenerate = true)
+    var id: Long,
+    var type: String,
+    var price: Double,
+    var area: Int,
+    @ColumnInfo(name = "room_number")
+    var roomNumber: Int,
+    var bedroomNumber: Int,
+    var bathroomNumber: Int,
+    var description: String,
+    var photo: String,
+    var address: String,
+    var hospital: Boolean = false,
+    var school: Boolean = false,
+    var market: Boolean = false,
+    var status: String,
+    @ColumnInfo(name = "entry_date")
+    var entryDate: String,
+    @ColumnInfo(name = "compromise_date")
+    var compromiseDate: String?,
+    @ColumnInfo(name = "sell_date")
+    var sellDate: String?,
+    @ColumnInfo(name = "user_id")
+    var userId: Int
+) {
+    companion object{
+
+        fun fromContentValues(values: ContentValues) : Property {
+            val property = Property(0, "",0.0,0,0,0,0,"","","",hospital = false
+            , school = false, market = false, status = "", entryDate = "",
+                compromiseDate = "", sellDate = "", userId = 0)
+            //if (values.containsKey("id")) property.id = values.getAsLong("id")
+            if (values.containsKey("type")) property.type = values.getAsString("type")
+            if (values.containsKey("price")) property.price = values.getAsDouble("price")
+            if (values.containsKey("area")) property.area = values.getAsInteger("area")
+            if (values.containsKey("roomNumber")) property.roomNumber = values.getAsInteger("roomNumber")
+            if (values.containsKey("bedroomNumber")) property.bedroomNumber = values.getAsInteger("bedroomNumber")
+            if (values.containsKey("bathroomNumber")) property.bathroomNumber = values.getAsInteger("bathroomNumber")
+            if (values.containsKey("description")) property.description = values.getAsString("description")
+            if (values.containsKey("photo")) property.photo = values.getAsString("photo")
+            if (values.containsKey("address")) property.address = values.getAsString("address")
+            if (values.containsKey("hospital")) property.hospital = values.getAsBoolean("hospital")
+            if (values.containsKey("school")) property.school = values.getAsBoolean("school")
+            if (values.containsKey("market")) property.market = values.getAsBoolean("market")
+            if (values.containsKey("status")) property.status = values.getAsString("status")
+            if (values.containsKey("entryDate")) property.entryDate = values.getAsString("entryDate")
+            if (values.containsKey("compromiseDate")) property.compromiseDate = values.getAsString("compromiseDate")
+            if (values.containsKey("sellDate")) property.sellDate = values.getAsString("sellDate")
+            if (values.containsKey("userId")) property.userId = values.getAsInteger("userId")
+
+            return property
+        }
+    }
+
+}
 
 
-@Entity(tableName = "photo",
-        foreignKeys = [ForeignKey(entity = Property::class,
-                        parentColumns = ["id"],
-                        childColumns =["property_id"],
-                        onDelete = CASCADE)],
-        indices = [Index(value = ["property_id"])]
+@Entity(
+    tableName = "photo",
+    foreignKeys = [ForeignKey(
+        entity = Property::class,
+        parentColumns = ["id"],
+        childColumns = ["property_id"],
+        onDelete = CASCADE
+    )],
+    indices = [Index(value = ["property_id"])]
 )
-data class Photo (
-                    @PrimaryKey(autoGenerate = true)
-                    @ColumnInfo(name = "id_photo")
-                    var idPhoto : Int,
-                    @ColumnInfo(name = "url_photo")
-                    var urlPhoto : String,
-                    var name : String,
-                    @ColumnInfo(name = "property_id")
-                    var propertyId : Int)
+data class Photo(
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id_photo")
+    var idPhoto: Int,
+    @ColumnInfo(name = "url_photo")
+    var urlPhoto: String,
+    var name: String,
+    @ColumnInfo(name = "property_id")
+    var propertyId: Long
+)

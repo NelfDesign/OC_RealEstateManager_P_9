@@ -30,7 +30,7 @@ class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
     private lateinit var photoViewModel : PhotoListViewModel
     private lateinit var propertyViewModel : PropertyListViewModel
     private lateinit var photos : MutableList<Photo>
-    private var propertyId : Int = 0
+    private var propertyId : Long = 0
 
     companion object{
         const val PROPERTY_ID = "propertyId"
@@ -47,7 +47,7 @@ class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        propertyId = intent.getIntExtra(PROPERTY_ID, 1)
+        propertyId = intent.getLongExtra(PROPERTY_ID, 1)
         Timber.d("property id is $propertyId")
         photos = mutableListOf()
 
@@ -65,20 +65,20 @@ class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
         finish()
     }
 
-    private fun configureViewModel(propertyId : Int){
+    private fun configureViewModel(propertyId : Long){
         val factory = Injection.provideViewModelFactory()
         photoViewModel = ViewModelProvider(this, factory).get(PhotoListViewModel::class.java)
-        photoViewModel.getPhotoToDisplay(propertyId).observe(this, Observer { liste -> updatePhotos(liste) })
+        photoViewModel.getPhotoToDisplay(propertyId).observe(this, Observer { list -> updatePhotos(list) })
 
         propertyViewModel = ViewModelProvider(this, factory).get(PropertyListViewModel::class.java)
         propertyViewModel.getPropertyById(propertyId).observe(this, Observer { property -> updateProperty(property) })
     }
 
-    private fun updatePhotos(liste: List<Photo>) {
+    private fun updatePhotos(list : List<Photo>) {
         photos.clear()
-        photos.addAll(liste)
+        photos.addAll(list)
         adapterDetail.notifyDataSetChanged()
-        Timber.d("liste photo VM = ${photos.size}, $photos")
+        Timber.d("list photo VM = ${photos.size}, $photos")
     }
 
     private fun configureRecyclerView() {

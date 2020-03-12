@@ -18,7 +18,7 @@ interface PhotoDao {
                     JOIN property ON property.id = property_id
                     WHERE property.id = :propertyId
     """)
-    fun getPhotosForPropertyId(propertyId : Int) : LiveData<List<Photo>>
+    fun getPhotosForPropertyId(propertyId : Long) : LiveData<List<Photo>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPhotos(photos : List<Photo>)

@@ -37,6 +37,11 @@
         <activity android:name=".ui.activity.AddPropertyActivity"
             android:theme="@style/addProperty"/>
 
+        <provider
+            android:authorities="fr.nelfdesign.oc_realestatemanager_p_9.provider"
+            android:name=".provider.PropertyContentProvider"
+            android:exported="true"/>
+
         <receiver android:name=".notification.NotificationReceiver"/>
     </application>
 
