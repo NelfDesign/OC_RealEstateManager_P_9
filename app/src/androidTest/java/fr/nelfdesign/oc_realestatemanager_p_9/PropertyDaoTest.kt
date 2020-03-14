@@ -27,9 +27,9 @@ class PropertyDaoTest {
     private lateinit var db : Database
 
     private val property1 = Property(1,"Manoir", 1200000.0, 250, 6, 4,1,"New dream mansion by the water with a serene view of the bay and the Indian Creek golf course! Inside, a spectacular contemporary design including open and open living spaces surrounded by oversized glass walls, an interior garden, a formal dining room, a chef's kitchen + a 2nd full kitchen, a large upper living room, a sauna and high-end finishes. Exceptional exterior with an infinity pool, spa, summer kitchen and a ready roof - ideal for entertaining and dolphin watching. Deluxe Master offers an ultra-lux marble bathtub, a terrace, a dressing room and endless sunsets! Equipped with Lutron lighting and blinds, 2 car garage with elevator, lush landscape. Live in the exclusive islands of Bay Harbor, minutes from Bal Harbor!",
-        R.drawable.manoir_de_dubourvieux.toString(), "21 jump street, New York 10001 ", false,true,false, "On sale", "24/02/2020", null, null,1)
+        R.drawable.manoir_de_dubourvieux.toString(), 2,"21 jump street", "New York",false,true,false, "On sale", "24/02/2020", null, null,1)
     private val property2 = Property(2, "Penthouse", 900000.0, 200, 8,5,2, "Located north of Miami Beach, this penthouse rises on five levels and offers an incredible number of terraces on each of its sides. To spoil nothing, a swimming pool, bar and barbecue are available on the roof. This exceptional penthouse has six bedrooms and as many bathrooms and its interior space is as large as the exterior, for a total area of 1,500 m²!",
-        R.drawable.penthouse.toString(), "455 parc avenue, New York 10010", true,true,false,"On sale", "26/02/2020", null, null, 2)
+        R.drawable.penthouse.toString(), 1,"455 parc avenue", "New York",true,true,false,"On sale", "26/02/2020", null, null, 2)
     private val properties = listOf(property1, property2)
 
     @get:Rule
@@ -74,7 +74,7 @@ class PropertyDaoTest {
             this.db.PropertyDao().getProperty(1))
         val property2 : Property =  LiveDataTestUtils.getValue(
             this.db.PropertyDao().getProperty(2))
-        assertEquals(this.property1.address, property.address)
+        assertEquals(this.property1.town, property.town)
         assertEquals(this.property2.type, property2.type)
     }
 

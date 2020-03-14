@@ -22,6 +22,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PropertyListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.DetailAdapter
 import kotlinx.android.synthetic.main.activity_detail_property.*
 import timber.log.Timber
+import java.lang.StringBuilder
 
 
 class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
@@ -96,7 +97,7 @@ class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
         text_description.text = property.description
         text_description.movementMethod = ScrollingMovementMethod()
         property_area.text = property.area.toString()
-        property_address.text = property.address
+        property_address.text = buildTextAddress(property.street, property.town)
         property_room.text = property.roomNumber.toString()
         property_bathroom.text = property.bathroomNumber.toString()
         property_bedroom.text = property.bedroomNumber.toString()
@@ -106,6 +107,14 @@ class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
         if (property.market) poi_market.visibility = View.VISIBLE
         showCompromiseAndSoldText(property.compromiseDate, compromise_date, layout_compromise)
         showCompromiseAndSoldText(property.sellDate, sold_date, layout_sold)
+    }
+
+    private fun buildTextAddress(street : String, town : String) : String {
+        val text = StringBuilder()
+        text.append(street)
+        text.append(", ")
+        text.append(town)
+        return text.toString()
     }
 
     private fun showCompromiseAndSoldText(text : String?, textView : TextView, layout : LinearLayout){

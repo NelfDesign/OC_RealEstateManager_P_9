@@ -1,5 +1,7 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.utils;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.view.View;
@@ -7,6 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
@@ -15,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import fr.nelfdesign.oc_realestatemanager_p_9.R;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -88,5 +95,33 @@ public class Utils {
         return text != null && !text.equals("");
     }
 
+
+    public static void stateChip(Chip chip, Context context) {
+        if (chip.isChecked()) {
+            chip.setTextColor(ContextCompat.getColor(context, R.color.accent));
+            chip.setChipIconTintResource(R.color.accent);
+        } else {
+            chip.setTextColor(ContextCompat.getColor(context, R.color.icons));
+            chip.setChipIconTintResource(R.color.icons);
+        }
+    }
+
+    public static int checkData(String text){
+        int number;
+        if (!text.equals("")){
+            number = Integer.parseInt(text);
+        }else{
+            number = 0;
+        }
+        return number;
+    }
+
+    public static int checkMaxData(String text){
+        int number;
+        if (text.equals("")){
+            number = Integer.MAX_VALUE;
+        }else number = Math.min(Integer.parseInt(text), Integer.MAX_VALUE);
+        return number;
+    }
 
 }

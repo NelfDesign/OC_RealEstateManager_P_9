@@ -61,13 +61,14 @@ class PropertyContentProviderTest {
         // BEFORE : Adding demo property from ContentProviderTestData
         val propertyUri: Uri = mContentResolver.insert(PropertyContentProvider.URI_PROPERTY, generateProperty())!!
         // TEST
-        val cursor: Cursor = mContentResolver.query(ContentUris.withAppendedId(PropertyContentProvider.URI_PROPERTY, 3),
+        val cursor: Cursor = mContentResolver.query(ContentUris.withAppendedId(PropertyContentProvider.URI_PROPERTY, 200),
                                         null, null, null, null)!!
 
         assertThat(propertyUri, notNullValue())
         assertThat(cursor.count, `is`(1))
         assertThat(cursor.moveToFirst(), `is`(true))
         assertThat(cursor.getString(cursor.getColumnIndexOrThrow("type")), `is`("Manor"))
+        val uriDeleteProperty = mContentResolver.delete(propertyUri, null, null)//delete property
         cursor.close()
     }
 
@@ -79,13 +80,14 @@ class PropertyContentProviderTest {
         val count = mContentResolver.update(itemUri!!, generatePropertyUpdated(), null, null)
         assertThat(count, `is`(1))
 
-        val cursor = mContentResolver.query(ContentUris.withAppendedId(PropertyContentProvider.URI_PROPERTY,2),
+        val cursor = mContentResolver.query(ContentUris.withAppendedId(PropertyContentProvider.URI_PROPERTY,300),
             null, null, null, null)
 
         assertThat(cursor, notNullValue())
         assertThat(cursor!!.count, `is`(1))
         assertThat(cursor.moveToFirst(), `is`(true))
         assertThat(cursor.getString(cursor.getColumnIndexOrThrow("type")), `is`("Penthouse"))
+        val uriDeleteProperty = mContentResolver.delete(itemUri, null, null)//delete property
         cursor.close()
     }
 
@@ -94,16 +96,16 @@ class PropertyContentProviderTest {
         val itemUri = mContentResolver.insert(PropertyContentProvider.URI_PROPERTY, generateProperty3())
         assertThat(itemUri, notNullValue())
 
-        val cursor1 = mContentResolver.query(ContentUris.withAppendedId(PropertyContentProvider.URI_PROPERTY, 1),
+        val cursor1 = mContentResolver.query(ContentUris.withAppendedId(PropertyContentProvider.URI_PROPERTY, 400),
             null, null, null, null)
         assertThat(cursor1, notNullValue())
         //assertThat(cursor1!!.count, `is`(1))
         cursor1?.close()
 
         val count = mContentResolver.delete(itemUri!!, null, null)
-        //assertThat(count, `is`(1))
+        assertThat(count, `is`(1))
 
-        val cursor2 =  mContentResolver.query(ContentUris.withAppendedId(PropertyContentProvider.URI_PROPERTY, 1),
+        val cursor2 =  mContentResolver.query(ContentUris.withAppendedId(PropertyContentProvider.URI_PROPERTY, 400),
             null, null, null, null)
 
         assertThat(cursor2, notNullValue())

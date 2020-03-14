@@ -44,13 +44,13 @@ class PropertyListAdapter(private val properties : List<Property>, private val l
            cardView.setOnClickListener(this@PropertyListAdapter)
            cardView.tag = property
            propertyType.text = property.type
-           propertyAddress.text = property.address
+           propertyAddress.text = property.town
 
            val resources: Resources = holder.itemView.resources
            if (PropertyListFragment.DEVISE == "dollars"){
                price.text = resources.getString(R.string.devise_dollars, Utils.formatNumber(property.price))
            }else{
-               price.text = resources.getString(R.string.devise_euros, Utils.formatNumber(property.price))
+               price.text = resources.getString(R.string.devise_euros, Utils.formatNumber(property.priceEuro))
            }
 
            if (property.photo.contains("images")){

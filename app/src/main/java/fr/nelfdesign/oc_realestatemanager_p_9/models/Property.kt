@@ -11,47 +11,54 @@ import androidx.room.ForeignKey.CASCADE
  */
 @Entity(tableName = "property")
 data class Property(
-    @PrimaryKey(autoGenerate = true)
-    var id: Long,
-    var type: String,
-    var price: Double,
-    var area: Int,
-    @ColumnInfo(name = "room_number")
-    var roomNumber: Int,
-    var bedroomNumber: Int,
-    var bathroomNumber: Int,
-    var description: String,
-    var photo: String,
-    var address: String,
-    var hospital: Boolean = false,
-    var school: Boolean = false,
-    var market: Boolean = false,
-    var status: String,
-    @ColumnInfo(name = "entry_date")
-    var entryDate: String,
-    @ColumnInfo(name = "compromise_date")
-    var compromiseDate: String?,
-    @ColumnInfo(name = "sell_date")
-    var sellDate: String?,
-    @ColumnInfo(name = "user_id")
-    var userId: Int
+            @PrimaryKey(autoGenerate = true)
+            var id: Long,
+            var type: String,
+            var price: Double,
+            var priceEuro: Double,
+            var area: Int,
+            @ColumnInfo(name = "room_number")
+            var roomNumber: Int,
+            var bedroomNumber: Int,
+            var bathroomNumber: Int,
+            var description: String,
+            var photo: String,
+            var numberPhotos : Int,
+            var street : String,
+            var town : String,
+            var hospital: Boolean = false,
+            var school: Boolean = false,
+            var market: Boolean = false,
+            var status: String,
+            @ColumnInfo(name = "entry_date")
+            var entryDate: String,
+            @ColumnInfo(name = "compromise_date")
+            var compromiseDate: String,
+            @ColumnInfo(name = "sell_date")
+            var sellDate: String,
+            @ColumnInfo(name = "user_id")
+            var userId: Int
 ) {
+
     companion object{
 
         fun fromContentValues(values: ContentValues) : Property {
-            val property = Property(0, "",0.0,0,0,0,0,"","","",hospital = false
+            val property = Property(0, "",0.0,0.0,0,0,0,0,"","",0, "", "", hospital = false
             , school = false, market = false, status = "", entryDate = "",
                 compromiseDate = "", sellDate = "", userId = 0)
-            //if (values.containsKey("id")) property.id = values.getAsLong("id")
+            if (values.containsKey("id")) property.id = values.getAsLong("id")
             if (values.containsKey("type")) property.type = values.getAsString("type")
             if (values.containsKey("price")) property.price = values.getAsDouble("price")
+            if (values.containsKey("priceEuro")) property.price = values.getAsDouble("priceEuro")
             if (values.containsKey("area")) property.area = values.getAsInteger("area")
             if (values.containsKey("roomNumber")) property.roomNumber = values.getAsInteger("roomNumber")
             if (values.containsKey("bedroomNumber")) property.bedroomNumber = values.getAsInteger("bedroomNumber")
             if (values.containsKey("bathroomNumber")) property.bathroomNumber = values.getAsInteger("bathroomNumber")
             if (values.containsKey("description")) property.description = values.getAsString("description")
             if (values.containsKey("photo")) property.photo = values.getAsString("photo")
-            if (values.containsKey("address")) property.address = values.getAsString("address")
+            if (values.containsKey("numberPhotos")) property.numberPhotos = values.getAsInteger("numberPhotos")
+            if (values.containsKey("street")) property.street = values.getAsString("street")
+            if (values.containsKey("town")) property.town = values.getAsString("town")
             if (values.containsKey("hospital")) property.hospital = values.getAsBoolean("hospital")
             if (values.containsKey("school")) property.school = values.getAsBoolean("school")
             if (values.containsKey("market")) property.market = values.getAsBoolean("market")

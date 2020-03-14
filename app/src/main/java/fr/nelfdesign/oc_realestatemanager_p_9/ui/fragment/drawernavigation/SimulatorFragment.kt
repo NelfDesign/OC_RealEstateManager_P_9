@@ -1,7 +1,9 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import fr.nelfdesign.oc_realestatemanager_p_9.R
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseFragment
@@ -34,8 +36,6 @@ class SimulatorFragment : BaseFragment(){
     override fun getFragmentLayout(): Int {
         return R.layout.fragment_simulator
     }
-
-    override fun configureDesign() {}
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

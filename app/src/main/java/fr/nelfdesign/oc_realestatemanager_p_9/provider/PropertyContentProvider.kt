@@ -42,13 +42,13 @@ class PropertyContentProvider : ContentProvider() {
         if (context != null){
             val id  : Long = App.db.PropertyDao().createProperty(Property.fromContentValues(values!!))
 
-            if (!id.equals(0)){
+            if (id > 0){
                 context!!.contentResolver.notifyChange(uri, null)
                 return ContentUris.withAppendedId(uri, id)
             }
         }
 
-        throw java.lang.IllegalArgumentException("Failed to insert row into " + uri)
+        throw java.lang.IllegalArgumentException("Failed to insert row into $uri")
     }
 
     override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
@@ -60,7 +60,7 @@ class PropertyContentProvider : ContentProvider() {
             context!!.contentResolver.notifyChange(uri, null)
             return count
         }
-        throw java.lang.IllegalArgumentException("Failed to insert row into " + uri)
+        throw java.lang.IllegalArgumentException("Failed to insert row into $uri")
     }
 
 
@@ -71,7 +71,7 @@ class PropertyContentProvider : ContentProvider() {
             context!!.contentResolver.notifyChange(uri, null)
             return count
         }
-        throw java.lang.IllegalArgumentException("Failed to insert row into " + uri)
+        throw java.lang.IllegalArgumentException("Failed to insert row into $uri")
     }
 
     override fun getType(uri: Uri): String? {

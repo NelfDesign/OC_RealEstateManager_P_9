@@ -29,6 +29,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="30"
+                app:buttonTint="@color/accent"
                 android:padding="@dimen/margin_10"
                 android:text="@string/new_property" />
 
@@ -37,6 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="30"
+                app:buttonTint="@color/accent"
                 android:padding="@dimen/margin_10"
                 android:text="@string/old" />
 
@@ -59,6 +61,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="30"
+                app:buttonTint="@color/accent"
                 android:padding="@dimen/margin_10"
                 android:text="@string/alone" />
 
@@ -67,6 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="30"
+                app:buttonTint="@color/accent"
                 android:padding="@dimen/margin_10"
                 android:text="@string/in_couple" />
 
@@ -78,6 +82,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/borrower_income"
@@ -95,6 +100,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:id="@+id/co_borrower_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,19 +121,16 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/personal_contribution"
                 android:textColorHint="@color/accent"
                 app:hintTextColor="@color/accent"
                 app:startIconDrawable="@drawable/ic_sale"
-                app:startIconTint="@color/accent">
+                app:startIconTint="@color/accent"
+                android:layout_margin="@dimen/margin_2">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/text_apport"
@@ -137,21 +140,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/property_cost"
                 android:textColorHint="@color/accent"
                 app:hintTextColor="@color/accent"
                 app:startIconDrawable="@drawable/ic_sale"
-                app:startIconTint="@color/accent">
+                app:startIconTint="@color/accent"
+                android:layout_margin="@dimen/margin_2">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/text_cost"
@@ -160,8 +158,6 @@
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
 
         <Button
             android:id="@+id/button_calculate"

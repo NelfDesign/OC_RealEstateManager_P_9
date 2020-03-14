@@ -31,8 +31,6 @@ class ProfileFragment : BaseFragment() {
         return R.layout.fragment_profile
     }
 
-    override fun configureDesign() {}
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         login = MainActivity.LOGIN_USER

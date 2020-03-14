@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import butterknife.OnClick
-import com.google.android.material.chip.Chip
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -49,7 +48,8 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     //FIELDS
     private lateinit var status: String
-    private lateinit var address: String
+    private lateinit var street : String
+    private lateinit var town : String
     private lateinit var description: String
     private lateinit var entryDate: String
     private lateinit var adapterDetail: DetailAdapter
@@ -63,14 +63,15 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     private var area: Int = 0
     private var rooms: Int = 0
     private var price: Double = 0.0
+    private var priceEuro: Double = 0.0
     private var bedrooms: Int = 0
     private var bathrooms: Int = 0
     private var imageDescription: String = ""
     private var propertyId: Long = 0
     private var photosListDetail: MutableList<Photo> = mutableListOf()
     private var photos: MutableList<Photo> = mutableListOf()
-    private var compromiseDate: String? = null
-    private var soldDate: String? = null
+    private var compromiseDate: String = ""
+    private var soldDate: String = ""
     private var hospital: Boolean = false
     private var school: Boolean = false
     private var market: Boolean = false
@@ -124,7 +125,8 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun updateUi(property: Property) {
         text_type.setText(property.type)
-        card_address.setText(property.address)
+        card_street.setText(property.street)
+        card_town.setText(property.town)
         card_description.setText(property.description)
         text_area.setText(property.area.toString())
         card_rooms.setText(property.roomNumber.toString())
@@ -133,7 +135,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         card_price.setText(property.price.toString())
         date_on_sale.text = property.entryDate
         layout_compromise_add.visibility = View.VISIBLE
-        if (property.compromiseDate != null && property.compromiseDate != "") {
+        if (property.compromiseDate != "") {
             check_compromise.isChecked = true
             layout_sold_add.visibility = View.VISIBLE
             check_compromise.isClickable = false
@@ -141,15 +143,15 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         }
         if (property.hospital){
             chip_hospital.isChecked = true
-            stateChip(chip_hospital)
+            stateChip(chip_hospital, this.applicationContext)
         }
         if (property.school){
             chip_school.isChecked = true
-            stateChip(chip_school)
+            stateChip(chip_school, this.applicationContext)
         }
         if (property.market){
             chip_market.isChecked = true
-            stateChip(chip_market)
+            stateChip(chip_market, this.applicationContext)
         }
         fab.visibility = View.GONE
         fab_update.visibility = View.VISIBLE
@@ -176,9 +178,9 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
             R.id.gallery -> checkPermissionsGallery()
             R.id.check_compromise -> if (date_compromise.text == "") date_compromise.text = getTodayDate() else date_compromise.text = ""
             R.id.check_sold -> if (date_sold.text == "") date_sold.text = getTodayDate() else date_sold.text = ""
-            R.id.chip_hospital -> stateChip(chip_hospital)
-            R.id.chip_market -> stateChip(chip_market)
-            R.id.chip_school -> stateChip(chip_school)
+            R.id.chip_hospital -> stateChip(chip_hospital, this.applicationContext)
+            R.id.chip_market -> stateChip(chip_market, this.applicationContext)
+            R.id.chip_school -> stateChip(chip_school, this.applicationContext)
         }
     }
 
@@ -192,7 +194,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     }
 
     private fun checkPropertyInformation() {
-        if (!checkEditTextInput(card_address.text.toString()) || !checkEditTextInput(card_description.text.toString())
+        if (!checkEditTextInput(card_street.text.toString()) || !checkEditTextInput(card_town.text.toString()) || !checkEditTextInput(card_description.text.toString())
             || !checkEditTextInput(text_area.text.toString()) || !checkEditTextInput(card_rooms.text.toString())
             || !checkEditTextInput(card_bedroom.text.toString()) || !checkEditTextInput(card_bathroom.text.toString())
             || !checkEditTextInput(card_price.text.toString())) {
@@ -201,7 +203,8 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
         } else {
             type = text_type.text.toString()
-            address = card_address.text.toString()
+            street = card_street.text.toString()
+            town = card_town.text.toString()
             description = card_description.text.toString()
             area = Integer.parseInt(text_area.text.toString())
             rooms = Integer.parseInt(card_rooms.text.toString())
@@ -219,38 +222,30 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     }
 
-    private fun stateChip(chip: Chip){
-        if (chip.isChecked){
-            chip.setTextColor(resources.getColor(R.color.accent))
-            chip.setChipIconTintResource(R.color.accent)
-        }else{
-            chip.setTextColor(resources.getColor(R.color.icons))
-            chip.setChipIconTintResource(R.color.icons)
-        }
-    }
-
     private fun getStatus(): String {
-        status = if (compromiseDate != null && compromiseDate != "") "Compromise signed"
-        else if (soldDate != null && soldDate != "") "Property sold"
-        else "On sale"
+        status = when {
+            compromiseDate != "" -> "Compromise signed"
+            soldDate != "" -> "Property sold"
+            else -> "On sale"
+        }
         return status
     }
 
     private fun createPropertyInBdd() {
+
         val property = Property(
-            0, type, price, area, rooms, bedrooms, bathrooms, description,
-            photos[0].urlPhoto, address, hospital, school, market, status, entryDate, null, null, 1
+            0, type, price, priceEuro,  area, rooms, bedrooms, bathrooms, description,
+            photos[0].urlPhoto, photos.size, street, town, hospital, school, market, status, entryDate, "", "", 1
         )
 
         propertyViewModel.createProperty(property, photos)
-
         photoViewModel.insertPhotos(photos)
         finish()
     }
 
     private fun updateBddWithNewInformation() {
-        val property = Property(propertyId, type, price, area, rooms, bedrooms, bathrooms, description,
-            photos[0].urlPhoto, address, hospital, school, market, status, entryDate, compromiseDate, soldDate, 1)
+        val property = Property(propertyId, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description,
+            photos[0].urlPhoto, photos.size, street, town, hospital, school, market, status, entryDate, compromiseDate, soldDate, 1)
 
         Timber.d("photoListDetail = ${photosListDetail.size}, $photosListDetail")
         Timber.d("photos = ${photos.size}, $photos")
@@ -293,10 +288,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
                     openGallery()
                 }
 
-                override fun onPermissionRationaleShouldBeShown(
-                    permission: PermissionRequest?,
-                    token: PermissionToken?
-                ) {
+                override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
                     Timber.d("Permission Rationale")
                 }
 
@@ -317,10 +309,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
                     openCamera()
                 }
 
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: MutableList<PermissionRequest>?,
-                    token: PermissionToken?
-                ) {
+                override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {
                     Timber.d("Permission Rationale")
                 }
             })
@@ -354,10 +343,8 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
             image = Photo(0, path, imageDescription, 0)
             photos.add(image)
-
             adapterDetail.notifyDataSetChanged()
         }
-
         builder.show()
     }
 
@@ -368,9 +355,11 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         builder.setPositiveButton(getString(R.string.ok)) { _, _ ->
 
             photos.remove(image)
-
             adapterDetail.notifyDataSetChanged()
         }
+            .setNegativeButton(getString(R.string.cancel)){_, _ ->
+
+            }
         builder.show()
     }
 
@@ -379,9 +368,6 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         val contentText  = "Property $type has been well created"
 
         val bitmap = BitmapFactory.decodeResource(resources, R.drawable.new_york_night)
-        //intent for action if we tap on the notification
-        //val intent = Intent(this, MainActivity::class.java)
-        //val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
         val builder = NotificationCompat.Builder(this, App.channelId)
             .setSmallIcon(R.drawable.logo)
@@ -392,7 +378,6 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setColor(Color.BLUE)
             .setAutoCancel(true)
-            //.setContentIntent(pendingIntent)
             .setOnlyAlertOnce(true)
             .build()
         notificationManager.notify(1,builder)
@@ -401,6 +386,5 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     override fun onClickItem(image : Photo) {
         showDeleteImageDialog(image)
     }
-
 
 }

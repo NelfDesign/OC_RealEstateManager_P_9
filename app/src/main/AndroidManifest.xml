@@ -30,6 +30,7 @@
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"
+            android:theme="@style/addProperty"
             android:windowSoftInputMode="adjustPan" />
 
         <activity android:name=".ui.activity.DetailProperty" />

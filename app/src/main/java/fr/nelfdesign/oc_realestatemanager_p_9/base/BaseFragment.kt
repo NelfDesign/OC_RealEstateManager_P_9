@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import butterknife.ButterKnife
 
 
 /**
@@ -15,15 +14,12 @@ import butterknife.ButterKnife
 abstract class BaseFragment : Fragment() {
 
     // Methods
-    abstract fun getFragmentLayout(): Int
+    abstract fun getFragmentLayout() : Int
 
-    abstract fun configureDesign()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val view : View = inflater.inflate(getFragmentLayout(), container, false)
         //ButterKnife.bind(this, view)
-        this.configureDesign()
-        return view
+        return inflater.inflate(getFragmentLayout(), container, false)
     }
 }

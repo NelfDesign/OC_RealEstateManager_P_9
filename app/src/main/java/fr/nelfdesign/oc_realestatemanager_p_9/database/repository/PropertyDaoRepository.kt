@@ -23,4 +23,31 @@ class PropertyDaoRepository(val propertyDao : PropertyDao) {
     fun updateProperty(property: Property) {
         propertyDao.updateProperty(property)
     }
+
+    fun filterPropertyWithParameters(listType : List<String>, town : String, minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                                     numberPhotos : Int, sold : String, creationDate : String, soldDate : String,
+                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
+            = propertyDao.filterPropertyWithParameters(listType , town , minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
+        numberPhotos , sold, creationDate, soldDate,
+        school, hospital , market)
+
+    fun filterPropertyWithNoTownParameter(listType : List<String>, minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                                     numberPhotos : Int, sold : String, creationDate : String, soldDate : String,
+                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
+            = propertyDao.filterPropertyWithNoTownParameter(listType , minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
+        numberPhotos , sold, creationDate, soldDate,
+        school, hospital , market)
+
+    fun filterPropertyWithOutTypeParameters(town : String, minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                                     numberPhotos : Int, sold : String, creationDate : String, soldDate : String,
+                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
+            = propertyDao.filterPropertyWithOutTypeParameters(town , minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
+        numberPhotos , sold, creationDate, soldDate,
+        school, hospital , market)
+
+    fun filterPropertyWithNoTypeAndNoTownParameter(minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                                     numberPhotos : Int, sold : String, creationDate : String, soldDate : String,
+                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
+            = propertyDao.filterPropertyWithNoTypeAndNoTownParameter(minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
+        numberPhotos , sold, creationDate, soldDate, school, hospital , market)
 }
