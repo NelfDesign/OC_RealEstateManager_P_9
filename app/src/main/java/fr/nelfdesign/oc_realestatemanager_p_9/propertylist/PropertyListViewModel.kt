@@ -39,6 +39,9 @@ class PropertyListViewModel(private val executor: Executor) : ViewModel() {
         }
     }
 
+    /**************************************************************************************************
+     * Filter method
+     *************************************************************************************************/
     fun filterPropertiesWithParameters(
         listType: List<String>, town: String, minPrice: Long, maxPrice: Long, minRoom: Int, maxRoom: Int, minSurface: Int,
         maxSurface: Int, numberPhotos: Int, sold: String, creationDate: String, soldDate: String, school: Boolean, hospital: Boolean, market: Boolean): LiveData<List<Property>> {
@@ -48,28 +51,12 @@ class PropertyListViewModel(private val executor: Executor) : ViewModel() {
             numberPhotos, sold, creationDate, soldDate, school, hospital, market)
     }
 
-    fun filterPropertiesWithOutTypeParameters(
-        town: String, minPrice: Long, maxPrice: Long, minRoom: Int, maxRoom: Int, minSurface: Int, maxSurface: Int,
-        numberPhotos: Int, sold: String, creationDate: String, soldDate: String, school: Boolean, hospital: Boolean, market: Boolean): LiveData<List<Property>> {
-
-        return repositoryProperty.filterPropertyWithOutTypeParameters(
-            town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-            numberPhotos, sold, creationDate, soldDate, school, hospital, market)
-    }
-
     fun filterPropertiesWithNoTownParameter(
         listType : List<String>, minPrice: Long, maxPrice: Long, minRoom: Int, maxRoom: Int, minSurface: Int, maxSurface: Int,
         numberPhotos: Int, sold: String, creationDate: String, soldDate: String, school: Boolean, hospital: Boolean, market: Boolean): LiveData<List<Property>> {
 
         return repositoryProperty.filterPropertyWithNoTownParameter(
             listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-            numberPhotos, sold, creationDate, soldDate, school, hospital, market)
-    }
-
-    fun filterPropertiesWithNoTownAndNoTypeParameter(minPrice: Long, maxPrice: Long, minRoom: Int, maxRoom: Int, minSurface: Int, maxSurface: Int,
-        numberPhotos: Int, sold: String, creationDate: String, soldDate: String, school: Boolean, hospital: Boolean, market: Boolean): LiveData<List<Property>> {
-
-        return repositoryProperty.filterPropertyWithNoTypeAndNoTownParameter(minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
             numberPhotos, sold, creationDate, soldDate, school, hospital, market)
     }
 

@@ -30,6 +30,7 @@ object ContentProviderTestData {
         values.put("compromiseDate", "")
         values.put("sellDate", "")
         values.put("userId", 1)
+        values.put("complete", true)
         return values
     }
 
@@ -56,6 +57,7 @@ object ContentProviderTestData {
         values.put("compromiseDate", "")
         values.put("sellDate", "")
         values.put("userId", 1)
+        values.put("complete", true)
         return values
     }
 
@@ -81,6 +83,7 @@ object ContentProviderTestData {
         values.put("compromiseDate", "")
         values.put("sellDate", "")
         values.put("userId", 1)
+        values.put("complete", true)
         return values
     }
 
@@ -106,6 +109,7 @@ object ContentProviderTestData {
         values.put("compromiseDate", "")
         values.put("sellDate", "")
         values.put("userId", 1)
+        values.put("complete", true)
         return values
     }
 }

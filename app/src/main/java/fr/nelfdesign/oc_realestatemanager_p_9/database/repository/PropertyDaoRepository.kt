@@ -8,7 +8,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
  * Created by Nelfdesign at 02/03/2020
  * fr.nelfdesign.oc_realestatemanager_p_9.database.repository
  */
-class PropertyDaoRepository(val propertyDao : PropertyDao) {
+class PropertyDaoRepository(private val propertyDao : PropertyDao) {
 
     var long : Long = 0
     val properties = propertyDao.getAllProperties()
@@ -37,17 +37,4 @@ class PropertyDaoRepository(val propertyDao : PropertyDao) {
             = propertyDao.filterPropertyWithNoTownParameter(listType , minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
         numberPhotos , sold, creationDate, soldDate,
         school, hospital , market)
-
-    fun filterPropertyWithOutTypeParameters(town : String, minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int, sold : String, creationDate : String, soldDate : String,
-                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
-            = propertyDao.filterPropertyWithOutTypeParameters(town , minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
-        numberPhotos , sold, creationDate, soldDate,
-        school, hospital , market)
-
-    fun filterPropertyWithNoTypeAndNoTownParameter(minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int, sold : String, creationDate : String, soldDate : String,
-                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
-            = propertyDao.filterPropertyWithNoTypeAndNoTownParameter(minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
-        numberPhotos , sold, creationDate, soldDate, school, hospital , market)
 }

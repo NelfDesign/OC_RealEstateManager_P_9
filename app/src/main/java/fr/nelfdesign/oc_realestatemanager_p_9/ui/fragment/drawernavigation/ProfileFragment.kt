@@ -64,7 +64,7 @@ class ProfileFragment : BaseFragment() {
                 if (checkPass(passText, confirmText)) {
                     onClickListener?.onClickConfirmButton()
                 } else {
-                    Utils.makeSnackbar(this.linear_profile, "Password aren't equals")
+                    Utils.makeSnackBar(this.linear_profile, "Password aren't equals")
                 }
             }
         }
@@ -72,7 +72,7 @@ class ProfileFragment : BaseFragment() {
 
     private fun getData() {
         if (passText == "" || confirmText == ""){
-            Utils.makeSnackbar(this.linear_profile, "Password are necessary")
+            Utils.makeSnackBar(this.linear_profile, "Password are necessary")
             return
         }
         passText = password_edit.text.toString()

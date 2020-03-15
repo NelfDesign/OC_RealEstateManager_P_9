@@ -37,7 +37,7 @@
     <dimen name="height_50">50dp</dimen>
     <dimen name="radius_4">4dp</dimen>
     <dimen name="width_30dp">30dp</dimen>
-
+    <dimen name="image_80">80dp</dimen>
 
 
 </resources>

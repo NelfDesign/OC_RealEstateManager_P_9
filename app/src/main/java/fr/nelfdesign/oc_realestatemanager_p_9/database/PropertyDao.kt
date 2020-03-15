@@ -29,32 +29,12 @@ interface PropertyDao {
                                      school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
 
     @Query("""SELECT * FROM property 
-                    WHERE town LIKE :town AND price BETWEEN :minPrice AND :maxPrice AND room_number BETWEEN :minRoom AND :maxRoom 
-                    AND area BETWEEN :minSurface AND :maxSurface AND numberPhotos BETWEEN 0 AND :numberPhotos AND status = :sold 
-                    AND entry_date >= :creationDate AND sell_date >= :soldDate AND school = :school 
-                    AND hospital = :hospital AND market = :market
-    """)
-    fun filterPropertyWithOutTypeParameters(town : String, minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int , sold : String, creationDate : String, soldDate : String,
-                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
-
-    @Query("""SELECT * FROM property 
                     WHERE type IN (:listType) AND price BETWEEN :minPrice AND :maxPrice 
                     AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface 
                     AND numberPhotos BETWEEN 0 AND :numberPhotos AND status = :sold AND entry_date >= :creationDate 
                     AND sell_date >= :soldDate AND school = :school AND hospital = :hospital AND market = :market
     """)
     fun filterPropertyWithNoTownParameter(listType : List<String>, minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int , sold : String, creationDate : String, soldDate : String,
-                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
-
-    @Query("""SELECT * FROM property 
-                    WHERE price BETWEEN :minPrice AND :maxPrice 
-                    AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface 
-                    AND numberPhotos BETWEEN 0 AND :numberPhotos AND status = :sold AND entry_date >= :creationDate 
-                    AND sell_date >= :soldDate AND school = :school AND hospital = :hospital AND market = :market
-    """)
-    fun filterPropertyWithNoTypeAndNoTownParameter(minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
                                      numberPhotos : Int , sold : String, creationDate : String, soldDate : String,
                                      school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
 

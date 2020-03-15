@@ -111,6 +111,7 @@
     <string name="filter_properties">Filter properties</string>
     <string name="no_property_for_this_filter">No property for this filter</string>
     <string name="cancel">Cancel</string>
+    <string name="estate_not_complete">Estate not complete</string>
 
 
 </resources>

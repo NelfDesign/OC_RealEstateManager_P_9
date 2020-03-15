@@ -1,15 +1,16 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.utils;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
@@ -17,11 +18,11 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import fr.nelfdesign.oc_realestatemanager_p_9.R;
+import timber.log.Timber;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -47,7 +48,7 @@ public class Utils {
      * @param euro price in Euro
      * @return price in Dollars
      */
-    public static int convertEuroToDollar(int euro) {
+    static int convertEuroToDollar(int euro) {
         return (int) Math.round(euro * 1.13);
     }
 
@@ -67,18 +68,75 @@ public class Utils {
      * Vérification de la connexion réseau
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      *
-     * @param context
-     * @return
+     * @param context of the app
+     * @return true if WIFI is available
      */
     public static Boolean isInternetAvailable(Context context) {
         WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         return wifi != null && wifi.isWifiEnabled();
     }
 
-    public static void makeSnackbar(View view, String message){
+    /**
+     * check if Network is available
+     *
+     * @param context of the app
+     * @return true if able
+     */
+    public static LiveData<Boolean>  isNetworkAvailable(Context context) {
+        MutableLiveData<Boolean> booleanLiveData = new MutableLiveData<>();
+
+        if(context == null) {
+            booleanLiveData.setValue(false);
+            return booleanLiveData;
+        }
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager != null) {
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+                if (capabilities != null) {
+                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                        booleanLiveData.setValue(true);
+                        return booleanLiveData;
+                    } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                        booleanLiveData.setValue(true);
+                        return booleanLiveData;
+                    }
+                }
+            } else {
+                try {
+                    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                    if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                        Timber.i( "Network is available : true");
+                        booleanLiveData.setValue(true);
+                        return booleanLiveData;
+                    }
+                } catch (Exception e) {
+                    Timber.i(e);
+                }
+            }
+        }
+        Timber.i("Network is available : FALSE ");
+        booleanLiveData.setValue(false);
+        return booleanLiveData;
+    }
+
+
+    /**
+     * create Snackbar message
+     * @param view to put in
+     * @param message to be see
+     */
+    public static void makeSnackBar(View view, String message){
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
+    /**
+     * Format number with only 2 number after coma
+     * @param number to format
+     * @return String
+     */
     public static String formatNumber(Double number){
         DecimalFormat f = new DecimalFormat();
         f.setMaximumFractionDigits(2);
@@ -88,14 +146,18 @@ public class Utils {
 
     /**
      *
-     * @param text tobe checked
+     * @param text to be checked
      * @return true if able
      */
     public static boolean checkEditTextInput(String text){
         return text != null && !text.equals("");
     }
 
-
+    /**
+     * chip configuration
+     * @param chip to be checked
+     * @param context of the fragment
+     */
     public static void stateChip(Chip chip, Context context) {
         if (chip.isChecked()) {
             chip.setTextColor(ContextCompat.getColor(context, R.color.accent));
@@ -106,6 +168,11 @@ public class Utils {
         }
     }
 
+    /**
+     * check if data is not empty for filter
+     * @param text to be checked
+     * @return number
+     */
     public static int checkData(String text){
         int number;
         if (!text.equals("")){
@@ -116,12 +183,31 @@ public class Utils {
         return number;
     }
 
+    /**
+     * check if data is not empty for filter
+     * @param text to be checked
+     * @return number
+     */
     public static int checkMaxData(String text){
         int number;
         if (text.equals("")){
             number = Integer.MAX_VALUE;
         }else number = Math.min(Integer.parseInt(text), Integer.MAX_VALUE);
         return number;
+    }
+
+    /**
+     *
+     * @param street of the estate
+     * @param town of estate
+     * @return string
+     */
+    public static String  buildTextAddress(String street ,  String town){
+        StringBuilder text = new StringBuilder();
+        text.append(street);
+        text.append(", ");
+        text.append(town);
+        return text.toString();
     }
 
 }

@@ -37,7 +37,8 @@ data class Property(
             @ColumnInfo(name = "sell_date")
             var sellDate: String,
             @ColumnInfo(name = "user_id")
-            var userId: Int
+            var userId: Int,
+            var complete : Boolean = false
 ) {
 
     companion object{
@@ -67,6 +68,7 @@ data class Property(
             if (values.containsKey("compromiseDate")) property.compromiseDate = values.getAsString("compromiseDate")
             if (values.containsKey("sellDate")) property.sellDate = values.getAsString("sellDate")
             if (values.containsKey("userId")) property.userId = values.getAsInteger("userId")
+            if (values.containsKey("complete")) property.complete = values.getAsBoolean("complete")
 
             return property
         }

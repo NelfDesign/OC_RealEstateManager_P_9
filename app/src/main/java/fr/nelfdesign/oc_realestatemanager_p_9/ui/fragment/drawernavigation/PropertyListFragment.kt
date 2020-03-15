@@ -117,11 +117,14 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
         val mAlertDialog = mBuilder.show()
 
         mDialog.button_filter.setOnClickListener {
+            val  list : List<String> = listOf("Manor", "Penthouse", "Loft", "House")
             val listType = ArrayList<String>()
+
             if (mDialog.radio_Manor.isChecked) listType.add(mDialog.radio_Manor.text.toString())
             if (mDialog.radio_Penthouse.isChecked) listType.add(mDialog.radio_Penthouse.text.toString())
             if (mDialog.radio_Loft.isChecked) listType.add( mDialog.radio_Loft.text.toString())
             if (mDialog.radio_house.isChecked) listType.add(mDialog.radio_house.text.toString())
+            if (!mDialog.radio_Manor.isChecked && !mDialog.radio_Penthouse.isChecked && !mDialog.radio_Loft.isChecked && !mDialog.radio_house.isChecked) listType.addAll(list)
 
              town = mDialog.filter_town.text.toString()
              minPrice = checkData(mDialog.filter_min_price.text.toString()).toLong()
@@ -158,7 +161,6 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
     }
 
     private fun refreshListProperty(listType : List<String>) {
-        if (listType.isNotEmpty()){
             if (town != ""){
                 viewModel.filterPropertiesWithParameters(
                     listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
@@ -170,19 +172,6 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
                     numberPhotos, sold, entryDate, sellDate, hospital, school, market
                 ).observe(viewLifecycleOwner, Observer { propertyFilter -> updateProperty(propertyFilter) })
             }
-        }else{
-            if (town != ""){
-                viewModel.filterPropertiesWithOutTypeParameters(
-                    town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                    numberPhotos, sold, entryDate, sellDate, hospital, school, market
-                ).observe(viewLifecycleOwner, Observer { propertyFilter -> updateProperty(propertyFilter)})
-            }else{
-                viewModel.filterPropertiesWithNoTownAndNoTypeParameter(minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                    numberPhotos, sold, entryDate, sellDate, hospital, school, market
-                ).observe(viewLifecycleOwner, Observer { propertyFilter -> updateProperty(propertyFilter)})
-            }
-
-        }
 
     }
 

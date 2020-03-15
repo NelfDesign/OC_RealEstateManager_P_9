@@ -81,7 +81,7 @@ class ConnexionActivity : BaseActivity() {
                         connected()
                         Timber.d("name = $login et pass = $pass et check = $isChecked")
                     } else {
-                        Utils.makeSnackbar(this.linear_connection, "Login or password isn't correct.")
+                        Utils.makeSnackBar(this.linear_connection, "Login or password isn't correct.")
                     }
                 }
             }
@@ -100,7 +100,7 @@ class ConnexionActivity : BaseActivity() {
                 .putBoolean("pref_check", checkbox_connexion.isChecked)
                 .apply()
         Timber.d("Shared saved login= $login, pass = $pass et checked = $isChecked")
-        Utils.makeSnackbar(this.linear_connection, "Pref saved")
+        Utils.makeSnackBar(this.linear_connection, "Pref saved")
         startMainActivity()
     }
 

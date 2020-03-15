@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import fr.nelfdesign.oc_realestatemanager_p_9.R
@@ -30,6 +31,7 @@ class PropertyListAdapter(private val properties : List<Property>, private val l
         val propertyType = itemView.text_type_property!!
         val propertyAddress = itemView.text_address!!
         val price = itemView.price_text!!
+        val notComplete = itemView.not_complete!!
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,8 +47,12 @@ class PropertyListAdapter(private val properties : List<Property>, private val l
            cardView.tag = property
            propertyType.text = property.type
            propertyAddress.text = property.town
-
            val resources: Resources = holder.itemView.resources
+           if (!property.complete) {
+               notComplete.visibility = View.VISIBLE
+               cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context , R.color.backgroundActivity))
+           }
+
            if (PropertyListFragment.DEVISE == "dollars"){
                price.text = resources.getString(R.string.devise_dollars, Utils.formatNumber(property.price))
            }else{
