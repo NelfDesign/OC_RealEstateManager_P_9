@@ -1,4 +1,4 @@
-package fr.nelfdesign.oc_realestatemanager_p_9.ui.activity
+package fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,26 +6,26 @@ import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import butterknife.OnClick
 import fr.nelfdesign.oc_realestatemanager_p_9.R
-import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseActivity
+import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseFragment
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Photo
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.Injection
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PhotoListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PropertyListViewModel
+import fr.nelfdesign.oc_realestatemanager_p_9.ui.activity.AddPropertyActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.DetailAdapter
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.buildTextAddress
-import kotlinx.android.synthetic.main.activity_detail_property.*
+import kotlinx.android.synthetic.main.fragment_detail_property.*
 import timber.log.Timber
 
 
-class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
+class DetailPropertyFragment : BaseFragment(), DetailAdapter.onClickItemListener {
 
     private lateinit var adapterDetail: DetailAdapter
     private lateinit var photoViewModel : PhotoListViewModel
@@ -35,44 +35,40 @@ class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
 
     companion object{
         const val PROPERTY_ID = "propertyId"
+        var PROPERTY_ID_DETAIL  : Long = 0
     }
 
-    override fun getActivityLayout(): Int {
-        return R.layout.activity_detail_property
+    override fun getFragmentLayout(): Int {
+        return R.layout.fragment_detail_property
     }
 
-    override fun getToolbar(): Toolbar? {
-        return null
-    }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        propertyId = intent.getLongExtra(PROPERTY_ID, 1)
+        propertyId =  PROPERTY_ID_DETAIL
         Timber.d("property id is $propertyId")
+
         photos = mutableListOf()
 
         configureViewModel(propertyId)
         adapterDetail = DetailAdapter(photos, this)
-
         configureRecyclerView()
-    }
 
-    @OnClick(R.id.button_update)
-    fun updateButton(){
-        intent = Intent(this, AddPropertyActivity::class.java)
-        intent.putExtra(PROPERTY_ID, propertyId)
-        startActivity(intent)
-        finish()
+        button_update.setOnClickListener {
+            val intent = Intent(requireContext(), AddPropertyActivity::class.java)
+            intent.putExtra(PROPERTY_ID, propertyId)
+            startActivity(intent)
+            Timber.d("Click on update button")
+        }
     }
 
     private fun configureViewModel(propertyId : Long){
         val factory = Injection.provideViewModelFactory()
         photoViewModel = ViewModelProvider(this, factory).get(PhotoListViewModel::class.java)
-        photoViewModel.getPhotoToDisplay(propertyId).observe(this, Observer { list -> updatePhotos(list) })
+        photoViewModel.getPhotoToDisplay(propertyId).observe(viewLifecycleOwner, Observer { list -> updatePhotos(list) })
 
         propertyViewModel = ViewModelProvider(this, factory).get(PropertyListViewModel::class.java)
-        propertyViewModel.getPropertyById(propertyId).observe(this, Observer { property -> updateProperty(property) })
+        propertyViewModel.getPropertyById(propertyId).observe(viewLifecycleOwner, Observer { property -> updateProperty(property) })
     }
 
     private fun updatePhotos(list : List<Photo>) {
@@ -83,7 +79,7 @@ class DetailProperty : BaseActivity(), DetailAdapter.onClickItemListener {
     }
 
     private fun configureRecyclerView() {
-        val linear = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val linear = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recycler_detail.apply {
             layoutManager = linear
             itemAnimator = DefaultItemAnimator()

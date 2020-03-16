@@ -1,6 +1,7 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -13,7 +14,6 @@ import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.Injection
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PropertyListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.activity.AddPropertyActivity
-import fr.nelfdesign.oc_realestatemanager_p_9.ui.activity.DetailProperty
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.PropertyListAdapter
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.checkData
@@ -27,6 +27,10 @@ import timber.log.Timber
  *
  */
 class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAdapterListener {
+
+    interface OnClickEstateListener{
+        fun onClickItemEstate(propertyId : Long)
+    }
 
     private lateinit var viewModel: PropertyListViewModel
     private lateinit var propertyListAdapter: PropertyListAdapter
@@ -45,6 +49,7 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
     private var hospital: Boolean = false
     private var school : Boolean = false
     private var market: Boolean = false
+    private var listener : OnClickEstateListener? = null
 
         companion object {
         internal var DEVISE : String = "dollars"
@@ -58,6 +63,20 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnClickEstateListener){
+            listener = context
+        }else{
+            throw RuntimeException("$context must implemente PropertyListFragment interface")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -182,9 +201,10 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
     }
 
     override fun onPropertySelected(property: Property) {
-        val intent = Intent(context, DetailProperty::class.java)
-        intent.putExtra(DetailProperty.PROPERTY_ID, property.id)
-        startActivity(intent)
+        /*val intent = Intent(requireContext(), DetailPropertyFragment::class.java)
+        intent.putExtra(PROPERTY_ID, property.id)
+        startActivity(intent)*/
+        listener?.onClickItemEstate(property.id)
     }
 
 }

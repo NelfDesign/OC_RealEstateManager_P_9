@@ -34,10 +34,9 @@
             android:theme="@style/addProperty"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name=".ui.activity.DetailProperty" />
-
         <activity android:name=".ui.activity.AddPropertyActivity"
-            android:theme="@style/addProperty"/>
+            android:theme="@style/addProperty"
+            android:screenOrientation="fullSensor"/>
 
         <provider
             android:authorities="fr.nelfdesign.oc_realestatemanager_p_9.provider"

@@ -37,11 +37,10 @@ import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.Injection
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PhotoListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PropertyListViewModel
-import fr.nelfdesign.oc_realestatemanager_p_9.ui.activity.DetailProperty.Companion.PROPERTY_ID
+import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.DetailPropertyFragment.Companion.PROPERTY_ID
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.DetailAdapter
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.*
 import kotlinx.android.synthetic.main.activity_addproperty.*
-import kotlinx.android.synthetic.main.item_property.*
 import kotlinx.android.synthetic.main.toolbar.*
 import timber.log.Timber
 
