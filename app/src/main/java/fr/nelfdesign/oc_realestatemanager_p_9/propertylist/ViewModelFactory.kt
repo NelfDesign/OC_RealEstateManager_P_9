@@ -2,6 +2,7 @@ package fr.nelfdesign.oc_realestatemanager_p_9.propertylist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import fr.nelfdesign.oc_realestatemanager_p_9.google_map.MapViewModel
 import java.util.concurrent.Executor
 
 
@@ -16,6 +17,7 @@ class ViewModelFactory(private val executor : Executor) : ViewModelProvider.Fact
         when{
             modelClass.isAssignableFrom(PropertyListViewModel::class.java) -> return PropertyListViewModel( executor) as T
             modelClass.isAssignableFrom(PhotoListViewModel::class.java) -> return PhotoListViewModel( executor) as T
+            modelClass.isAssignableFrom(MapViewModel::class.java) -> return MapViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

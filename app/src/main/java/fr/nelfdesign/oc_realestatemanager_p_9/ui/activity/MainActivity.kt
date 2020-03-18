@@ -11,11 +11,13 @@ import androidx.navigation.ui.*
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QueryDocumentSnapshot
-import fr.nelfdesign.oc_realestatemanager_p_9.R.*
+import fr.nelfdesign.oc_realestatemanager_p_9.R.id
+import fr.nelfdesign.oc_realestatemanager_p_9.R.layout
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.firebase.UsersHelpers
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.DetailPropertyFragment
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.DetailPropertyFragment.Companion.PROPERTY_ID_DETAIL
+import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.MapFragment
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.ProfileFragment
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.PropertyListFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,7 +25,8 @@ import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
-class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListener, PropertyListFragment.OnClickEstateListener {
+class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListener,
+    PropertyListFragment.OnClickEstateListener, MapFragment.OnClickMarkerListener {
 
     //Fields
     private lateinit var mQuery: Query
@@ -31,7 +34,7 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     companion object LoginUser {
-        var LOGIN_USER : String = ""
+        var LOGIN_USER: String = ""
     }
 
     /*****************************************************************************************
@@ -47,6 +50,7 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         navController = findNavController(id.navHostFragment)
 
@@ -107,12 +111,12 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
     /**
      *
      */
-   /* private fun logOutApplication() {
-        val pref = getSharedPreferences("SharedConnection", Context.MODE_PRIVATE).edit()
-        pref.putBoolean("pref_check", false)
-            .putString("pref_pass", "")
-            .apply()
-    }*/
+    /* private fun logOutApplication() {
+         val pref = getSharedPreferences("SharedConnection", Context.MODE_PRIVATE).edit()
+         pref.putBoolean("pref_check", false)
+             .putString("pref_pass", "")
+             .apply()
+     }*/
 
     /**
      * listener for click on confirm button in profile fragment
@@ -123,14 +127,21 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
 
     override fun onClickItemEstate(propertyId: Long) {
         PROPERTY_ID_DETAIL = propertyId
-        if (frameLayout_container_detail != null){
+        if (frameLayout_container_detail != null) {
             val fragmentDetail = DetailPropertyFragment()
             supportFragmentManager.beginTransaction()
                 .replace(id.frameLayout_container_detail, fragmentDetail)
-                .commit();
-        }else{
+                .commit()
+        } else {
             navController.navigate(id.action_nav_property_to_detailPropertyFragment)
         }
+
+    }
+
+    override fun onClickMarkerEstate(propertyId: Long) {
+        PROPERTY_ID_DETAIL = propertyId
+
+        navController.navigate(id.detailPropertyFragment)
 
     }
 

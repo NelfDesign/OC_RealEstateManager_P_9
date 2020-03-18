@@ -22,7 +22,7 @@
     <dimen name="text_14">14sp</dimen>
     <dimen name="text_18">18sp</dimen>
     <dimen name="text_22">22sp</dimen>
-    <dimen name="text_24">24sp</dimen>
+    <dimen name="text_24">36sp</dimen>
 
     <!-- image size -->
     <dimen name="image_200">200dp</dimen>
@@ -33,7 +33,7 @@
     <!-- layout size -->
     <dimen name="height_100">100dp</dimen>
     <dimen name="width_200">200dp</dimen>
-    <dimen name="width_300">300dp</dimen>
+    <dimen name="width_300">600dp</dimen>
     <dimen name="height_70">70dp</dimen>
     <dimen name="height_50">50dp</dimen>
     <dimen name="radius_4">4dp</dimen>

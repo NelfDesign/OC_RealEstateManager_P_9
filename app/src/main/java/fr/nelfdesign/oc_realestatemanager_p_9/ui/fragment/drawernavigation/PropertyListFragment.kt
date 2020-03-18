@@ -201,9 +201,6 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
     }
 
     override fun onPropertySelected(property: Property) {
-        /*val intent = Intent(requireContext(), DetailPropertyFragment::class.java)
-        intent.putExtra(PROPERTY_ID, property.id)
-        startActivity(intent)*/
         listener?.onClickItemEstate(property.id)
     }
 

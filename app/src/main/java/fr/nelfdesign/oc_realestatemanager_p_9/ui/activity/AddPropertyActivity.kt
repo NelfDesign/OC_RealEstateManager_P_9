@@ -76,6 +76,8 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     private var school: Boolean = false
     private var market: Boolean = false
     private var complete: Boolean = true
+    private var estateLat: Double = 0.0
+    private var estateLong : Double = 0.0
 
     companion object {
         private const val RESULT_CAMERA_CODE = 20
@@ -237,7 +239,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     private fun createPropertyInBdd() {
         val property = Property(
             0, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description, photos[0].urlPhoto,
-            photos.size, street, town, hospital, school, market, status, entryDate, "", "", 1, complete
+            photos.size, street, town, estateLat, estateLong, hospital, school, market, status, entryDate, "", "", 1, complete
         )
 
         propertyViewModel.createProperty(property, photos)
@@ -247,7 +249,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun updateBddWithNewInformation() {
         val property = Property(propertyId, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description,
-            photos[0].urlPhoto, photos.size, street, town, hospital, school, market, status, entryDate, compromiseDate, soldDate, 1, complete
+            photos[0].urlPhoto, photos.size, street, town, estateLat, estateLong, hospital, school, market, status, entryDate, compromiseDate, soldDate, 1, complete
         )
 
         Timber.d("photoListDetail = ${photosListDetail.size}, $photosListDetail")

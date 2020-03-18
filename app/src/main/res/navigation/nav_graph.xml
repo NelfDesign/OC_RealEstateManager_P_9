@@ -33,5 +33,11 @@
         android:label="Estate details"
         tools:layout="@layout/fragment_detail_property" />
 
+    <fragment
+        android:id="@+id/nav_map"
+        android:name="fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.MapFragment"
+        android:label="Estate Map"
+        tools:layout="@layout/fragment_map" />
+
 
 </navigation>

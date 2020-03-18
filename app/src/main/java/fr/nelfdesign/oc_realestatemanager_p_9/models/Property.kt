@@ -26,6 +26,10 @@ data class Property(
             var numberPhotos : Int,
             var street : String,
             var town : String,
+            @ColumnInfo(name = "estate_lat")
+            var estateLat : Double? = null,
+            @ColumnInfo(name = "estate_long")
+            var estateLong : Double? = null,
             var hospital: Boolean = false,
             var school: Boolean = false,
             var market: Boolean = false,
@@ -44,9 +48,10 @@ data class Property(
     companion object{
 
         fun fromContentValues(values: ContentValues) : Property {
-            val property = Property(0, "",0.0,0.0,0,0,0,0,"","",0, "", "", hospital = false
-            , school = false, market = false, status = "", entryDate = "",
-                compromiseDate = "", sellDate = "", userId = 0)
+            val property = Property(0, "",0.0,0.0,0,0,0,0,"",
+                "",0, "", "", null, null, hospital = false, school = false, market = false, status = "",
+                entryDate = "", compromiseDate = "", sellDate = "", userId = 0)
+
             if (values.containsKey("id")) property.id = values.getAsLong("id")
             if (values.containsKey("type")) property.type = values.getAsString("type")
             if (values.containsKey("price")) property.price = values.getAsDouble("price")
@@ -60,6 +65,8 @@ data class Property(
             if (values.containsKey("numberPhotos")) property.numberPhotos = values.getAsInteger("numberPhotos")
             if (values.containsKey("street")) property.street = values.getAsString("street")
             if (values.containsKey("town")) property.town = values.getAsString("town")
+            if (values.containsKey("estateLat")) property.estateLat = values.getAsDouble("estateLat")
+            if (values.containsKey("estateLong")) property.estateLong = values.getAsDouble("estateLong")
             if (values.containsKey("hospital")) property.hospital = values.getAsBoolean("hospital")
             if (values.containsKey("school")) property.school = values.getAsBoolean("school")
             if (values.containsKey("market")) property.market = values.getAsBoolean("market")
@@ -96,4 +103,12 @@ data class Photo(
     var name: String,
     @ColumnInfo(name = "property_id")
     var propertyId: Long
+)
+
+data class Poi(
+    var name : String,
+    var street : String,
+    var lat : Double,
+    var long : Double,
+    var estateId : Long
 )

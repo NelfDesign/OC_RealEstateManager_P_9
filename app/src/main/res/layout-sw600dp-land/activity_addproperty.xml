@@ -311,37 +311,44 @@
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_hospital"
                             style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/image_200"
+                            android:layout_height="@dimen/margin_75"
                             android:layout_margin="@dimen/margin_5"
                             android:text="@string/hospital"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:textColor="@color/icons"
                             app:chipBackgroundColor="@color/primary"
                             app:chipIcon="@drawable/ic_hospital"
+                            app:chipIconSize="@dimen/height_50"
                             app:chipIconEnabled="true" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_school"
                             style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/image_200"
+                            android:layout_height="@dimen/margin_75"
                             android:layout_margin="@dimen/margin_5"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:text="@string/school"
+                            android:textStyle="bold"
                             android:textColor="@color/icons"
                             app:chipBackgroundColor="@color/primary"
                             app:chipIcon="@drawable/ic_school"
+                            app:chipIconSize="@dimen/height_50"
                             app:chipIconEnabled="true" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_market"
                             style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/image_200"
+                            android:layout_height="@dimen/margin_75"
                             android:layout_margin="@dimen/margin_5"
                             android:text="@string/market"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:textColor="@color/icons"
                             app:chipBackgroundColor="@color/primary"
                             app:chipIcon="@drawable/ic_type"
+                            app:chipIconSize="@dimen/height_50"
                             app:chipIconEnabled="true"
                             app:chipIconVisible="true" />
 
