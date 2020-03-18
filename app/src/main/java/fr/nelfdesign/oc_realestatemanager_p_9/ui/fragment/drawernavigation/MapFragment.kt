@@ -12,6 +12,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.karumi.dexter.Dexter
@@ -22,6 +23,8 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import fr.nelfdesign.oc_realestatemanager_p_9.R
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseFragment
+import fr.nelfdesign.oc_realestatemanager_p_9.connectivity.ConnectivityLiveDataViewModel
+import fr.nelfdesign.oc_realestatemanager_p_9.google_map.EstateInfoWindowAdapter
 import fr.nelfdesign.oc_realestatemanager_p_9.google_map.MapViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Poi
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
@@ -47,11 +50,14 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
     private lateinit var mapOptions: GoogleMapOptions
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var mMapViewModel: MapViewModel
-    private var lastPosition: LatLng? = null
     private lateinit var estateViewModel : PropertyListViewModel
+    private lateinit var networkConnection : ConnectivityLiveDataViewModel
+
+    private val factory = Injection.provideViewModelFactory()
     private var estateList : MutableList<Property> = mutableListOf()
     private var poiList : MutableList<Poi> = mutableListOf()
     private var listener : OnClickMarkerListener? = null
+    private var lastPosition: LatLng? = null
 
     override fun getFragmentLayout(): Int {
         return R.layout.fragment_map
@@ -60,10 +66,21 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //NetWork enable verification
+        networkConnection = ViewModelProvider(this, factory).get(ConnectivityLiveDataViewModel::class.java)
+
         mapOptions = GoogleMapOptions()
             .mapType(GoogleMap.MAP_TYPE_NORMAL)
             .zoomControlsEnabled(true)
             .zoomGesturesEnabled(true)
+    }
+
+    private fun getConnexion( isConnected : Boolean) {
+        if (isConnected){
+            initMap()
+        }else{
+            Utils.makeSnackBar(content_map, getString(R.string.no_internet))
+        }
     }
 
 
@@ -74,14 +91,14 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
     ): View? {
 
         // Location Services
-        mFusedLocationClient =
-            LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(requireContext()))
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(requireContext()))
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onStart() {
         super.onStart()
-        initMap()
+        networkConnection.isConnected.observe(viewLifecycleOwner, androidx.lifecycle.Observer { it -> getConnexion(it) })
     }
 
     override fun onAttach(context: Context) {
@@ -100,9 +117,10 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
 
     override fun onMapReady(map: GoogleMap) {
         mGoogleMap = map
+        mGoogleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.maps_style))
+        mGoogleMap.setInfoWindowAdapter(EstateInfoWindowAdapter(requireContext()))
         Timber.i("Map ready")
 
-        val factory = Injection.provideViewModelFactory()
         estateViewModel = ViewModelProvider(this, factory).get(PropertyListViewModel::class.java)
         estateViewModel.properties.observe(viewLifecycleOwner, androidx.lifecycle.Observer { properties -> getEstates(properties) })
         mMapViewModel = ViewModelProvider(this, factory).get(MapViewModel::class.java)
@@ -141,13 +159,9 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
             .addOnSuccessListener(Objects.requireNonNull(requireActivity())) { location ->
                 if (location != null) {
                     // get the location phone
-                    lastPosition = LatLng(
-                        location.latitude,
-                        location.longitude
-                    )
+                    lastPosition = LatLng(location.latitude, location.longitude)
                     Timber.i("LastLocation : $lastPosition")
                     //Update UI with information
-                    //val newYork = LatLng(40.734402, -73.949882)
                     updateUiMap(lastPosition!!)
                 }
             }
@@ -186,7 +200,8 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
         val marker = map.addMarker(markerOptions)
         //Add tag to save restaurant placeId for earlier
         if (poi.estateId > 0){
-            marker.tag = poi.estateId
+            marker.tag = poi
+            marker.zIndex = poi.estateId.toFloat()
             marker.title = poi.name
         }
     }
@@ -209,7 +224,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
 
     private fun launchEstateDetail(marker: Marker) {
 
-        listener?.onClickMarkerEstate(marker.tag as Long)
+        listener?.onClickMarkerEstate(marker.zIndex.toLong())
     }
 
 }

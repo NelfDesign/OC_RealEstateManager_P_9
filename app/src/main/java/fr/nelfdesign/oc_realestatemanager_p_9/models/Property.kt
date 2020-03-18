@@ -108,6 +108,7 @@ data class Photo(
 data class Poi(
     var name : String,
     var street : String,
+    var photo : String,
     var lat : Double,
     var long : Double,
     var estateId : Long

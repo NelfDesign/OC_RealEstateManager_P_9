@@ -23,6 +23,7 @@ class App : Application() {
         lateinit var db : Database
         lateinit var repository : PropertyRepository
         lateinit var channelId : String
+        lateinit var appContext : Context
     }
 
     override fun onCreate() {
@@ -31,6 +32,8 @@ class App : Application() {
 
         db = Room.databaseBuilder(this, Database::class.java, DATABASE_NAME)
             .build()
+
+        appContext = applicationContext
 
         channelId = "fr.nelfdesign.oc_realestatemanager_p_9.app"
 

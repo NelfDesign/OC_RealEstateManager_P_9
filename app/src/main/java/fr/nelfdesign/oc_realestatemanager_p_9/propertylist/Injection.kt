@@ -1,6 +1,7 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.propertylist
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.app.App.Companion.db
 import fr.nelfdesign.oc_realestatemanager_p_9.database.repository.PropertyDaoRepository
 import java.util.concurrent.Executor
@@ -23,7 +24,6 @@ class Injection {
         }
 
         fun provideViewModelFactory() : ViewModelFactory{
-           // val propertyDataSource = providePropertyDataSource()
             val executor = provideExecutor()
             return ViewModelFactory(executor)
         }

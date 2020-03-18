@@ -23,6 +23,7 @@ class MapViewModel : ViewModel() {
             val p = Poi(
                 name = estate.type,
                 street = estate.street,
+                photo = estate.photo,
                 lat = estate.estateLat!!,
                 long = estate.estateLong!!,
                 estateId = estate.id

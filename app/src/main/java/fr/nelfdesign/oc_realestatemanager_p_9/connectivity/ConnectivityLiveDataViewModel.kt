@@ -11,6 +11,6 @@ import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils
  */
 class ConnectivityLiveDataViewModel(val context: Context) : ViewModel() {
 
-    val isConnected = Utils.isNetworkAvailable(context)
+    val isConnected: LiveData<Boolean> = Utils.isNetworkAvailable(context)
 
 }
