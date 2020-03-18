@@ -10,7 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import butterknife.OnClick
+import com.bumptech.glide.Glide
+import fr.nelfdesign.oc_realestatemanager_p_9.BuildConfig
 import fr.nelfdesign.oc_realestatemanager_p_9.R
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseFragment
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Photo
@@ -23,6 +24,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.DetailAdapter
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.buildTextAddress
 import kotlinx.android.synthetic.main.fragment_detail_property.*
 import timber.log.Timber
+import java.lang.StringBuilder
 
 
 class DetailPropertyFragment : BaseFragment(), DetailAdapter.onClickItemListener {
@@ -103,6 +105,13 @@ class DetailPropertyFragment : BaseFragment(), DetailAdapter.onClickItemListener
         if (property.market) poi_market.visibility = View.VISIBLE
         showCompromiseAndSoldText(property.compromiseDate, compromise_date, layout_compromise)
         showCompromiseAndSoldText(property.sellDate, sold_date, layout_sold)
+
+        val streetText = makeStreetString(property.street)
+        val uri = "https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=600x300&maptype=roadmap&markers=color:red%7Clabel:P%7C"+ streetText +"&center=" + streetText + "&key=" + BuildConfig.google_maps_key
+        Glide.with(this)
+            .load(uri)
+            .centerCrop()
+            .into(mini_Map)
     }
 
     private fun showCompromiseAndSoldText(text : String?, textView : TextView, layout : LinearLayout){
@@ -110,6 +119,16 @@ class DetailPropertyFragment : BaseFragment(), DetailAdapter.onClickItemListener
             layout.visibility = View.VISIBLE
             textView.text = text
         }
+    }
+
+    private fun makeStreetString(address : String): String {
+        val str = StringBuilder()
+        val arrayString = address.toLowerCase().split(" ").toTypedArray()
+        for (word in arrayString) {
+            str.append(word)
+            str.append("+")
+        }
+        return str.toString()
     }
 
     /**

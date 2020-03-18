@@ -119,6 +119,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
             propertyViewModel.getPropertyById(propertyId)
                 .observe(this, Observer { property -> updateUi(property) })
         }
+
     }
 
     private fun updateAdapter(photoList: List<Photo>) {
@@ -206,7 +207,6 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
             || !checkEditTextInput(card_bedroom.text.toString()) || !checkEditTextInput(card_bathroom.text.toString()) || !checkEditTextInput(card_price.text.toString())
         ) {
             complete = false
-            //makeSnackBar(constraint_add, getString(R.string.error_message_add))
         }
 
         type = text_type.text.toString()

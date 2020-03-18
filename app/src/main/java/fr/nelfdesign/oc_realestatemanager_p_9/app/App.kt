@@ -4,7 +4,6 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.graphics.Typeface
 import android.os.Build
 import androidx.room.Room
 import fr.nelfdesign.oc_realestatemanager_p_9.database.DATABASE_NAME
@@ -12,6 +11,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.database.Database
 import fr.nelfdesign.oc_realestatemanager_p_9.repository.PropertyRepository
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+
 
 /**
  * Created by Nelfdesign at 03/02/2020

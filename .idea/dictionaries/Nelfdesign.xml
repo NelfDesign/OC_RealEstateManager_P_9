@@ -2,8 +2,11 @@
   <dictionary name="Nelfdesign">
     <words>
       <w>drawernavigation</w>
+      <w>maptype</w>
       <w>nelfdesign</w>
       <w>realestatemanager</w>
+      <w>roadmap</w>
+      <w>staticmap</w>
     </words>
   </dictionary>
 </component>
