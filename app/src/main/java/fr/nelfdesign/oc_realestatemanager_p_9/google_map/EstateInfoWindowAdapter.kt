@@ -1,6 +1,7 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.google_map
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import com.google.android.gms.maps.GoogleMap
@@ -23,7 +24,11 @@ class EstateInfoWindowAdapter(context: Context) : GoogleMap.InfoWindowAdapter {
         with(contents){
             title_map_window.text = poi.name
             street_map_window.text = poi.street
-            image_window.setImageResource(poi.photo.toInt())
+            if (poi.photo.contains("document")) {
+                image_window.setImageURI(Uri.parse(poi.photo))
+            }else{
+                image_window.setImageResource(poi.photo.toInt())
+            }
         }
         return contents
     }

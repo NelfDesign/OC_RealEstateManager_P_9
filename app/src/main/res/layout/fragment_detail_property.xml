@@ -359,6 +359,7 @@
 
                 <ImageView
                     android:id="@+id/mini_Map"
+                    android:padding="@dimen/margin_2"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/width_200"
                     android:layout_margin="@dimen/margin_2"

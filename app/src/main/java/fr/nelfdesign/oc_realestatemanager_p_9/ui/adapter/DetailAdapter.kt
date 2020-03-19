@@ -40,7 +40,7 @@ class DetailAdapter(private val photos : List<Photo>, private val listener : Det
             image.tag = photo
             image.setOnClickListener(this@DetailAdapter)
             textDetail.text = photo.name
-            if (photo.urlPhoto.contains("images")) {
+            if (photo.urlPhoto.contains("document")) {
                 Glide.with(holder.itemView)
                     .load(photo.urlPhoto)
                     .into(image)

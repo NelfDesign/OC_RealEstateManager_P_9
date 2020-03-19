@@ -169,12 +169,12 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
 
     private fun updateUiMap(lastPosition: LatLng) {
 
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastPosition, 13f))
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastPosition, 11f))
         //set my position and enable position button
         mGoogleMap.isMyLocationEnabled = true
         //get poi estate
         poiList = mMapViewModel.generatePoi(estateList)
-        Timber.d("list poi= $poiList")
+        Timber.d("list poi= ${poiList.size}, t $poiList")
         generateEstatePoi(poiList)
     }
 
@@ -223,7 +223,6 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
     }
 
     private fun launchEstateDetail(marker: Marker) {
-
         listener?.onClickMarkerEstate(marker.zIndex.toLong())
     }
 

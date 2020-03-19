@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import butterknife.OnClick
+import com.google.android.gms.maps.model.LatLng
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -32,6 +33,8 @@ import com.karumi.dexter.listener.single.PermissionListener
 import fr.nelfdesign.oc_realestatemanager_p_9.R
 import fr.nelfdesign.oc_realestatemanager_p_9.app.App
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseActivity
+import fr.nelfdesign.oc_realestatemanager_p_9.google_map.mapGeocodingDataToLatLong
+import fr.nelfdesign.oc_realestatemanager_p_9.models.EstateResult
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Photo
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.Injection
@@ -42,6 +45,9 @@ import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.DetailAdapter
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.*
 import kotlinx.android.synthetic.main.activity_addproperty.*
 import kotlinx.android.synthetic.main.toolbar.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import timber.log.Timber
 
 class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
@@ -172,12 +178,12 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         when (view.id) {
             R.id.fab -> {
                 checkPropertyInformation()
-                createPropertyInBdd()
+                getCoordinate()
                 notificationCreated()
             }
             R.id.fab_update -> {
                 checkPropertyInformation()
-                updateBddWithNewInformation()
+                getCoordinate()
             }
             R.id.camera -> checkPermissionsCamera()
             R.id.gallery -> checkPermissionsGallery()
@@ -225,6 +231,35 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         compromiseDate = date_compromise.text.toString()
         soldDate = date_sold.text.toString()
         status = getStatus()
+
+    }
+
+    private fun getCoordinate(){
+        val address = makeStreetString(street, town)
+        val estateResult = App.addressCoordonateApiService.getCoordinateFromAddress(address)
+        estateResult.enqueue(object : Callback<EstateResult>{
+            override fun onResponse(call: Call<EstateResult>, response: Response<EstateResult>) {
+
+                response.body()?.let {
+                    val latLng = mapGeocodingDataToLatLong(it)
+                    getLatitudeAndLongitude(latLng)
+                    Timber.d("estate result LatLng = $estateLat et $estateLong")
+                    if (propertyId > 0){
+                        updateBddWithNewInformation()
+                    }else{
+                        createPropertyInBdd()
+                    }
+                }
+            }
+            override fun onFailure(call: Call<EstateResult>, t: Throwable) {
+                Timber.d("Not yet implemented")
+            }
+        })
+    }
+
+    private fun getLatitudeAndLongitude(latLng: LatLng){
+        estateLat = latLng.latitude
+        estateLong = latLng.longitude
     }
 
     private fun getStatus(): String {
@@ -248,6 +283,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     }
 
     private fun updateBddWithNewInformation() {
+        Timber.d("estate LatLng = $estateLat et $estateLong")
         val property = Property(propertyId, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description,
             photos[0].urlPhoto, photos.size, street, town, estateLat, estateLong, hospital, school, market, status, entryDate, compromiseDate, soldDate, 1, complete
         )
@@ -263,9 +299,12 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun openGallery() {
         //Intent to pick image
-        val intent = Intent(Intent.ACTION_PICK)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
-        startActivityForResult(intent, RESULT_GALLERY_CODE)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivityForResult(Intent.createChooser(intent, "Select File"), RESULT_GALLERY_CODE);
+        }
+        //startActivityForResult(intent, RESULT_GALLERY_CODE)
     }
 
     private fun openCamera() {

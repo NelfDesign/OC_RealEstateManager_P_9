@@ -210,4 +210,22 @@ public class Utils {
         return text.toString();
     }
 
+    public static String makeStreetString(String address, String town){
+        StringBuilder str = new StringBuilder();
+        String[] arrayString = address.toLowerCase().split(" ");
+        String[] arrayStringTown = town.toLowerCase().split(" ");
+        for (String word : arrayString) {
+            str.append(word);
+            str.append("+");
+        }
+        str.deleteCharAt(str.length()-1);
+        str.append(",");
+        for (String t : arrayStringTown){
+            str.append(t);
+            str.append("+");
+        }
+        str.deleteCharAt(str.length()-1);
+        return str.toString();
+    }
+
 }
