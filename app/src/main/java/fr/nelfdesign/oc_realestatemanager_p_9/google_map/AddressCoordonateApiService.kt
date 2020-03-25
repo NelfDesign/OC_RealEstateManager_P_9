@@ -10,7 +10,7 @@ import retrofit2.http.Query
  * Created by Nelfdesign at 19/03/2020
  * fr.nelfdesign.oc_realestatemanager_p_9.google_map
  */
-interface AddressCoordinateApiService {
+interface AddressCoordonateApiService {
 
     @GET("json?")
     fun getCoordinateFromAddress(@Query("address") address : String,

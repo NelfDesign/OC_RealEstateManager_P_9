@@ -34,12 +34,12 @@ public class Utils {
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
-     *Le taux du dollars ayant changé j'ai adapté la valeur
+     *
      * @param dollars price in dollars
      * @return price in Euros
      */
     public static int convertDollarToEuro(int dollars) {
-        return (int) Math.round(dollars * 0.89);
+        return (int) Math.round(dollars * 0.81);
     }
 
     /**
@@ -50,7 +50,7 @@ public class Utils {
      * @return price in Dollars
      */
     static int convertEuroToDollar(int euro) {
-        return (int) Math.round(euro * 1.13);
+        return (int) Math.round(euro * 1.10);
     }
 
     /**
@@ -203,7 +203,7 @@ public class Utils {
      * @param town of estate
      * @return string
      */
-    public static String  buildTextAddress(String street ,  String town){
+    public static String  buildTextAddress(String street, String town){
         StringBuilder text = new StringBuilder();
         text.append(street);
         text.append(", ");

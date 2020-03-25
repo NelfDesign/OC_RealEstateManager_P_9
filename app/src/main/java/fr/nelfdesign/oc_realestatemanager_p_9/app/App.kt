@@ -8,8 +8,8 @@ import android.os.Build
 import androidx.room.Room
 import fr.nelfdesign.oc_realestatemanager_p_9.database.DATABASE_NAME
 import fr.nelfdesign.oc_realestatemanager_p_9.database.Database
-import fr.nelfdesign.oc_realestatemanager_p_9.google_map.AddressCoordinateApiService
-import fr.nelfdesign.oc_realestatemanager_p_9.repository.PropertyRepository
+import fr.nelfdesign.oc_realestatemanager_p_9.google_map.AddressCoordonateApiService
+import fr.nelfdesign.oc_realestatemanager_p_9.database.FakePropertyApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -26,38 +26,35 @@ class App : Application() {
 
     companion object{
         lateinit var db : Database
-        lateinit var repository : PropertyRepository
         lateinit var channelId : String
         lateinit var appContext : Context
 
         private val okhttpClient = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build()
+
         private val retrofit = Retrofit.Builder()
             .client(okhttpClient)
             .baseUrl("https://maps.googleapis.com/maps/api/geocode/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val addressCoordonateApiService = retrofit.create(AddressCoordinateApiService::class.java)
+        val addressCoordonateApiService: AddressCoordonateApiService = retrofit.create(AddressCoordonateApiService::class.java)
     }
 
     override fun onCreate() {
         super.onCreate()
         Timber.plant(DebugTree())
-
-        db = Room.databaseBuilder(this, Database::class.java, DATABASE_NAME)
-            .build()
-
         appContext = applicationContext
+
+        db = Room.databaseBuilder(appContext, Database::class.java, DATABASE_NAME)
+            .addCallback(FakePropertyApi.prepopulateDatabase())
+            .build()
 
         channelId = "fr.nelfdesign.oc_realestatemanager_p_9.app"
 
         createNotificationChannel()
 
-        //repository = PropertyRepository()
-        //repository.syncPropertyNow()
-        //repository.syncPhotoNow()
     }
 
     private fun createNotificationChannel() {
@@ -75,4 +72,5 @@ class App : Application() {
             notificationManager.createNotificationChannel(channel)
         }
     }
+
 }

@@ -18,7 +18,6 @@ import fr.nelfdesign.oc_realestatemanager_p_9.ui.activity.MainActivity;
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 /**
  * Created by Nelfdesign at 25/03/2020
