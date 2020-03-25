@@ -1,5 +1,6 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.ui.activity
 
+import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
@@ -56,8 +57,7 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                id.nav_property, id.nav_settings, id.logout,
-                id.nav_map, id.nav_profile, id.nav_send_property, id.nav_simulation
+                id.nav_property, id.logout, id.nav_map, id.nav_profile, id.nav_simulation
             ), drawer_layout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -109,16 +109,6 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
     }
 
     /**
-     *
-     */
-    /* private fun logOutApplication() {
-         val pref = getSharedPreferences("SharedConnection", Context.MODE_PRIVATE).edit()
-         pref.putBoolean("pref_check", false)
-             .putString("pref_pass", "")
-             .apply()
-     }*/
-
-    /**
      * listener for click on confirm button in profile fragment
      */
     override fun onClickConfirmButton() {
@@ -140,9 +130,21 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
 
     override fun onClickMarkerEstate(propertyId: Long) {
         PROPERTY_ID_DETAIL = propertyId
-
         navController.navigate(id.detailPropertyFragment)
 
     }
+
+    fun logOutApplication(item: MenuItem) {
+        when(item.itemId){
+            id.logout -> {
+                val pref = getSharedPreferences("SharedConnection", Context.MODE_PRIVATE).edit()
+                pref.putBoolean("pref_check", false)
+                    .putString("pref_pass", "")
+                    .apply()
+                finish()
+            }
+        }
+    }
+
 
 }

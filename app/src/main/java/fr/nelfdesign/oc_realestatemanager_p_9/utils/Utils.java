@@ -20,6 +20,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import fr.nelfdesign.oc_realestatemanager_p_9.R;
 import timber.log.Timber;
@@ -71,9 +72,9 @@ public class Utils {
      * @param context of the app
      * @return true if WIFI is available
      */
-    public static Boolean isInternetAvailable(Context context) {
-        WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        return wifi != null && wifi.isWifiEnabled();
+    public static Boolean isInternetAvailable(Context context){
+        WifiManager wifi = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        return Objects.requireNonNull(wifi).isWifiEnabled();
     }
 
     /**

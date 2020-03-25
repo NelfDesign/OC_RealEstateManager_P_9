@@ -12,6 +12,9 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
@@ -40,8 +43,8 @@ import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.Injection
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PhotoListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PropertyListViewModel
-import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.DetailPropertyFragment.Companion.PROPERTY_ID
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.DetailAdapter
+import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.DetailPropertyFragment.Companion.PROPERTY_ID
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.*
 import kotlinx.android.synthetic.main.activity_addproperty.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -110,12 +113,22 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
         adapterDetail = DetailAdapter(photos, this)
 
+        configureSpinner()
         configureRecyclerView()
         date_on_sale.text = getTodayDate()
 
         val factory = Injection.provideViewModelFactory()
         propertyViewModel = ViewModelProvider(this, factory).get(PropertyListViewModel::class.java)
         photoViewModel = ViewModelProvider(this, factory).get(PhotoListViewModel::class.java)
+
+        spinner_type.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+                val textSpinner = spinner_type.selectedItem.toString()
+                type = textSpinner
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
 
         if (propertyId > 0) {
             this.configureToolBar("Update property")
@@ -128,13 +141,19 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     }
 
+    private fun configureSpinner(){
+        val adapterSpinner = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item )
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner_type.adapter = adapterSpinner
+    }
+
+
     private fun updateAdapter(photoList: List<Photo>) {
         photosListDetail.clear()
         photosListDetail.addAll(photoList)
     }
 
     private fun updateUi(property: Property) {
-        text_type.setText(property.type)
         card_street.setText(property.street)
         card_town.setText(property.town)
         card_description.setText(property.description)
@@ -215,7 +234,6 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
             complete = false
         }
 
-        type = text_type.text.toString()
         street = card_street.text.toString()
         town = card_town.text.toString()
         description = card_description.text.toString()
@@ -302,7 +320,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         if (intent.resolveActivity(packageManager) != null) {
-            startActivityForResult(Intent.createChooser(intent, "Select File"), RESULT_GALLERY_CODE);
+            startActivityForResult(Intent.createChooser(intent, "Select File"), RESULT_GALLERY_CODE)
         }
         //startActivityForResult(intent, RESULT_GALLERY_CODE)
     }

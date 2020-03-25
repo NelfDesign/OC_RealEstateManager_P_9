@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/margin_5"
@@ -326,45 +327,65 @@
                 android:baselineAligned="false"
                 android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_2"
+                    android:layout_height="match_parent"
                     android:layout_weight="50"
-                    android:hint="@string/entry_date"
-                    android:textColorHint="@color/accent"
-                    app:hintTextColor="@color/accent"
-                    app:startIconDrawable="@drawable/ic_date"
-                    app:startIconTint="@color/accent">
+                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <TextView
+                        android:id="@+id/entry_date_picker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_2"
+                        android:clickable="true"
+                        android:drawableStart="@drawable/ic_date"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableTint="@color/accent"
+                        android:focusable="true"
+                        android:text="@string/entry_date"
+                        android:textColor="@color/accent"
+                        tools:ignore="UnusedAttribute" />
+
+                    <TextView
                         android:id="@+id/filter_entry_date"
                         style="@style/edit_text_add"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:textColor="@color/accent"
+                        tools:text="02/03/2020"
+                        android:gravity="center"/>
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_2"
+                    android:layout_height="match_parent"
                     android:layout_weight="50"
-                    android:hint="@string/sold_date"
-                    android:textColorHint="@color/accent"
-                    app:hintTextColor="@color/accent"
-                    app:startIconDrawable="@drawable/ic_date"
-                    app:startIconTint="@color/accent">
+                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/filter_sell_date"
+                    <TextView
+                        android:id="@+id/sold_date_picker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_2"
+                        android:clickable="true"
+                        android:drawableStart="@drawable/ic_date"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableTint="@color/accent"
+                        android:focusable="true"
+                        android:text="@string/sold_date"
+                        android:textColor="@color/accent"
+                        tools:ignore="UnusedAttribute" />
+
+                    <TextView
+                        android:id="@+id/filter_sold_date"
                         style="@style/edit_text_add"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:textColor="@color/accent"
+                        tools:text="02/03/2020"
+                        android:gravity="center"/>
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -420,22 +441,45 @@
 
         </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/button_filter"
-            style="@style/edit_text_add"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:layout_margin="@dimen/margin_5"
-            android:background="@drawable/border_radius"
-            android:clickable="true"
-            android:drawableStart="@drawable/ic_filter"
-            android:drawablePadding="@dimen/margin_10"
-            android:focusable="true"
-            android:paddingStart="@dimen/margin_10"
-            android:paddingEnd="@dimen/margin_10"
-            android:text="@string/filter_properties"
-            android:textColor="@color/icons" />
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
+            <Button
+                android:id="@+id/button_filter"
+                style="@style/edit_text_add"
+                android:layout_width="0dp"
+                android:layout_weight="60"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_5"
+                android:background="@drawable/border_radius"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_filter"
+                android:drawablePadding="@dimen/margin_10"
+                android:focusable="true"
+                android:paddingStart="@dimen/margin_10"
+                android:paddingEnd="@dimen/margin_10"
+                android:text="@string/filter_properties"
+                android:textColor="@color/icons" />
+
+            <Button
+                android:id="@+id/button_Nofilter"
+                style="@style/edit_text_add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="40"
+                android:layout_margin="@dimen/margin_5"
+                android:background="@drawable/border_radius"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_clear"
+                android:drawablePadding="@dimen/margin_10"
+                android:focusable="true"
+                android:paddingStart="@dimen/margin_10"
+                android:paddingEnd="@dimen/margin_10"
+                android:text="@string/no_filter"
+                android:textColor="@color/icons" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

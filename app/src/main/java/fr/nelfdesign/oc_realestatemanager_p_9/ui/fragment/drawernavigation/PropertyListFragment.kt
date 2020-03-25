@@ -1,10 +1,15 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,11 +21,12 @@ import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PropertyListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.activity.AddPropertyActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.PropertyListAdapter
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils
-import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.checkData
-import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.checkMaxData
+import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.*
 import kotlinx.android.synthetic.main.filter_query_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_property_list.*
 import timber.log.Timber
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -50,6 +56,8 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
     private var school : Boolean = false
     private var market: Boolean = false
     private var listener : OnClickEstateListener? = null
+    private lateinit var mDateSetListener: OnDateSetListener
+    private lateinit var mDateSetListener2: OnDateSetListener
 
         companion object {
         internal var DEVISE : String = "dollars"
@@ -128,12 +136,25 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
 
         val viewGroup = activity?.findViewById<ViewGroup>(android.R.id.content)
         //Inflate dialog with custom layout
-        val mDialog =
-            LayoutInflater.from(activity).inflate(R.layout.filter_query_dialog, viewGroup, false)
+        val mDialog = LayoutInflater.from(activity).inflate(R.layout.filter_query_dialog, viewGroup, false)
         //build the dialog with custom view
         val mBuilder = AlertDialog.Builder(activity).setView(mDialog)
         //show dialog
         val mAlertDialog = mBuilder.show()
+
+        mDialog.entry_date_picker.setOnClickListener{
+            this.configureDialogCalendar(mDateSetListener)
+        }
+        mDateSetListener = OnDateSetListener { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+           getDateFromPicker(year, month, dayOfMonth, mDialog.filter_entry_date)
+        }
+
+        mDialog.sold_date_picker.setOnClickListener {
+            this.configureDialogCalendar(mDateSetListener2)
+        }
+        mDateSetListener2 = OnDateSetListener { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+           getDateFromPicker(year, month, dayOfMonth,  mDialog.filter_sold_date)
+        }
 
         mDialog.button_filter.setOnClickListener {
             val  list : List<String> = listOf("Manor", "Penthouse", "Loft", "House")
@@ -158,8 +179,9 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
                 mDialog.radio_on_sale.isChecked -> sold = mDialog.radio_on_sale.text.toString()
                 mDialog.radio_sold.isChecked -> sold = mDialog.radio_sold.text.toString()
             }
-             entryDate = if (mDialog.filter_entry_date.text.toString() == "") "24/02/2020" else mDialog.filter_sell_date.text.toString()
-            sellDate = if (mDialog.filter_sell_date.text.toString() == "") "" else mDialog.filter_sell_date.text.toString()
+
+            entryDate = if (mDialog.filter_entry_date.text.toString() == "") "24/02/2020" else mDialog.filter_entry_date.text.toString()
+            sellDate = if (mDialog.filter_sold_date.text.toString() == "") "" else mDialog.filter_sold_date.text.toString()
             hospital = mDialog.filter_chip_hospital.isChecked
              school  = mDialog.filter_chip_school.isChecked
              market = mDialog.filter_chip_market.isChecked
@@ -168,6 +190,11 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
 
             refreshListProperty(listType)
             mAlertDialog.dismiss()
+        }
+
+        mDialog.button_Nofilter.setOnClickListener {
+            viewModel.properties.observe(viewLifecycleOwner, Observer { estate -> updateProperty(estate) })
+            mAlertDialog.dismiss()//dismiss dialog filter
         }
     }
 
@@ -198,6 +225,27 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
         if (propertyListAdapter.itemCount == 0) {
             textViewNoProperty.visibility = View.VISIBLE
         } else textViewNoProperty.visibility = View.GONE
+    }
+
+    private fun configureDialogCalendar(listener : OnDateSetListener) {
+        val cal: Calendar = Calendar.getInstance()
+        val year: Int = cal.get(Calendar.YEAR)
+        val month: Int = cal.get(Calendar.MONTH)
+        val day: Int = cal.get(Calendar.DAY_OF_MONTH)
+        val dialogDate = DatePickerDialog(requireContext(), listener, year, month, day)
+        dialogDate.show()
+    }
+
+    private fun getDateFromPicker(year: Int, month: Int, dayOfMonth: Int, textview : TextView){
+        var day = dayOfMonth.toString()
+        var monthS = (month + 1).toString()
+        if (dayOfMonth < 10) {
+            day = "0$dayOfMonth"
+        }
+        if (month < 9) {
+            monthS = "0" + (month + 1)
+        }
+        textview.text = "$day/$monthS/$year"
     }
 
     override fun onPropertySelected(property: Property) {
