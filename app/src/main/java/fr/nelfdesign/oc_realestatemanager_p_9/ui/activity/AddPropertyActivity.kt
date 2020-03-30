@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
@@ -16,6 +17,7 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Spinner
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -86,7 +88,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     private var market: Boolean = false
     private var complete: Boolean = true
     private var estateLat: Double = 0.0
-    private var estateLong : Double = 0.0
+    private var estateLong: Double = 0.0
 
     companion object {
         private const val RESULT_CAMERA_CODE = 20
@@ -122,7 +124,12 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         photoViewModel = ViewModelProvider(this, factory).get(PhotoListViewModel::class.java)
 
         spinner_type.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
                 val textSpinner = spinner_type.selectedItem.toString()
                 type = textSpinner
             }
@@ -135,25 +142,46 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
             photoViewModel.getPhotoToDisplay(propertyId)
                 .observe(this, Observer { photoList -> updateAdapter(photoList) })
-            propertyViewModel.getPropertyById(propertyId)
-                .observe(this, Observer { property -> updateUi(property) })
+
         }
 
     }
 
-    private fun configureSpinner(){
-        val adapterSpinner = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item )
+    private fun configureSpinner() {
+        val adapterSpinner: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(
+            this,
+            R.array.type,
+            android.R.layout.simple_spinner_item
+        )
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_type.adapter = adapterSpinner
+        if (type != "Manor") {
+            val spinnerPosition =
+                (spinner_type.adapter as ArrayAdapter<CharSequence>).getPosition(type)
+            spinner_type.setSelection(spinnerPosition)
+        }
     }
 
 
     private fun updateAdapter(photoList: List<Photo>) {
         photosListDetail.clear()
         photosListDetail.addAll(photoList)
+        propertyViewModel.getPropertyById(propertyId)
+            .observe(this, Observer { property -> updateUi(property) })
+    }
+
+    private fun getPositionSpinner(spinner : Spinner, myString : String){
+        val index = 0
+        for (i in 0 until spinner.count) {
+            if (spinner.getItemAtPosition(i).toString() == myString) {
+                spinner.setSelection(i)
+                break
+            }
+        }
     }
 
     private fun updateUi(property: Property) {
+        getPositionSpinner(spinner_type, property.type)
         card_street.setText(property.street)
         card_town.setText(property.town)
         card_description.setText(property.description)
@@ -189,8 +217,8 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         adapterDetail.notifyDataSetChanged()
     }
 
-
-    @OnClick(R.id.fab, R.id.camera, R.id.gallery, R.id.fab_update, R.id.check_compromise,
+    @OnClick(
+        R.id.fab, R.id.camera, R.id.gallery, R.id.fab_update, R.id.check_compromise,
         R.id.check_sold, R.id.chip_hospital, R.id.chip_market, R.id.chip_school
     )
     fun onClickBottomNavigation(view: View) {
@@ -227,9 +255,13 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun checkPropertyInformation() {
 
-        if (!checkEditTextInput(card_street.text.toString()) || !checkEditTextInput(card_town.text.toString()) || !checkEditTextInput(card_description.text.toString())
+        if (!checkEditTextInput(card_street.text.toString()) || !checkEditTextInput(card_town.text.toString()) || !checkEditTextInput(
+                card_description.text.toString()
+            )
             || !checkEditTextInput(text_area.text.toString()) || !checkEditTextInput(card_rooms.text.toString())
-            || !checkEditTextInput(card_bedroom.text.toString()) || !checkEditTextInput(card_bathroom.text.toString()) || !checkEditTextInput(card_price.text.toString())
+            || !checkEditTextInput(card_bedroom.text.toString()) || !checkEditTextInput(
+                card_bathroom.text.toString()
+            ) || !checkEditTextInput(card_price.text.toString())
         ) {
             complete = false
         }
@@ -237,10 +269,14 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         street = card_street.text.toString()
         town = card_town.text.toString()
         description = card_description.text.toString()
-        area = if (text_area.text.toString() == "") 0 else Integer.parseInt(text_area.text.toString())
-        rooms = if (card_rooms.text.toString() == "") 0 else Integer.parseInt(card_rooms.text.toString())
-        bedrooms = if (card_bedroom.text.toString() == "") 0 else Integer.parseInt(card_bedroom.text.toString())
-        bathrooms = if (card_bathroom.text.toString() == "") 0 else Integer.parseInt(card_bathroom.text.toString())
+        area =
+            if (text_area.text.toString() == "") 0 else Integer.parseInt(text_area.text.toString())
+        rooms =
+            if (card_rooms.text.toString() == "") 0 else Integer.parseInt(card_rooms.text.toString())
+        bedrooms =
+            if (card_bedroom.text.toString() == "") 0 else Integer.parseInt(card_bedroom.text.toString())
+        bathrooms =
+            if (card_bathroom.text.toString() == "") 0 else Integer.parseInt(card_bathroom.text.toString())
         price = if (card_price.text.toString() == "") 0.0 else card_price.text.toString().toDouble()
         if (chip_hospital.isChecked) hospital = true
         if (chip_school.isChecked) school = true
@@ -252,30 +288,31 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     }
 
-    private fun getCoordinate(){
+    private fun getCoordinate() {
         val address = makeStreetString(street, town)
         val estateResult = App.addressCoordonateApiService.getCoordinateFromAddress(address)
-        estateResult.enqueue(object : Callback<EstateResult>{
+        estateResult.enqueue(object : Callback<EstateResult> {
             override fun onResponse(call: Call<EstateResult>, response: Response<EstateResult>) {
 
                 response.body()?.let {
                     val latLng = mapGeocodingDataToLatLong(it)
                     getLatitudeAndLongitude(latLng)
                     Timber.d("estate result LatLng = $estateLat et $estateLong")
-                    if (propertyId > 0){
+                    if (propertyId > 0) {
                         updateBddWithNewInformation()
-                    }else{
+                    } else {
                         createPropertyInBdd()
                     }
                 }
             }
+
             override fun onFailure(call: Call<EstateResult>, t: Throwable) {
                 Timber.d("Not yet implemented")
             }
         })
     }
 
-    private fun getLatitudeAndLongitude(latLng: LatLng){
+    private fun getLatitudeAndLongitude(latLng: LatLng) {
         estateLat = latLng.latitude
         estateLong = latLng.longitude
     }
@@ -291,8 +328,30 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun createPropertyInBdd() {
         val property = Property(
-            0, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description, photos[0].urlPhoto,
-            photos.size, street, town, estateLat, estateLong, hospital, school, market, status, entryDate, "", "", 1, complete
+            0,
+            type,
+            price,
+            priceEuro,
+            area,
+            rooms,
+            bedrooms,
+            bathrooms,
+            description,
+            photos[0].urlPhoto,
+            photos.size,
+            street,
+            town,
+            estateLat,
+            estateLong,
+            hospital,
+            school,
+            market,
+            status,
+            entryDate,
+            "",
+            "",
+            1,
+            complete
         )
 
         propertyViewModel.createProperty(property, photos)
@@ -302,8 +361,31 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun updateBddWithNewInformation() {
         Timber.d("estate LatLng = $estateLat et $estateLong")
-        val property = Property(propertyId, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description,
-            photos[0].urlPhoto, photos.size, street, town, estateLat, estateLong, hospital, school, market, status, entryDate, compromiseDate, soldDate, 1, complete
+        val property = Property(
+            propertyId,
+            type,
+            price,
+            priceEuro,
+            area,
+            rooms,
+            bedrooms,
+            bathrooms,
+            description,
+            photos[0].urlPhoto,
+            photos.size,
+            street,
+            town,
+            estateLat,
+            estateLong,
+            hospital,
+            school,
+            market,
+            status,
+            entryDate,
+            compromiseDate,
+            soldDate,
+            1,
+            complete
         )
 
         Timber.d("photoListDetail = ${photosListDetail.size}, $photosListDetail")
@@ -422,9 +504,9 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
         builder.setPositiveButton(getString(R.string.ok)) { _, _ ->
 
-                photos.remove(image)
-                adapterDetail.notifyDataSetChanged()
-            }
+            photos.remove(image)
+            adapterDetail.notifyDataSetChanged()
+        }
             .setNegativeButton(getString(R.string.cancel)) { _, _ ->
 
             }

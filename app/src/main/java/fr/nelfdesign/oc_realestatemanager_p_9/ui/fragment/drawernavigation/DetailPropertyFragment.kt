@@ -107,6 +107,10 @@ class DetailPropertyFragment : BaseFragment(), DetailAdapter.onClickItemListener
         showCompromiseAndSoldText(property.compromiseDate, compromise_date, layout_compromise)
         showCompromiseAndSoldText(property.sellDate, sold_date, layout_sold)
 
+        if (property.sellDate != ""){
+            button_update.visibility = View.GONE
+        }
+
         val streetText = Utils.makeStreetString(property.street, property.town)
         val uri = "https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=600x300&maptype=roadmap&markers=color:red%7Clabel:P%7C"+ streetText +"&center=" + streetText + "&key=" + BuildConfig.google_maps_key
         Glide.with(this)

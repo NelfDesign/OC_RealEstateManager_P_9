@@ -8,7 +8,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.DatePicker
-import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +19,6 @@ import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.Injection
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PropertyListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.activity.AddPropertyActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.PropertyListAdapter
-import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.*
 import kotlinx.android.synthetic.main.filter_query_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_property_list.*
@@ -28,9 +26,8 @@ import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
-
 /**
- *
+ * property list
  */
 class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAdapterListener {
 
@@ -117,7 +114,7 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
             R.id.change_money -> {
                 if (DEVISE == "dollars") {
                     for (p in properties) {
-                        p.priceEuro = Utils.convertDollarToEuro(p.price.toInt()).toDouble()
+                        p.priceEuro = convertDollarToEuro(p.price.toInt()).toDouble()
                     }
                     DEVISE = "euro"
                     propertyListAdapter.notifyDataSetChanged()
@@ -182,9 +179,12 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
 
             entryDate = if (mDialog.filter_entry_date.text.toString() == "") "24/02/2020" else mDialog.filter_entry_date.text.toString()
             sellDate = if (mDialog.filter_sold_date.text.toString() == "") "" else mDialog.filter_sold_date.text.toString()
+            stateChip(mDialog.filter_chip_hospital, requireContext())
             hospital = mDialog.filter_chip_hospital.isChecked
-             school  = mDialog.filter_chip_school.isChecked
-             market = mDialog.filter_chip_market.isChecked
+            stateChip(mDialog.filter_chip_school, requireContext())
+            school  = mDialog.filter_chip_school.isChecked
+            stateChip(mDialog.filter_chip_market, requireContext())
+            market = mDialog.filter_chip_market.isChecked
 
             Timber.d("Parameters : $listType, $town, $minPrice, $maxPrice, $minRoom, $maxRoom, $minSurface, $maxSurface, $numberPhotos, $sold, $entryDate, $sellDate, $hospital, $market, $school")
 
@@ -245,7 +245,7 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
         if (month < 9) {
             monthS = "0" + (month + 1)
         }
-        textview.text = "$day/$monthS/$year"
+        textview.text = resources.getString(R.string.date, day , monthS, year)
     }
 
     override fun onPropertySelected(property: Property) {

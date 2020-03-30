@@ -125,13 +125,11 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
         } else {
             navController.navigate(id.action_nav_property_to_detailPropertyFragment)
         }
-
     }
 
     override fun onClickMarkerEstate(propertyId: Long) {
         PROPERTY_ID_DETAIL = propertyId
         navController.navigate(id.detailPropertyFragment)
-
     }
 
     fun logOutApplication(item: MenuItem) {

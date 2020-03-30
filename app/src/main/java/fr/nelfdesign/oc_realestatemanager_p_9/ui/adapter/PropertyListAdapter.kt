@@ -28,6 +28,7 @@ class PropertyListAdapter(private val properties : List<Property>, private val l
     class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         val cardView = itemView.card_view_property!!
         val imageProperty = itemView.image_property!!
+        val imageSold = itemView.image_sold!!
         val propertyType = itemView.text_type_property!!
         val propertyAddress = itemView.text_address!!
         val price = itemView.price_text!!
@@ -52,6 +53,10 @@ class PropertyListAdapter(private val properties : List<Property>, private val l
                notComplete.visibility = View.VISIBLE
                cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context , R.color.backgroundActivity))
            }
+
+            if (property.sellDate != ""){
+                imageSold.visibility = View.VISIBLE
+            }
 
            if (PropertyListFragment.DEVISE == "dollars"){
                price.text = resources.getString(R.string.devise_dollars, Utils.formatNumber(property.price))

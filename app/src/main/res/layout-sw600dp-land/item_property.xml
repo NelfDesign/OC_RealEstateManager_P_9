@@ -18,16 +18,29 @@
         android:layout_gravity="center"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/image_property"
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_100"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_5"
-            android:layout_weight="20"
-            android:contentDescription="@string/property_image"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/penthouse" />
+            android:layout_height="wrap_content"
+            android:layout_weight="20">
+
+            <ImageView
+                android:id="@+id/image_property"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_100"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_5"
+                android:contentDescription="@string/property_image"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/penthouse" />
+
+            <ImageView
+                android:id="@+id/image_sold"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/image_height_120"
+                android:contentDescription="@string/vendu"
+                android:src="@drawable/etiquette_vendu"
+                android:visibility="gone" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/text_property"
@@ -42,10 +55,10 @@
                 android:id="@+id/not_complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/accent"
                 android:text="@string/estate_not_complete"
+                android:textColor="@color/accent"
                 android:textSize="12sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/text_type_property"

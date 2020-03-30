@@ -112,13 +112,14 @@
     <string name="filter_properties">Filter properties</string>
     <string name="no_property_for_this_filter">No property for this filter</string>
     <string name="cancel">Cancel</string>
-
+    <string name="date">%1$s/%2$s/%3$d</string>
 
     <!-- Map -->
     <string name="no_internet">No internet connexion.</string>
     <string name="image_map_button">Image map button</string>
     <string name="button_filter">button filter</string>
     <string name="no_filter">No filter</string>
+    <string name="vendu">vendu</string>
 
 
 </resources>
