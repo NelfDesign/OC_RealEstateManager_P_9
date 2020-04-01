@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.text.DateFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -12,6 +13,7 @@ import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.buildTextAddres
 import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.checkData;
 import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.checkEditTextInput;
 import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.checkMaxData;
+import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.convertDateToLong;
 import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.convertDollarToEuro;
 import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.convertEuroToDollar;
 import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.formatNumber;
@@ -103,5 +105,14 @@ public class UtilsTest {
         assertEquals("21+rue+mazat,marseille", makeStreetString(street, town));
         assertNotEquals("21+rue+mazat,marseille+", makeStreetString(street, town));
         assertNotEquals("21+rue+Mazat,Marseille+", makeStreetString(street, town));
+    }
+
+    @Test
+    public void  convertDateToLongTest() throws ParseException {
+        String date1 = "24/02/2020";
+        String date2 = "26/02/2020";
+
+        assertEquals(1582671600000L, convertDateToLong(date2));
+        assertEquals(1582498800000L, convertDateToLong(date1));
     }
 }

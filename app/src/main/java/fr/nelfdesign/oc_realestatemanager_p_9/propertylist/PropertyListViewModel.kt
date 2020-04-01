@@ -51,25 +51,30 @@ class PropertyListViewModel(private val executor: Executor) : ViewModel() {
      *************************************************************************************************/
     fun filterPropertiesWithParameters(
         listType: List<String>, town: String, minPrice: Double, maxPrice: Double, minRoom: Int, maxRoom: Int, minSurface: Int,
-        maxSurface: Int, numberPhotos: Int, sold: String, soldDate: String, school: Boolean, hospital: Boolean, market: Boolean): LiveData<List<Property>> {
+        maxSurface: Int, numberPhotos: Int, sold: String,entryDateLong: Long, soldDateLong : Long, school: Boolean, hospital: Boolean, market: Boolean): LiveData<List<Property>> {
 
               return repositoryProperty.filterPropertyWithParameters(
                     listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                    numberPhotos, sold, soldDate, school, hospital, market)
+                    numberPhotos, sold, entryDateLong, soldDateLong, school, hospital, market)
     }
 
     fun filterPropertiesWithNoTownParameter(
         listType : List<String>, minPrice: Double, maxPrice: Double, minRoom: Int, maxRoom: Int, minSurface: Int, maxSurface: Int,
-        numberPhotos: Int, sold: String, creationDate: String, soldDate: String, school: Boolean, hospital: Boolean, market: Boolean): LiveData<List<Property>> {
+        numberPhotos: Int, sold: String, entryDateLong: Long, soldDateLong : Long, school: Boolean, hospital: Boolean, market: Boolean): LiveData<List<Property>> {
 
             return repositoryProperty.filterPropertyWithNoTownParameter(
                 listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                numberPhotos, sold, creationDate, soldDate, school, hospital, market)
+                numberPhotos, sold, entryDateLong, soldDateLong, school, hospital, market)
     }
 
-    fun filterTest( listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                    numberPhotos : Int , sold : String ) : LiveData<List<Property>>{
-        return repositoryProperty.filterTest(listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold)
+    fun filterProperty( listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                    numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long ) : LiveData<List<Property>>{
+        return repositoryProperty.filterTest(listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold, entryDateLong, soldDateLong)
+    }
+
+    fun filterPropertyWithoutTown( listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                    numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long ) : LiveData<List<Property>>{
+        return repositoryProperty.filterTestWithoutTown(listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold, entryDateLong, soldDateLong)
     }
 
 }

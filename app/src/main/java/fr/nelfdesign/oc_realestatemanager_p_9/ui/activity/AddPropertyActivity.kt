@@ -59,6 +59,8 @@ import retrofit2.Response
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
@@ -94,6 +96,8 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     private var complete: Boolean = true
     private var estateLat: Double = 0.0
     private var estateLong: Double = 0.0
+    private var entryDateLong: Long = 0
+    private var soldDateLong: Long = 0
 
     companion object {
         private const val RESULT_CAMERA_CODE = 20
@@ -280,8 +284,13 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         if (chip_school.isChecked) school = true
         if (chip_market.isChecked) market = true
         entryDate = date_on_sale.text.toString()
+        entryDateLong = convertDateToLong(entryDate)
         compromiseDate = date_compromise.text.toString()
         soldDate = date_sold.text.toString()
+        if (soldDate != ""){
+            soldDateLong = System.currentTimeMillis()
+        }
+
         status = getStatus()
 
     }
@@ -328,7 +337,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun createPropertyInBdd() {
         val property = Property(0, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description, photos[0].urlPhoto,
-            photos.size, street, town, estateLat, estateLong, hospital, school, market, status, entryDate, "", "", 1, complete
+            photos.size, street, town, estateLat, estateLong, hospital, school, market, status, entryDate, entryDateLong,"", "", soldDateLong, 1, complete
         )
 
         propertyViewModel.createProperty(property, photos)
@@ -339,7 +348,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     private fun updateBddWithNewInformation() {
         Timber.d("estate LatLng = $estateLat et $estateLong")
         val property = Property(propertyId, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description, photos[0].urlPhoto, photos.size, street,
-            town, estateLat, estateLong, hospital, school, market, status, entryDate, compromiseDate, soldDate, 1, complete
+            town, estateLat, estateLong, hospital, school, market, status, entryDate, entryDateLong, compromiseDate, soldDate, soldDateLong,1, complete
         )
 
         Timber.d("photoListDetail = ${photosListDetail.size}, $photosListDetail")

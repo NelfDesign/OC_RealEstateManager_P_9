@@ -5,9 +5,11 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
-import android.widget.TextView
+import android.widget.DatePicker
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_property_list.*
 import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 /**
  * property list
@@ -45,6 +48,8 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
     private var minSurface : Int = 0
     private var maxSurface : Int = 0
     private var numberPhotos : Int= 0
+    private var entryDateLong : Long = 0
+    private var soldDateLong : Long = 0
     private var sold : String = ""
     private var entryDate: String = ""
     private var sellDate: String = ""
@@ -52,6 +57,9 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
     private var school : Boolean = false
     private var market: Boolean = false
     private var listener : OnClickEstateListener? = null
+    private var mDateSetListener: OnDateSetListener? = null
+    private var mDateSetListener2: OnDateSetListener? = null
+
 
         companion object {
         internal var DEVISE : String = "dollars"
@@ -135,9 +143,34 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
         //show dialog
         val mAlertDialog = mBuilder.show()
 
-        stateChip(mDialog.filter_chip_hospital, requireContext())
-        stateChip(mDialog.filter_chip_school, requireContext())
-        stateChip(mDialog.filter_chip_market, requireContext())
+       mDialog.entry_filter.setOnClickListener { configureDialogCalendar(mDateSetListener!!) }
+       mDialog.sold_filter.setOnClickListener { configureDialogCalendar(mDateSetListener2!!) }
+
+        mDateSetListener = OnDateSetListener { _: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
+                var day = dayOfMonth.toString()
+                var monthS = (month + 1).toString()
+                if (dayOfMonth < 10) {
+                    day = "0$dayOfMonth"
+                }
+                if (month < 9) {
+                    monthS = "0" + (month + 1)
+                }
+                entryDate = "$day/$monthS/$year"
+                mDialog.entry_date_filter.text = entryDate
+            }
+
+        mDateSetListener2 = OnDateSetListener { _: DatePicker?, year: Int, month: Int, dayOfMonth: Int ->
+            var day = dayOfMonth.toString()
+            var monthS = (month + 1).toString()
+            if (dayOfMonth < 10) {
+                day = "0$dayOfMonth"
+            }
+            if (month < 9) {
+                monthS = "0" + (month + 1)
+            }
+            sellDate = "$day/$monthS/$year"
+           mDialog.sold_date_filter.text = sellDate
+        }
 
         mDialog.button_filter.setOnClickListener {
             val  list : List<String> = arrayListOf("Manor", "Penthouse", "Loft", "House")
@@ -163,11 +196,14 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
                 mDialog.radio_sold.isChecked -> sold = mDialog.radio_sold.text.toString()
             }
 
-             hospital =mDialog.filter_chip_hospital.isChecked
-             school  = mDialog.filter_chip_school.isChecked
-             market =mDialog.filter_chip_market.isChecked
+            entryDateLong = convertDateToLong(entryDate)
+            soldDateLong = convertDateToLong(sellDate)
 
-            Timber.d("Parameters : $listType, $town, $minPrice, $maxPrice, $minRoom, $maxRoom, $minSurface, $maxSurface, $numberPhotos, $sold, $entryDate, $sellDate, $hospital, $market, $school")
+            hospital = mDialog.radio_hospital.isChecked
+            school  = mDialog.radio_school.isChecked
+            market = mDialog.radio_Market.isChecked
+
+            Timber.d("Parameters : $listType, $town, $minPrice, $maxPrice, $minRoom, $maxRoom, $minSurface, $maxSurface, $numberPhotos, $sold, $entryDate, $entryDateLong, $sellDate, $soldDateLong, $hospital, $market, $school")
 
             refreshListProperty(listType)
             mAlertDialog.dismiss()
@@ -190,23 +226,46 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
 
     private fun refreshListProperty(listType : List<String>) {
         Timber.d("List de biens = $listType")
-            if (town != ""){
-                viewModel.filterPropertiesWithParameters(
-                    listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                    numberPhotos, sold, entryDate, school, hospital, market
-                ).observe(viewLifecycleOwner, Observer { propertyFilter -> updateProperty(propertyFilter) })
-            }else{
-                viewModel.filterPropertiesWithNoTownParameter(
-                    listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                    numberPhotos, sold, entryDate, sellDate, school, hospital, market
-                ).observe(viewLifecycleOwner, Observer { propertyFilter -> updateProperty(propertyFilter) })
-            }
+           if (town != ""){
+               if (!hospital && !school && !market){
+                   viewModel.filterProperty( listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
+                       numberPhotos, sold, entryDateLong, soldDateLong).observe(viewLifecycleOwner, Observer { property -> updateProperty(property)})
+               }else{
+                   viewModel.filterPropertiesWithParameters(
+                       listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
+                       numberPhotos, sold, entryDateLong, soldDateLong, school, hospital, market
+                   ).observe(viewLifecycleOwner, Observer { propertyFilter -> updateProperty(propertyFilter) })
+               }
+            }else {
+               if (!hospital && !school && !market) {
+                   viewModel.filterPropertyWithoutTown(
+                       listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
+                       numberPhotos, sold, entryDateLong, soldDateLong ).observe(viewLifecycleOwner, Observer { property -> updateProperty(property) })
+               } else {
+                   viewModel.filterPropertiesWithNoTownParameter(
+                       listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
+                       numberPhotos, sold, entryDateLong, soldDateLong, school, hospital, market
+                   ).observe(viewLifecycleOwner, Observer { propertyFilter -> updateProperty(propertyFilter) })
+               }
+           }
     }
 
     private fun checkIfNoProperty() {
         if (propertyListAdapter.itemCount == 0) {
             textViewNoProperty.visibility = View.VISIBLE
         } else textViewNoProperty.visibility = View.GONE
+    }
+
+    private fun configureDialogCalendar(dateListener : OnDateSetListener) {
+        val cal: Calendar = Calendar.getInstance()
+        val year: Int = cal.get(Calendar.YEAR)
+        val month: Int = cal.get(Calendar.MONTH)
+        val day: Int = cal.get(Calendar.DAY_OF_MONTH)
+        val dialogDate = DatePickerDialog(
+            requireContext(), dateListener,
+            year, month, day
+        )
+        dialogDate.show()
     }
 
     override fun onPropertySelected(property: Property) {

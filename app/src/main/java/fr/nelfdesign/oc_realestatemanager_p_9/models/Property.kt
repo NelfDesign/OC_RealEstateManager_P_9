@@ -36,10 +36,14 @@ data class Property(
             var status: String,
             @ColumnInfo(name = "entry_date")
             var entryDate: String,
+            @ColumnInfo(name = "entry_date_long")
+            var entryDateLong: Long,
             @ColumnInfo(name = "compromise_date")
             var compromiseDate: String,
             @ColumnInfo(name = "sell_date")
             var sellDate: String,
+            @ColumnInfo(name = "sell_date_long")
+            var sellDateLong: Long,
             @ColumnInfo(name = "user_id")
             var userId: Int,
             var complete : Boolean = false
@@ -50,7 +54,7 @@ data class Property(
         fun fromContentValues(values: ContentValues) : Property {
             val property = Property(0, "",0.0,0.0,0,0,0,0,"",
                 "",0, "", "", null, null, hospital = false, school = false, market = false, status = "",
-                entryDate = "", compromiseDate = "", sellDate = "", userId = 0)
+                entryDate = "", entryDateLong = 0,compromiseDate = "", sellDate = "",sellDateLong = 0, userId = 0)
 
             if (values.containsKey("id")) property.id = values.getAsLong("id")
             if (values.containsKey("type")) property.type = values.getAsString("type")
@@ -72,8 +76,10 @@ data class Property(
             if (values.containsKey("market")) property.market = values.getAsBoolean("market")
             if (values.containsKey("status")) property.status = values.getAsString("status")
             if (values.containsKey("entryDate")) property.entryDate = values.getAsString("entryDate")
+            if (values.containsKey("entryDateLong")) property.entryDateLong = values.getAsLong("entryDateLong")
             if (values.containsKey("compromiseDate")) property.compromiseDate = values.getAsString("compromiseDate")
             if (values.containsKey("sellDate")) property.sellDate = values.getAsString("sellDate")
+            if (values.containsKey("sellDateLong")) property.sellDateLong = values.getAsLong("sellDateLong")
             if (values.containsKey("userId")) property.userId = values.getAsInteger("userId")
             if (values.containsKey("complete")) property.complete = values.getAsBoolean("complete")
 

@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -227,6 +228,16 @@ public class Utils {
         }
         str.deleteCharAt(str.length()-1);
         return str.toString();
+    }
+
+    public static long  convertDateToLong(String date) throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        if (date != ""){
+            Date date1 = df.parse(date);
+            return date1.getTime();
+        }else{
+            return 0L;
+        }
     }
 
 }

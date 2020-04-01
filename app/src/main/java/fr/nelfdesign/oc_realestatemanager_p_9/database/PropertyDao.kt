@@ -21,22 +21,22 @@ interface PropertyDao {
     @Query("""SELECT * FROM estate 
                     WHERE type IN (:listType) AND town LIKE :town AND price BETWEEN :minPrice AND :maxPrice 
                     AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface 
-                    AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold 
-                    AND sell_date>=:soldDate AND school=:school AND hospital = :hospital AND market=:market
+                    AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold AND entry_date_long >= :entryDateLong
+                    AND sell_date_long >= :soldDateLong AND school=:school AND hospital = :hospital AND market=:market
                     
     """)
     fun filterPropertyWithParameters(listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int , sold : String, soldDate : String,
+                                     numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long,
                                      school : Boolean, hospital: Boolean, market : Boolean) : LiveData<List<Property>>
 
     @Query("""SELECT * FROM estate 
                     WHERE type IN (:listType) AND price BETWEEN :minPrice AND :maxPrice 
                     AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface 
-                    AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold AND entry_date>=:creationDate 
-                    AND sell_date>=:soldDate AND school=:school AND hospital=:hospital AND market=:market
+                    AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold AND entry_date >= :entryDateLong 
+                    AND sell_date >= :soldDateLong AND school=:school AND hospital=:hospital AND market=:market
     """)
     fun filterPropertyWithNoTownParameter(listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int , sold : String, creationDate : String, soldDate : String,
+                                     numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long,
                                      school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
 
 
@@ -45,13 +45,20 @@ interface PropertyDao {
                     WHERE type IN (:listType) AND town LIKE :town AND price BETWEEN :minPrice AND :maxPrice
                     AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface
                      AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold
+                     AND entry_date_long >= :entryDateLong AND sell_date_long >= :soldDateLong
     """)
-    fun filterPropertyTest(listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                           numberPhotos : Int , sold : String) : LiveData<List<Property>>
+    fun filterProperty(listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                           numberPhotos : Int, sold : String, entryDateLong: Long, soldDateLong : Long) : LiveData<List<Property>>
 
 
-
-
+    @Query("""SELECT * FROM estate 
+                    WHERE type IN (:listType) AND price BETWEEN :minPrice AND :maxPrice
+                    AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface
+                     AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold
+                     AND entry_date_long >= :entryDateLong AND sell_date_long >= :soldDateLong
+    """)
+    fun filterPropertyWithoutTown(listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                           numberPhotos : Int, sold : String, entryDateLong: Long, soldDateLong : Long) : LiveData<List<Property>>
 
     @Insert
     fun insertProperties(properties : List<Property>)
