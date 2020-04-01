@@ -12,31 +12,46 @@ import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
 @Dao
 interface PropertyDao {
 
-    @Query("SELECT * FROM property")
+    @Query("SELECT * FROM estate")
     fun getAllProperties() : LiveData<List<Property>>
 
-    @Query("SELECT * FROM property WHERE id = :propertyId")
+    @Query("SELECT * FROM estate WHERE id = :propertyId")
     fun getProperty(propertyId : Long) : LiveData<Property>
 
-    @Query("""SELECT * FROM property 
+    @Query("""SELECT * FROM estate 
                     WHERE type IN (:listType) AND town LIKE :town AND price BETWEEN :minPrice AND :maxPrice 
                     AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface 
-                    AND numberPhotos BETWEEN 0 AND :numberPhotos AND status = :sold AND entry_date >= :creationDate 
-                    AND sell_date >= :soldDate AND school = :school AND hospital = :hospital AND market = :market
+                    AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold 
+                    AND sell_date>=:soldDate AND school=:school AND hospital = :hospital AND market=:market
+                    
     """)
-    fun filterPropertyWithParameters(listType : List<String>, town : String, minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+    fun filterPropertyWithParameters(listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                                     numberPhotos : Int , sold : String, soldDate : String,
+                                     school : Boolean, hospital: Boolean, market : Boolean) : LiveData<List<Property>>
+
+    @Query("""SELECT * FROM estate 
+                    WHERE type IN (:listType) AND price BETWEEN :minPrice AND :maxPrice 
+                    AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface 
+                    AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold AND entry_date>=:creationDate 
+                    AND sell_date>=:soldDate AND school=:school AND hospital=:hospital AND market=:market
+    """)
+    fun filterPropertyWithNoTownParameter(listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
                                      numberPhotos : Int , sold : String, creationDate : String, soldDate : String,
                                      school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
 
-    @Query("""SELECT * FROM property 
-                    WHERE type IN (:listType) AND price BETWEEN :minPrice AND :maxPrice 
-                    AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface 
-                    AND numberPhotos BETWEEN 0 AND :numberPhotos AND status = :sold AND entry_date >= :creationDate 
-                    AND sell_date >= :soldDate AND school = :school AND hospital = :hospital AND market = :market
+
+
+    @Query("""SELECT * FROM estate 
+                    WHERE type IN (:listType) AND town LIKE :town AND price BETWEEN :minPrice AND :maxPrice
+                    AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface
+                     AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold
     """)
-    fun filterPropertyWithNoTownParameter(listType : List<String>, minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int , sold : String, creationDate : String, soldDate : String,
-                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
+    fun filterPropertyTest(listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                           numberPhotos : Int , sold : String) : LiveData<List<Property>>
+
+
+
+
 
     @Insert
     fun insertProperties(properties : List<Property>)
@@ -51,12 +66,12 @@ interface PropertyDao {
     fun deleteProperty(property : Property)
 
     // Content provider
-    @Query("SELECT * FROM property")
+    @Query("SELECT * FROM estate")
     fun getAllPropertiesWithCursor() : Cursor
 
-    @Query("SELECT * FROM property WHERE id = :propertyId")
+    @Query("SELECT * FROM estate WHERE id = :propertyId")
     fun getPropertyByIdWithCursor(propertyId : Long) : Cursor
 
-    @Query("DELETE FROM property WHERE id LIKE :propertyId")
+    @Query("DELETE FROM estate WHERE id LIKE :propertyId")
     fun deletePropertyById(propertyId: Long) : Int
 }

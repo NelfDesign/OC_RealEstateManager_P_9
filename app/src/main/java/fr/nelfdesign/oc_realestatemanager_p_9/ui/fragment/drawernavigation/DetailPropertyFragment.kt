@@ -25,7 +25,6 @@ import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.buildTextAddress
 import kotlinx.android.synthetic.main.fragment_detail_property.*
 import timber.log.Timber
-import java.lang.StringBuilder
 
 
 class DetailPropertyFragment : BaseFragment(), DetailAdapter.onClickItemListener {

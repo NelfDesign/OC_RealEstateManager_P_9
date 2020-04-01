@@ -30,7 +30,7 @@ class PropertyContentProvider : ContentProvider() {
 
         if (context != null) {
             val userId = ContentUris.parseId(uri)
-            val cursor: Cursor = App.db.PropertyDao().getPropertyByIdWithCursor(userId)
+            val cursor: Cursor = App.db.propertyDao().getPropertyByIdWithCursor(userId)
             cursor.setNotificationUri(context!!.contentResolver, uri)
             return cursor
         }
@@ -40,7 +40,7 @@ class PropertyContentProvider : ContentProvider() {
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         if (context != null){
-            val id  : Long = App.db.PropertyDao().createProperty(Property.fromContentValues(values!!))
+            val id  : Long = App.db.propertyDao().createProperty(Property.fromContentValues(values!!))
 
             if (id > 0){
                 context!!.contentResolver.notifyChange(uri, null)
@@ -55,7 +55,7 @@ class PropertyContentProvider : ContentProvider() {
         if (context != null){
             val property = Property.fromContentValues(values!!)
             property.id = ContentUris.parseId(uri)
-            val count = App.db.PropertyDao().updateProperty(property)
+            val count = App.db.propertyDao().updateProperty(property)
 
             context!!.contentResolver.notifyChange(uri, null)
             return count
@@ -66,7 +66,7 @@ class PropertyContentProvider : ContentProvider() {
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
         if (context != null){
-            val count = App.db.PropertyDao().deletePropertyById(ContentUris.parseId(uri))
+            val count = App.db.propertyDao().deletePropertyById(ContentUris.parseId(uri))
 
             context!!.contentResolver.notifyChange(uri, null)
             return count

@@ -159,7 +159,9 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
             .addOnSuccessListener(Objects.requireNonNull(requireActivity())) { location ->
                 if (location != null) {
                     // get the location phone
-                    lastPosition = LatLng(location.latitude, location.longitude)
+                    //lastPosition = LatLng(location.latitude, location.longitude)
+                    //Set position in New york for application
+                    lastPosition = LatLng(40.7808, -73.9772)
                     Timber.i("LastLocation : $lastPosition")
                     //Update UI with information
                     updateUiMap(lastPosition!!)

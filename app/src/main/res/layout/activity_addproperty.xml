@@ -48,10 +48,11 @@
                       android:text="@string/type"
                       style="@style/edit_text_add"
                       android:textColor="@color/accent"
-                      android:drawableLeft="@drawable/ic_type"
+                      android:drawableStart="@drawable/ic_type"
                       android:drawableTint="@color/accent"
                       android:drawablePadding="@dimen/margin_5"
-                      android:layout_gravity="center"/>
+                      android:layout_gravity="center"
+                      tools:ignore="UnusedAttribute" />
 
                     <Spinner
                         android:id="@+id/spinner_type"
@@ -303,7 +304,7 @@
                     android:scrollbars="horizontal">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal">

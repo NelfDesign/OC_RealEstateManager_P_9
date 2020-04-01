@@ -13,7 +13,7 @@ import java.util.concurrent.Executor
  */
 class PhotoListViewModel(private val executor: Executor) : ViewModel() {
 
-    private val photoRepository : PhotoDaoRepository = PhotoDaoRepository(db.PhotoDao())
+    private val photoRepository : PhotoDaoRepository = PhotoDaoRepository(db.photoDao())
 
     val photos : LiveData<List<Photo>> = photoRepository.photos
 

@@ -1,6 +1,7 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.ui.activity
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +23,7 @@ import android.widget.Spinner
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -54,6 +57,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import java.io.File
+import java.io.IOException
 
 class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
@@ -142,7 +147,6 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
             photoViewModel.getPhotoToDisplay(propertyId)
                 .observe(this, Observer { photoList -> updateAdapter(photoList) })
-
         }
 
     }
@@ -155,11 +159,6 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         )
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_type.adapter = adapterSpinner
-        if (type != "Manor") {
-            val spinnerPosition =
-                (spinner_type.adapter as ArrayAdapter<CharSequence>).getPosition(type)
-            spinner_type.setSelection(spinnerPosition)
-        }
     }
 
 
@@ -171,7 +170,6 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     }
 
     private fun getPositionSpinner(spinner : Spinner, myString : String){
-        val index = 0
         for (i in 0 until spinner.count) {
             if (spinner.getItemAtPosition(i).toString() == myString) {
                 spinner.setSelection(i)
@@ -318,40 +316,19 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     }
 
     private fun getStatus(): String {
-        status = when {
-            compromiseDate != "" -> "Compromise signed"
-            soldDate != "" -> "Property sold"
-            else -> "On sale"
+        status = if(compromiseDate != "" && soldDate == ""){
+            "Compromise signed"
+        }else if(soldDate != ""){
+            "Sold"
+        }else{
+            "On sale"
         }
         return status
     }
 
     private fun createPropertyInBdd() {
-        val property = Property(
-            0,
-            type,
-            price,
-            priceEuro,
-            area,
-            rooms,
-            bedrooms,
-            bathrooms,
-            description,
-            photos[0].urlPhoto,
-            photos.size,
-            street,
-            town,
-            estateLat,
-            estateLong,
-            hospital,
-            school,
-            market,
-            status,
-            entryDate,
-            "",
-            "",
-            1,
-            complete
+        val property = Property(0, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description, photos[0].urlPhoto,
+            photos.size, street, town, estateLat, estateLong, hospital, school, market, status, entryDate, "", "", 1, complete
         )
 
         propertyViewModel.createProperty(property, photos)
@@ -361,31 +338,8 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun updateBddWithNewInformation() {
         Timber.d("estate LatLng = $estateLat et $estateLong")
-        val property = Property(
-            propertyId,
-            type,
-            price,
-            priceEuro,
-            area,
-            rooms,
-            bedrooms,
-            bathrooms,
-            description,
-            photos[0].urlPhoto,
-            photos.size,
-            street,
-            town,
-            estateLat,
-            estateLong,
-            hospital,
-            school,
-            market,
-            status,
-            entryDate,
-            compromiseDate,
-            soldDate,
-            1,
-            complete
+        val property = Property(propertyId, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description, photos[0].urlPhoto, photos.size, street,
+            town, estateLat, estateLong, hospital, school, market, status, entryDate, compromiseDate, soldDate, 1, complete
         )
 
         Timber.d("photoListDetail = ${photosListDetail.size}, $photosListDetail")
@@ -399,12 +353,11 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun openGallery() {
         //Intent to pick image
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.type = "image/*"
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         if (intent.resolveActivity(packageManager) != null) {
-            startActivityForResult(Intent.createChooser(intent, "Select File"), RESULT_GALLERY_CODE)
-        }
-        //startActivityForResult(intent, RESULT_GALLERY_CODE)
+            startActivityForResult(intent, RESULT_GALLERY_CODE)
+       }
+
     }
 
     private fun openCamera() {
@@ -418,6 +371,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
         startActivityForResult(intent, RESULT_CAMERA_CODE)
     }
+
 
     // ***************************
     // PERMISSIONS
@@ -476,7 +430,6 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     /**
      * show a dialog to enter photo description if we click on camera or gallery button
-     *
      */
     private fun showDescriptionDialog(path: String) {
         val viewGroup = findViewById<ViewGroup>(android.R.id.content)
@@ -490,6 +443,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         builder.setView(dialogView)
         builder.setPositiveButton(getString(R.string.ok)) { _, _ ->
             imageDescription = descriptionEditText.text.toString()
+            Timber.d("Uri image = $path")
 
             image = Photo(0, path, imageDescription, 0)
             photos.add(image)
@@ -498,6 +452,9 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         builder.show()
     }
 
+    /**
+     * create dialog to delete image
+     */
     private fun showDeleteImageDialog(image: Photo) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.delete_message))
@@ -513,6 +470,9 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         builder.show()
     }
 
+    /**
+     * create notification when estate is created
+     */
     private fun notificationCreated() {
         val title: String = getString(R.string.app_name)
         val contentText = "Property $type has been well created"

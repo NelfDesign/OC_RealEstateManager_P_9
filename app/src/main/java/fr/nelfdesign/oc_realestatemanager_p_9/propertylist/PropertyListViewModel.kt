@@ -1,7 +1,9 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.propertylist
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import fr.nelfdesign.oc_realestatemanager_p_9.app.App
 import fr.nelfdesign.oc_realestatemanager_p_9.app.App.Companion.db
 import fr.nelfdesign.oc_realestatemanager_p_9.database.repository.PropertyDaoRepository
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Photo
@@ -14,7 +16,12 @@ import java.util.concurrent.Executor
  */
 class PropertyListViewModel(private val executor: Executor) : ViewModel() {
 
-    private val repositoryProperty: PropertyDaoRepository = PropertyDaoRepository(db.PropertyDao())
+    private val repositoryProperty: PropertyDaoRepository
+
+    init {
+        val propertyDao = App.db.propertyDao()
+        repositoryProperty = PropertyDaoRepository(propertyDao)
+    }
 
     var properties: LiveData<List<Property>> = repositoryProperty.properties
 
@@ -43,21 +50,26 @@ class PropertyListViewModel(private val executor: Executor) : ViewModel() {
      * Filter method
      *************************************************************************************************/
     fun filterPropertiesWithParameters(
-        listType: List<String>, town: String, minPrice: Long, maxPrice: Long, minRoom: Int, maxRoom: Int, minSurface: Int,
-        maxSurface: Int, numberPhotos: Int, sold: String, creationDate: String, soldDate: String, school: Boolean, hospital: Boolean, market: Boolean): LiveData<List<Property>> {
+        listType: List<String>, town: String, minPrice: Double, maxPrice: Double, minRoom: Int, maxRoom: Int, minSurface: Int,
+        maxSurface: Int, numberPhotos: Int, sold: String, soldDate: String, school: Boolean, hospital: Boolean, market: Boolean): LiveData<List<Property>> {
 
-      return repositoryProperty.filterPropertyWithParameters(
-            listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-            numberPhotos, sold, creationDate, soldDate, school, hospital, market)
+              return repositoryProperty.filterPropertyWithParameters(
+                    listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
+                    numberPhotos, sold, soldDate, school, hospital, market)
     }
 
     fun filterPropertiesWithNoTownParameter(
-        listType : List<String>, minPrice: Long, maxPrice: Long, minRoom: Int, maxRoom: Int, minSurface: Int, maxSurface: Int,
+        listType : List<String>, minPrice: Double, maxPrice: Double, minRoom: Int, maxRoom: Int, minSurface: Int, maxSurface: Int,
         numberPhotos: Int, sold: String, creationDate: String, soldDate: String, school: Boolean, hospital: Boolean, market: Boolean): LiveData<List<Property>> {
 
-        return repositoryProperty.filterPropertyWithNoTownParameter(
-            listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-            numberPhotos, sold, creationDate, soldDate, school, hospital, market)
+            return repositoryProperty.filterPropertyWithNoTownParameter(
+                listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
+                numberPhotos, sold, creationDate, soldDate, school, hospital, market)
+    }
+
+    fun filterTest( listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                    numberPhotos : Int , sold : String ) : LiveData<List<Property>>{
+        return repositoryProperty.filterTest(listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold)
     }
 
 }

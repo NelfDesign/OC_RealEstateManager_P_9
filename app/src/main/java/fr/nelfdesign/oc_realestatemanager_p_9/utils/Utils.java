@@ -189,11 +189,11 @@ public class Utils {
      * @param text to be checked
      * @return number
      */
-    public static int checkMaxData(String text){
-        int number;
+    public static double checkMaxData(String text){
+        double number;
         if (text.equals("")){
-            number = Integer.MAX_VALUE;
-        }else number = Math.min(Integer.parseInt(text), Integer.MAX_VALUE);
+            number = Double.MAX_VALUE;
+        }else number = Math.min(Double.parseDouble(text), Double.MAX_VALUE);
         return number;
     }
 

@@ -24,7 +24,7 @@ class EstateInfoWindowAdapter(context: Context) : GoogleMap.InfoWindowAdapter {
         with(contents){
             title_map_window.text = poi.name
             street_map_window.text = poi.street
-            if (poi.photo.contains("document")) {
+            if (poi.photo.contains("document") || poi.photo.contains("images")) {
                 image_window.setImageURI(Uri.parse(poi.photo))
             }else{
                 image_window.setImageResource(poi.photo.toInt())

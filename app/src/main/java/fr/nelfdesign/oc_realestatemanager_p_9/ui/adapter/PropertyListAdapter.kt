@@ -64,7 +64,7 @@ class PropertyListAdapter(private val properties : List<Property>, private val l
                price.text = resources.getString(R.string.devise_euros, Utils.formatNumber(property.priceEuro))
            }
 
-           if (property.photo.contains("document")){
+           if (property.photo.contains("document") || property.photo.contains("images")){
                    Glide.with(holder.itemView)
                        .load(property.photo)
                        .into(imageProperty)

@@ -9,7 +9,7 @@ import androidx.room.ForeignKey.CASCADE
  * Created by Nelfdesign at 25/02/2020
  * fr.nelfdesign.oc_realestatemanager_p_9.models
  */
-@Entity(tableName = "property")
+@Entity(tableName = "estate")
 data class Property(
             @PrimaryKey(autoGenerate = true)
             var id: Long,

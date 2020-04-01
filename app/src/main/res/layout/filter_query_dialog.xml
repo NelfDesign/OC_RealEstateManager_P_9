@@ -303,7 +303,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="50"
                     android:padding="@dimen/margin_2"
-                    android:text="@string/on_sale" />
+                    android:text="@string/on_sale"
+                    android:checked="true"/>
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/radio_sold"
@@ -316,78 +317,7 @@
             </RadioGroup>
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_2">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="50"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/entry_date_picker"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_2"
-                        android:clickable="true"
-                        android:drawableStart="@drawable/ic_date"
-                        android:drawablePadding="@dimen/margin_5"
-                        android:drawableTint="@color/accent"
-                        android:focusable="true"
-                        android:text="@string/entry_date"
-                        android:textColor="@color/accent"
-                        tools:ignore="UnusedAttribute" />
-
-                    <TextView
-                        android:id="@+id/filter_entry_date"
-                        style="@style/edit_text_add"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/accent"
-                        tools:text="02/03/2020"
-                        android:gravity="center"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="50"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/sold_date_picker"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_2"
-                        android:clickable="true"
-                        android:drawableStart="@drawable/ic_date"
-                        android:drawablePadding="@dimen/margin_5"
-                        android:drawableTint="@color/accent"
-                        android:focusable="true"
-                        android:text="@string/sold_date"
-                        android:textColor="@color/accent"
-                        tools:ignore="UnusedAttribute" />
-
-                    <TextView
-                        android:id="@+id/filter_sold_date"
-                        style="@style/edit_text_add"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/accent"
-                        tools:text="02/03/2020"
-                        android:gravity="center"/>
-
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

@@ -47,9 +47,7 @@ class App : Application() {
         Timber.plant(DebugTree())
         appContext = applicationContext
 
-        db = Room.databaseBuilder(appContext, Database::class.java, DATABASE_NAME)
-            .addCallback(FakePropertyApi.prepopulateDatabase())
-            .build()
+        db = Database.getDatabase(appContext)
 
         channelId = "fr.nelfdesign.oc_realestatemanager_p_9.app"
 

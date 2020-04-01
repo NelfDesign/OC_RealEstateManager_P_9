@@ -1,6 +1,8 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.database
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Photo
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
@@ -18,7 +20,28 @@ const val DATABASE_NAME = "real_estate"
 abstract class Database : RoomDatabase() {
 
     //DAO
-    abstract fun PropertyDao() : PropertyDao
-    abstract fun PhotoDao() : PhotoDao
+    abstract fun propertyDao() : PropertyDao
+    abstract fun photoDao() : PhotoDao
+
+    companion object{
+        @Volatile
+        private var INSTANCE : fr.nelfdesign.oc_realestatemanager_p_9.database.Database? = null
+
+        fun getDatabase(context : Context) : fr.nelfdesign.oc_realestatemanager_p_9.database.Database {
+            //if the instance is not null return it
+            return INSTANCE ?: synchronized(this){
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    fr.nelfdesign.oc_realestatemanager_p_9.database.Database::class.java,
+                    DATABASE_NAME
+                )
+                    .addCallback(FakePropertyApi.prepopulateDatabase())
+                    .build()
+
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
 
 }

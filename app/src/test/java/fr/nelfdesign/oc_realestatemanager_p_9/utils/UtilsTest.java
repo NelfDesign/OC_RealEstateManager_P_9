@@ -1,12 +1,5 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.utils;
 
-import android.app.Application;
-import android.content.Context;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.chip.Chip;
-
 import org.junit.Test;
 
 import java.text.DateFormat;
@@ -15,8 +8,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.*;
-import static org.junit.Assert.*;
+import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.buildTextAddress;
+import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.checkData;
+import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.checkEditTextInput;
+import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.checkMaxData;
+import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.convertDollarToEuro;
+import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.convertEuroToDollar;
+import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.formatNumber;
+import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.getTodayDate;
+import static fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.makeStreetString;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Nelfdesign at 30/01/2020
@@ -78,8 +82,8 @@ public class UtilsTest {
         String text = "125";
         String text2 = "";
 
-        assertEquals(125 , checkMaxData(text));
-        assertEquals(Integer.MAX_VALUE , checkMaxData(text2));
+        assertEquals(125.0 , checkMaxData(text), 0);
+        assertEquals(Double.MAX_VALUE , checkMaxData(text2), 0);
     }
 
     @Test

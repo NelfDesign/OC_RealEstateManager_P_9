@@ -1,9 +1,5 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.propertylist
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import fr.nelfdesign.oc_realestatemanager_p_9.app.App.Companion.db
-import fr.nelfdesign.oc_realestatemanager_p_9.database.repository.PropertyDaoRepository
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
@@ -14,10 +10,6 @@ import java.util.concurrent.Executors
 class Injection {
 
     companion object{
-
-        private fun providePropertyDataSource() : PropertyDaoRepository{
-            return PropertyDaoRepository(db.PropertyDao())
-        }
 
         private fun provideExecutor() : Executor{
             return Executors.newSingleThreadExecutor()

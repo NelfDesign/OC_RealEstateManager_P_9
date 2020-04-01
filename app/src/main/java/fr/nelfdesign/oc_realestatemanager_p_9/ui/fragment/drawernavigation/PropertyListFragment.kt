@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.DatePicker
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -39,22 +38,20 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
     private lateinit var propertyListAdapter: PropertyListAdapter
     private var properties: MutableList<Property> = mutableListOf()
     private var town : String = ""
-    private var minPrice : Long = 0
-    private var maxPrice : Long = 0
+    private var minPrice : Double = 0.0
+    private var maxPrice : Double = 0.0
     private var minRoom : Int= 0
     private var maxRoom : Int = 0
     private var minSurface : Int = 0
     private var maxSurface : Int = 0
     private var numberPhotos : Int= 0
-    private var sold : String = "On sale"
+    private var sold : String = ""
     private var entryDate: String = ""
     private var sellDate: String = ""
     private var hospital: Boolean = false
     private var school : Boolean = false
     private var market: Boolean = false
     private var listener : OnClickEstateListener? = null
-    private lateinit var mDateSetListener: OnDateSetListener
-    private lateinit var mDateSetListener2: OnDateSetListener
 
         companion object {
         internal var DEVISE : String = "dollars"
@@ -122,7 +119,6 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
                     DEVISE = "dollars"
                     propertyListAdapter.notifyDataSetChanged()
                 }
-
             }
             R.id.filter -> alertDialogQuery()
         }
@@ -139,22 +135,12 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
         //show dialog
         val mAlertDialog = mBuilder.show()
 
-        mDialog.entry_date_picker.setOnClickListener{
-            this.configureDialogCalendar(mDateSetListener)
-        }
-        mDateSetListener = OnDateSetListener { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-           getDateFromPicker(year, month, dayOfMonth, mDialog.filter_entry_date)
-        }
-
-        mDialog.sold_date_picker.setOnClickListener {
-            this.configureDialogCalendar(mDateSetListener2)
-        }
-        mDateSetListener2 = OnDateSetListener { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-           getDateFromPicker(year, month, dayOfMonth,  mDialog.filter_sold_date)
-        }
+        stateChip(mDialog.filter_chip_hospital, requireContext())
+        stateChip(mDialog.filter_chip_school, requireContext())
+        stateChip(mDialog.filter_chip_market, requireContext())
 
         mDialog.button_filter.setOnClickListener {
-            val  list : List<String> = listOf("Manor", "Penthouse", "Loft", "House")
+            val  list : List<String> = arrayListOf("Manor", "Penthouse", "Loft", "House")
             val listType = ArrayList<String>()
 
             if (mDialog.radio_Manor.isChecked) listType.add(mDialog.radio_Manor.text.toString())
@@ -164,27 +150,22 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
             if (!mDialog.radio_Manor.isChecked && !mDialog.radio_Penthouse.isChecked && !mDialog.radio_Loft.isChecked && !mDialog.radio_house.isChecked) listType.addAll(list)
 
              town = mDialog.filter_town.text.toString()
-             minPrice = checkData(mDialog.filter_min_price.text.toString()).toLong()
-             maxPrice = checkMaxData(mDialog.filter_max_price.text.toString()).toLong()
+             minPrice = checkData(mDialog.filter_min_price.text.toString()).toDouble()
+             maxPrice = checkMaxData(mDialog.filter_max_price.text.toString())
              minRoom = checkData(mDialog.filter_min_room.text.toString())
-             maxRoom = checkMaxData(mDialog.filter_max_room.text.toString())
+             maxRoom = checkMaxData(mDialog.filter_max_room.text.toString()).toInt()
              minSurface = checkData(mDialog.filter_min_area.text.toString())
-             maxSurface = checkMaxData(mDialog.filter_max_area.text.toString())
-             numberPhotos = checkMaxData(mDialog.filter_number_photos.text.toString())
+             maxSurface = checkMaxData(mDialog.filter_max_area.text.toString()).toInt()
+             numberPhotos = checkMaxData(mDialog.filter_number_photos.text.toString()).toInt()
 
             when {
                 mDialog.radio_on_sale.isChecked -> sold = mDialog.radio_on_sale.text.toString()
                 mDialog.radio_sold.isChecked -> sold = mDialog.radio_sold.text.toString()
             }
 
-            entryDate = if (mDialog.filter_entry_date.text.toString() == "") "24/02/2020" else mDialog.filter_entry_date.text.toString()
-            sellDate = if (mDialog.filter_sold_date.text.toString() == "") "" else mDialog.filter_sold_date.text.toString()
-            stateChip(mDialog.filter_chip_hospital, requireContext())
-            hospital = mDialog.filter_chip_hospital.isChecked
-            stateChip(mDialog.filter_chip_school, requireContext())
-            school  = mDialog.filter_chip_school.isChecked
-            stateChip(mDialog.filter_chip_market, requireContext())
-            market = mDialog.filter_chip_market.isChecked
+             hospital =mDialog.filter_chip_hospital.isChecked
+             school  = mDialog.filter_chip_school.isChecked
+             market =mDialog.filter_chip_market.isChecked
 
             Timber.d("Parameters : $listType, $town, $minPrice, $maxPrice, $minRoom, $maxRoom, $minSurface, $maxSurface, $numberPhotos, $sold, $entryDate, $sellDate, $hospital, $market, $school")
 
@@ -194,11 +175,12 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
 
         mDialog.button_Nofilter.setOnClickListener {
             viewModel.properties.observe(viewLifecycleOwner, Observer { estate -> updateProperty(estate) })
-            mAlertDialog.dismiss()//dismiss dialog filter
+            mAlertDialog.dismiss()
         }
     }
 
     private fun updateProperty(newProperty: List<Property>) {
+        Timber.d("List property in update = ${newProperty.size}")
         properties.clear()
         properties.addAll(newProperty)
         Timber.d("List of property = ${properties.size},  $properties")
@@ -207,45 +189,24 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
     }
 
     private fun refreshListProperty(listType : List<String>) {
+        Timber.d("List de biens = $listType")
             if (town != ""){
                 viewModel.filterPropertiesWithParameters(
                     listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                    numberPhotos, sold, entryDate, sellDate, hospital, school, market
+                    numberPhotos, sold, entryDate, school, hospital, market
                 ).observe(viewLifecycleOwner, Observer { propertyFilter -> updateProperty(propertyFilter) })
             }else{
                 viewModel.filterPropertiesWithNoTownParameter(
                     listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                    numberPhotos, sold, entryDate, sellDate, hospital, school, market
+                    numberPhotos, sold, entryDate, sellDate, school, hospital, market
                 ).observe(viewLifecycleOwner, Observer { propertyFilter -> updateProperty(propertyFilter) })
             }
-
     }
 
     private fun checkIfNoProperty() {
         if (propertyListAdapter.itemCount == 0) {
             textViewNoProperty.visibility = View.VISIBLE
         } else textViewNoProperty.visibility = View.GONE
-    }
-
-    private fun configureDialogCalendar(listener : OnDateSetListener) {
-        val cal: Calendar = Calendar.getInstance()
-        val year: Int = cal.get(Calendar.YEAR)
-        val month: Int = cal.get(Calendar.MONTH)
-        val day: Int = cal.get(Calendar.DAY_OF_MONTH)
-        val dialogDate = DatePickerDialog(requireContext(), listener, year, month, day)
-        dialogDate.show()
-    }
-
-    private fun getDateFromPicker(year: Int, month: Int, dayOfMonth: Int, textview : TextView){
-        var day = dayOfMonth.toString()
-        var monthS = (month + 1).toString()
-        if (dayOfMonth < 10) {
-            day = "0$dayOfMonth"
-        }
-        if (month < 9) {
-            monthS = "0" + (month + 1)
-        }
-        textview.text = resources.getString(R.string.date, day , monthS, year)
     }
 
     override fun onPropertySelected(property: Property) {

@@ -24,17 +24,24 @@ class PropertyDaoRepository(private val propertyDao : PropertyDao) {
         propertyDao.updateProperty(property)
     }
 
-    fun filterPropertyWithParameters(listType : List<String>, town : String, minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int, sold : String, creationDate : String, soldDate : String,
-                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
-            = propertyDao.filterPropertyWithParameters(listType , town , minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
-        numberPhotos , sold, creationDate, soldDate,
-        school, hospital , market)
+    fun filterPropertyWithParameters(listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                                     numberPhotos : Int, sold : String, soldDate : String,
+                                     school : Boolean, hospital: Boolean, market : Boolean) : LiveData<List<Property>> {
+       return propertyDao.filterPropertyWithParameters(listType , town , minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
+            numberPhotos , sold, soldDate, school , hospital, market)
+    }
 
-    fun filterPropertyWithNoTownParameter(listType : List<String>, minPrice : Long, maxPrice : Long, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+
+    fun filterPropertyWithNoTownParameter(listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
                                      numberPhotos : Int, sold : String, creationDate : String, soldDate : String,
-                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
-            = propertyDao.filterPropertyWithNoTownParameter(listType , minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
-        numberPhotos , sold, creationDate, soldDate,
-        school, hospital , market)
+                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>> {
+        return propertyDao.filterPropertyWithNoTownParameter(listType , minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
+            numberPhotos , sold, creationDate, soldDate, school, hospital , market)
+    }
+
+    fun filterTest(listType : List<String>, town :String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+                   numberPhotos : Int , sold : String ): LiveData<List<Property>>{
+        return propertyDao.filterPropertyTest(listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold)
+    }
+
 }

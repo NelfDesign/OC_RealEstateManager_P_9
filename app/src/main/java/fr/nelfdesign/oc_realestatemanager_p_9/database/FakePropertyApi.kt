@@ -49,7 +49,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
                     estate1.put("sell_date", "")
                     estate1.put("user_id", 1)
                     estate1.put("complete", true)
-                    db.insert("property", OnConflictStrategy.IGNORE, estate1)
+                    db.insert("estate", OnConflictStrategy.IGNORE, estate1)
 
                     val estate2 = ContentValues()
                     estate2.put("id", 2)
@@ -79,7 +79,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
                     estate2.put("sell_date", "")
                     estate2.put("user_id", 2)
                     estate2.put("complete", true)
-                    db.insert("property", OnConflictStrategy.IGNORE, estate2)
+                    db.insert("estate", OnConflictStrategy.IGNORE, estate2)
 
                     val estate3 = ContentValues()
                     estate3.put("id", 3)
@@ -109,7 +109,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
                     estate3.put("sell_date", "")
                     estate3.put("user_id", 1)
                     estate3.put("complete", true)
-                    db.insert("property", OnConflictStrategy.IGNORE, estate3)
+                    db.insert("estate", OnConflictStrategy.IGNORE, estate3)
 
                     val picture1 = ContentValues()
                     picture1.put("id_photo", 1)
@@ -137,7 +137,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
                     picture4.put("url_photo", R.drawable.manoir_salle_de_jeu.toString())
                     picture4.put("name", "Manor playroom")
                     picture4.put("property_id", 1)
-                    db.insert("photo", OnConflictStrategy.IGNORE, picture3)
+                    db.insert("photo", OnConflictStrategy.IGNORE, picture4)
 
                     val picture5 = ContentValues()
                     picture5.put("id_photo", 5)
