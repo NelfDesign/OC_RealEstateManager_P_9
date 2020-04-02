@@ -39,12 +39,12 @@ class PropertyDaoRepository(private val propertyDao : PropertyDao) {
             numberPhotos , sold, entryDateLong, soldDateLong, school, hospital , market)
     }
 
-    fun filterTest(listType : List<String>, town :String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+    fun filterProperty(listType : List<String>, town :String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
                    numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long ): LiveData<List<Property>>{
         return propertyDao.filterProperty(listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold, entryDateLong, soldDateLong)
     }
 
-    fun filterTestWithoutTown(listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
+    fun filterPropertyWithoutTown(listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
                    numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long ): LiveData<List<Property>>{
         return propertyDao.filterPropertyWithoutTown(listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold, entryDateLong, soldDateLong)
     }

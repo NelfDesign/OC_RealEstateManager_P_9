@@ -69,12 +69,12 @@ class PropertyListViewModel(private val executor: Executor) : ViewModel() {
 
     fun filterProperty( listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
                     numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long ) : LiveData<List<Property>>{
-        return repositoryProperty.filterTest(listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold, entryDateLong, soldDateLong)
+        return repositoryProperty.filterProperty(listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold, entryDateLong, soldDateLong)
     }
 
     fun filterPropertyWithoutTown( listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
                     numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long ) : LiveData<List<Property>>{
-        return repositoryProperty.filterTestWithoutTown(listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold, entryDateLong, soldDateLong)
+        return repositoryProperty.filterPropertyWithoutTown(listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold, entryDateLong, soldDateLong)
     }
 
 }
