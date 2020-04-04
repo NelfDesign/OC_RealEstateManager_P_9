@@ -2,7 +2,9 @@ package fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import butterknife.OnClick
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import fr.nelfdesign.oc_realestatemanager_p_9.R
@@ -29,12 +31,6 @@ class ProfileFragment : BaseFragment() {
 
     override fun getFragmentLayout(): Int {
         return R.layout.fragment_profile
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        login = MainActivity.LOGIN_USER
-        Timber.d("login = $login")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

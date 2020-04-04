@@ -3,7 +3,9 @@ package fr.nelfdesign.oc_realestatemanager_p_9.database
 import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
+
 
 /**
  * Created by Nelfdesign at 25/02/2020
@@ -18,50 +20,8 @@ interface PropertyDao {
     @Query("SELECT * FROM estate WHERE id = :propertyId")
     fun getProperty(propertyId : Long) : LiveData<Property>
 
-    @Query("""SELECT * FROM estate 
-                    WHERE type IN (:listType) AND town LIKE :town AND price BETWEEN :minPrice AND :maxPrice 
-                    AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface 
-                    AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold AND entry_date_long >= :entryDateLong
-                    AND sell_date_long >= :soldDateLong AND school=:school AND hospital = :hospital AND market=:market
-                    
-    """)
-    fun filterPropertyWithParameters(listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long,
-                                     school : Boolean, hospital: Boolean, market : Boolean) : LiveData<List<Property>>
-
-    @Query("""SELECT * FROM estate 
-                    WHERE type IN (:listType) AND price BETWEEN :minPrice AND :maxPrice 
-                    AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface 
-                    AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold AND entry_date >= :entryDateLong 
-                    AND sell_date >= :soldDateLong AND school=:school AND hospital=:hospital AND market=:market
-    """)
-    fun filterPropertyWithNoTownParameter(listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long,
-                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>>
-
-
-
-    @Query("""SELECT * FROM estate 
-                    WHERE type IN (:listType) AND town LIKE :town AND price BETWEEN :minPrice AND :maxPrice
-                    AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface
-                     AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold
-                     AND entry_date_long >= :entryDateLong AND sell_date_long >= :soldDateLong
-    """)
-    fun filterProperty(listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                           numberPhotos : Int, sold : String, entryDateLong: Long, soldDateLong : Long) : LiveData<List<Property>>
-
-
-    @Query("""SELECT * FROM estate 
-                    WHERE type IN (:listType) AND price BETWEEN :minPrice AND :maxPrice
-                    AND room_number BETWEEN :minRoom AND :maxRoom AND area BETWEEN :minSurface AND :maxSurface
-                     AND numberPhotos BETWEEN 0 AND :numberPhotos AND status=:sold
-                     AND entry_date_long >= :entryDateLong AND sell_date_long >= :soldDateLong
-    """)
-    fun filterPropertyWithoutTown(listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                           numberPhotos : Int, sold : String, entryDateLong: Long, soldDateLong : Long) : LiveData<List<Property>>
-
-    @Insert
-    fun insertProperties(properties : List<Property>)
+    @RawQuery(observedEntities = [Property::class])
+    fun getPropertyWithFilter(query: SupportSQLiteQuery) : LiveData<List<Property>>
 
     @Insert
     fun createProperty(properties : Property) : Long

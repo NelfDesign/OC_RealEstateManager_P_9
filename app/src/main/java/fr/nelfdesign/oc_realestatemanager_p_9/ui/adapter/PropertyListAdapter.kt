@@ -64,14 +64,16 @@ class PropertyListAdapter(private val properties : List<Property>, private val l
                price.text = resources.getString(R.string.devise_euros, Utils.formatNumber(property.priceEuro))
            }
 
-           if (property.photo.contains("document") || property.photo.contains("images")){
+           if (property.photo.contains("document") || property.photo.contains("images") || property.photo.contains("https")){
                    Glide.with(holder.itemView)
                        .load(property.photo)
+                       .fitCenter()
                        .into(imageProperty)
            } else{
             val intPhoto = resources.getIdentifier(property.photo, "drawable","")
                    Glide.with(holder.itemView)
                        .load(intPhoto)
+                       .fitCenter()
                        .into(imageProperty)
            }
 

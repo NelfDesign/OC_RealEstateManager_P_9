@@ -36,7 +36,6 @@ public class ConnectionTest {
         activity = Robolectric.buildActivity(MainActivity.class);
     }
 
-
     @Test
     public void testConnectionEnable() {
         shadowOfActiveNetworkInfo.setConnectionStatus(NetworkInfo.State.CONNECTED);

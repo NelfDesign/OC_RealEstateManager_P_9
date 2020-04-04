@@ -66,7 +66,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat"
     implementation "androidx.core:core-ktx:1.2.0"
-    implementation "androidx.fragment:fragment-ktx:1.2.3"
+    implementation 'androidx.fragment:fragment-ktx:1.2.4'
     implementation "androidx.constraintlayout:constraintlayout:$constraint"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.android.support:design:28.0.3'
@@ -86,7 +86,7 @@ dependencies {
     implementation "com.jakewharton:butterknife:$butter"
     kapt "com.jakewharton:butterknife-compiler:$butter"
     //Firebase
-    implementation 'com.google.firebase:firebase-firestore:21.4.1'
+    implementation 'com.google.firebase:firebase-firestore:21.4.2'
     //ROOM
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-ktx:$room"
@@ -107,14 +107,13 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.libraries.places:places:2.2.0'
     //retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.8.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.8.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.4.1'
     //spinKit for wait circle
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     //permission easy
     implementation 'com.karumi:dexter:6.0.2'
-
 
     //Multidex
     implementation 'com.android.support:multidex:1.0.3'

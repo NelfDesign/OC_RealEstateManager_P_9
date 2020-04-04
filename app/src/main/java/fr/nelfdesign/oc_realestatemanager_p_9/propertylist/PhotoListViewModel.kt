@@ -21,18 +21,7 @@ class PhotoListViewModel(private val executor: Executor) : ViewModel() {
 
     fun insertPhotos(photos : List<Photo>){
         executor.execute{
-            /*for (p in photos){
-                photoRepository.insertPhoto(p)
-            }*/
             photoRepository.insertPhotos(photos)
-        }
-    }
-
-    fun updatePhoto(photos : List<Photo>){
-        executor.execute{
-            for (p in photos){
-                photoRepository.updatePhoto(p)
-            }
         }
     }
 

@@ -30,6 +30,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.models.Poi
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.Injection
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PropertyListViewModel
+import fr.nelfdesign.oc_realestatemanager_p_9.ui.activity.MainActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils
 import kotlinx.android.synthetic.main.fragment_map.*
 import timber.log.Timber
@@ -65,7 +66,6 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         //NetWork enable verification
         networkConnection = ViewModelProvider(this, factory).get(ConnectivityLiveDataViewModel::class.java)
 
@@ -83,13 +83,11 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
         }
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         // Location Services
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(requireContext()))
 
@@ -159,9 +157,8 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowCl
             .addOnSuccessListener(Objects.requireNonNull(requireActivity())) { location ->
                 if (location != null) {
                     // get the location phone
-                    //lastPosition = LatLng(location.latitude, location.longitude)
-                    //Set position in New york for application
-                    lastPosition = LatLng(40.7808, -73.9772)
+                    lastPosition = LatLng(location.latitude, location.longitude)
+                    //lastPosition = LatLng(40.7808, -73.9772)
                     Timber.i("LastLocation : $lastPosition")
                     //Update UI with information
                     updateUiMap(lastPosition!!)

@@ -5,11 +5,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import androidx.room.Room
-import fr.nelfdesign.oc_realestatemanager_p_9.database.DATABASE_NAME
 import fr.nelfdesign.oc_realestatemanager_p_9.database.Database
 import fr.nelfdesign.oc_realestatemanager_p_9.google_map.AddressCoordonateApiService
-import fr.nelfdesign.oc_realestatemanager_p_9.database.FakePropertyApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

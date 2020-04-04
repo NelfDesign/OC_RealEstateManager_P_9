@@ -1,16 +1,13 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.ui.activity
 
 import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Intent
-import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +20,6 @@ import android.widget.Spinner
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -57,10 +53,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
@@ -336,6 +328,10 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     }
 
     private fun createPropertyInBdd() {
+        if (photos.size == 0){
+            val photo = Photo(0, "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg", "No Photo", 0)
+            photos.add(photo)
+        }
         val property = Property(0, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description, photos[0].urlPhoto,
             photos.size, street, town, estateLat, estateLong, hospital, school, market, status, entryDate, entryDateLong,"", "", soldDateLong, 1, complete
         )
@@ -347,6 +343,10 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun updateBddWithNewInformation() {
         Timber.d("estate LatLng = $estateLat et $estateLong")
+        if (photos.size == 0){
+            val photo = Photo(0,"https://upload.wikimedia.org/wikipedia/commons/0/06/No_Photo_Available_Placeholder_Image.png", "No Photo", 0)
+            photos.add(photo)
+        }
         val property = Property(propertyId, type, price, priceEuro, area, rooms, bedrooms, bathrooms, description, photos[0].urlPhoto, photos.size, street,
             town, estateLat, estateLong, hospital, school, market, status, entryDate, entryDateLong, compromiseDate, soldDate, soldDateLong,1, complete
         )

@@ -52,7 +52,6 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         navController = findNavController(id.navHostFragment)
 
         appBarConfiguration = AppBarConfiguration(
@@ -133,7 +132,7 @@ class MainActivity : BaseActivity(), ProfileFragment.OnClickConfirmButtonListene
     }
 
     fun logOutApplication(item: MenuItem) {
-        when(item.itemId){
+        when (item.itemId) {
             id.logout -> {
                 val pref = getSharedPreferences("SharedConnection", Context.MODE_PRIVATE).edit()
                 pref.putBoolean("pref_check", false)

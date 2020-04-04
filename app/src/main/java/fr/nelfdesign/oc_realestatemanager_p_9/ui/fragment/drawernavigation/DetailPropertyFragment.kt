@@ -3,7 +3,10 @@ package fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -20,6 +23,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.Injection
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PhotoListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PropertyListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.activity.AddPropertyActivity
+import fr.nelfdesign.oc_realestatemanager_p_9.ui.activity.MainActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.DetailAdapter
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.buildTextAddress

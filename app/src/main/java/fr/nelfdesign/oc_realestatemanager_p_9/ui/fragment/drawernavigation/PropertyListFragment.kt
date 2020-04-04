@@ -5,14 +5,14 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
 import android.widget.DatePicker
-import androidx.core.content.ContextCompat
+import androidx.activity.addCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.sqlite.db.SimpleSQLiteQuery
 import fr.nelfdesign.oc_realestatemanager_p_9.R
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseFragment
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
@@ -73,6 +73,11 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
+        // This callback will only be called when MyFragment is at least Started.
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            // finish activity if we press back button only on this fragment
+            requireActivity().finishAffinity()
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -173,14 +178,12 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
         }
 
         mDialog.button_filter.setOnClickListener {
-            val  list : List<String> = arrayListOf("Manor", "Penthouse", "Loft", "House")
             val listType = ArrayList<String>()
 
             if (mDialog.radio_Manor.isChecked) listType.add(mDialog.radio_Manor.text.toString())
             if (mDialog.radio_Penthouse.isChecked) listType.add(mDialog.radio_Penthouse.text.toString())
             if (mDialog.radio_Loft.isChecked) listType.add( mDialog.radio_Loft.text.toString())
             if (mDialog.radio_house.isChecked) listType.add(mDialog.radio_house.text.toString())
-            if (!mDialog.radio_Manor.isChecked && !mDialog.radio_Penthouse.isChecked && !mDialog.radio_Loft.isChecked && !mDialog.radio_house.isChecked) listType.addAll(list)
 
              town = mDialog.filter_town.text.toString()
              minPrice = checkData(mDialog.filter_min_price.text.toString()).toDouble()
@@ -203,7 +206,7 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
             school  = mDialog.radio_school.isChecked
             market = mDialog.radio_Market.isChecked
 
-            Timber.d("Parameters : $listType, $town, $minPrice, $maxPrice, $minRoom, $maxRoom, $minSurface, $maxSurface, $numberPhotos, $sold, $entryDate, $entryDateLong, $sellDate, $soldDateLong, $hospital, $market, $school")
+            Timber.d("Parameters : $listType, $town, $minPrice, $maxPrice, $minRoom, $maxRoom, $minSurface, $maxSurface, $numberPhotos, $sold, $entryDate, $entryDateLong, $sellDate, $soldDateLong, $hospital,$school, $market ")
 
             refreshListProperty(listType)
             mAlertDialog.dismiss()
@@ -226,28 +229,52 @@ class PropertyListFragment : BaseFragment(), PropertyListAdapter.PropertyListAda
 
     private fun refreshListProperty(listType : List<String>) {
         Timber.d("List de biens = $listType")
-           if (town != ""){
-               if (!hospital && !school && !market){
-                   viewModel.filterProperty( listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                       numberPhotos, sold, entryDateLong, soldDateLong).observe(viewLifecycleOwner, Observer { property -> updateProperty(property)})
-               }else{
-                   viewModel.filterPropertiesWithParameters(
-                       listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                       numberPhotos, sold, entryDateLong, soldDateLong, school, hospital, market
-                   ).observe(viewLifecycleOwner, Observer { propertyFilter -> updateProperty(propertyFilter) })
-               }
-            }else {
-               if (!hospital && !school && !market) {
-                   viewModel.filterPropertyWithoutTown(
-                       listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                       numberPhotos, sold, entryDateLong, soldDateLong ).observe(viewLifecycleOwner, Observer { property -> updateProperty(property) })
-               } else {
-                   viewModel.filterPropertiesWithNoTownParameter(
-                       listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface,
-                       numberPhotos, sold, entryDateLong, soldDateLong, school, hospital, market
-                   ).observe(viewLifecycleOwner, Observer { propertyFilter -> updateProperty(propertyFilter) })
-               }
-           }
+        // List of bind parameters
+        val args: ArrayList<Any> = arrayListOf(minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold, entryDateLong, soldDateLong)
+
+        var query  : String = """SELECT * FROM estate WHERE price BETWEEN ? AND ? 
+            |AND room_number BETWEEN ? AND ? AND area BETWEEN ? AND ? 
+            |AND numberPhotos BETWEEN 0 AND ? AND status = ? AND entry_date_long >= ? AND sell_date_long >= ?""".trimMargin()
+
+        if (town != ""){
+            query += " AND"
+            query += " town LIKE ?"
+            args.add(town)
+        }
+        if (hospital){
+            query += " AND"
+            query += " hospital = ?"
+            args.add(hospital)
+            Timber.d("hospital = $hospital")
+        }
+        if (school){
+            query += " AND"
+            query += " school = ?"
+            args.add(school)
+            Timber.d("school = $school")
+        }
+        if (market){
+            query += " AND"
+            query += " market = ?"
+            args.add(market)
+        }
+        if (listType.isNotEmpty()){
+            for (i in listType.indices){
+                if (i == 0){
+                    query += " AND"
+                    query += " type = ?"
+                    args.add(listType[i])
+                }else{
+                    query += " OR"
+                    query += " type = ?"
+                    args.add(listType[i])
+                }
+            }
+        }
+
+        Timber.d("query = $query")
+        val queryEntry = SimpleSQLiteQuery(query, args.toTypedArray())
+        viewModel.getPropertyWithFilter(queryEntry).observe(viewLifecycleOwner, Observer { property -> updateProperty(property) })
     }
 
     private fun checkIfNoProperty() {

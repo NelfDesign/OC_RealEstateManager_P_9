@@ -291,7 +291,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="250dp"
             android:layout_margin="@dimen/margin_2"
             app:cardCornerRadius="@dimen/margin_5">
 
@@ -357,12 +357,13 @@
 
                 </LinearLayout>
 
-                <FrameLayout
-                    android:id="@+id/miniMap"
+                <ImageView
+                    android:id="@+id/mini_Map"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_2"
-                    android:layout_weight="50" />
+                    android:layout_weight="50"
+                    android:contentDescription="@string/map" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

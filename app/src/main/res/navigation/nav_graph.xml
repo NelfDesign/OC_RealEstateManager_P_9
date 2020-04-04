@@ -9,7 +9,7 @@
         android:id="@+id/nav_property"
         android:name="fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.PropertyListFragment"
         android:label="Property List"
-        tools:layout="@layout/fragment_property_list" >
+        tools:layout="@layout/fragment_property_list">
         <action
             android:id="@+id/action_nav_property_to_detailPropertyFragment"
             app:destination="@id/detailPropertyFragment" />

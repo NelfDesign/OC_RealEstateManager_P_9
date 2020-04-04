@@ -1,6 +1,7 @@
 package fr.nelfdesign.oc_realestatemanager_p_9.database.repository
 
 import androidx.lifecycle.LiveData
+import androidx.sqlite.db.SupportSQLiteQuery
 import fr.nelfdesign.oc_realestatemanager_p_9.database.PropertyDao
 import fr.nelfdesign.oc_realestatemanager_p_9.models.Property
 
@@ -24,29 +25,5 @@ class PropertyDaoRepository(private val propertyDao : PropertyDao) {
         propertyDao.updateProperty(property)
     }
 
-    fun filterPropertyWithParameters(listType : List<String>, town : String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int, sold : String, entryDateLong: Long, soldDateLong : Long,
-                                     school : Boolean, hospital: Boolean, market : Boolean) : LiveData<List<Property>> {
-       return propertyDao.filterPropertyWithParameters(listType , town , minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
-            numberPhotos , sold, entryDateLong, soldDateLong, school , hospital, market)
-    }
-
-
-    fun filterPropertyWithNoTownParameter(listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                                     numberPhotos : Int, sold : String, entryDateLong: Long, soldDateLong : Long,
-                                     school : Boolean, hospital : Boolean, market : Boolean) : LiveData<List<Property>> {
-        return propertyDao.filterPropertyWithNoTownParameter(listType , minPrice, maxPrice , minRoom , maxRoom , minSurface , maxSurface ,
-            numberPhotos , sold, entryDateLong, soldDateLong, school, hospital , market)
-    }
-
-    fun filterProperty(listType : List<String>, town :String, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                   numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long ): LiveData<List<Property>>{
-        return propertyDao.filterProperty(listType, town, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold, entryDateLong, soldDateLong)
-    }
-
-    fun filterPropertyWithoutTown(listType : List<String>, minPrice : Double, maxPrice : Double, minRoom : Int, maxRoom : Int, minSurface : Int, maxSurface : Int,
-                   numberPhotos : Int , sold : String, entryDateLong: Long, soldDateLong : Long ): LiveData<List<Property>>{
-        return propertyDao.filterPropertyWithoutTown(listType, minPrice, maxPrice, minRoom, maxRoom, minSurface, maxSurface, numberPhotos, sold, entryDateLong, soldDateLong)
-    }
-
+    fun getPropertyWithFilter(query: SupportSQLiteQuery) : LiveData<List<Property>> = propertyDao.getPropertyWithFilter(query)
 }

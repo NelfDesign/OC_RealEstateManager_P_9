@@ -2,11 +2,14 @@ package fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import fr.nelfdesign.oc_realestatemanager_p_9.R
 import fr.nelfdesign.oc_realestatemanager_p_9.base.BaseFragment
+import fr.nelfdesign.oc_realestatemanager_p_9.ui.activity.MainActivity
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.formatNumber
 import kotlinx.android.synthetic.main.fragment_simulator.*
 import kotlin.math.pow
