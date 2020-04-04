@@ -11,4 +11,5 @@
     <color name="divider">#BDBDBD</color>
     <color name="opacity">#B3BDBDBD</color>
     <color name="backgroundActivity">#77E8E6F1</color>
+    <color name="background_false">#ffa040</color>
 </resources>

@@ -4,8 +4,10 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Color.RED
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -46,6 +48,7 @@ import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PhotoListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.propertylist.PropertyListViewModel
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.adapter.DetailAdapter
 import fr.nelfdesign.oc_realestatemanager_p_9.ui.fragment.drawernavigation.DetailPropertyFragment.Companion.PROPERTY_ID
+import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils
 import fr.nelfdesign.oc_realestatemanager_p_9.utils.Utils.*
 import kotlinx.android.synthetic.main.activity_addproperty.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -90,6 +93,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     private var estateLong: Double = 0.0
     private var entryDateLong: Long = 0
     private var soldDateLong: Long = 0
+    private var isUpdated : Boolean = false
 
     companion object {
         private const val RESULT_CAMERA_CODE = 20
@@ -141,6 +145,7 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
         if (propertyId > 0) {
             this.configureToolBar("Update property")
 
+            isUpdated = true
             photoViewModel.getPhotoToDisplay(propertyId)
                 .observe(this, Observer { photoList -> updateAdapter(photoList) })
         }
@@ -217,21 +222,11 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
     )
     fun onClickBottomNavigation(view: View) {
         when (view.id) {
-            R.id.fab -> {
-                checkPropertyInformation()
-                getCoordinate()
-                notificationCreated()
-            }
-            R.id.fab_update -> {
-                checkPropertyInformation()
-                getCoordinate()
-            }
+            R.id.fab, R.id.fab_update -> checkPropertyInformation()
             R.id.camera -> checkPermissionsCamera()
             R.id.gallery -> checkPermissionsGallery()
-            R.id.check_compromise -> if (date_compromise.text == "") date_compromise.text =
-                getTodayDate() else date_compromise.text = ""
-            R.id.check_sold -> if (date_sold.text == "") date_sold.text =
-                getTodayDate() else date_sold.text = ""
+            R.id.check_compromise -> if (date_compromise.text == "") date_compromise.text = getTodayDate() else date_compromise.text = ""
+            R.id.check_sold -> if (date_sold.text == "") date_sold.text = getTodayDate() else date_sold.text = ""
             R.id.chip_hospital -> stateChip(chip_hospital, this.applicationContext)
             R.id.chip_market -> stateChip(chip_market, this.applicationContext)
             R.id.chip_school -> stateChip(chip_school, this.applicationContext)
@@ -249,28 +244,28 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
     private fun checkPropertyInformation() {
 
-        if (!checkEditTextInput(card_street.text.toString()) || !checkEditTextInput(card_town.text.toString()) || !checkEditTextInput(
-                card_description.text.toString()
-            )
-            || !checkEditTextInput(text_area.text.toString()) || !checkEditTextInput(card_rooms.text.toString())
-            || !checkEditTextInput(card_bedroom.text.toString()) || !checkEditTextInput(
-                card_bathroom.text.toString()
-            ) || !checkEditTextInput(card_price.text.toString())
+        if ( !checkEditTextInput(card_description.text.toString()) || !checkEditTextInput(text_area.text.toString()) || !checkEditTextInput(card_rooms.text.toString())
+            || !checkEditTextInput(card_bedroom.text.toString()) || !checkEditTextInput(card_bathroom.text.toString()) || !checkEditTextInput(card_price.text.toString())
         ) {
             complete = false
+        }
+
+        if (card_town.text.toString() == "" || card_street.text.toString() == ""){
+            makeSnackBar(constraint_add, "You must have to enter a town and a street")
+            card_town.setBackgroundColor(resources.getColor(R.color.background_false))
+            card_town.setTextColor(resources.getColor(R.color.icons))
+            card_street.setBackgroundColor(resources.getColor(R.color.background_false))
+            card_street.setTextColor(resources.getColor(R.color.icons))
+            return
         }
 
         street = card_street.text.toString()
         town = card_town.text.toString()
         description = card_description.text.toString()
-        area =
-            if (text_area.text.toString() == "") 0 else Integer.parseInt(text_area.text.toString())
-        rooms =
-            if (card_rooms.text.toString() == "") 0 else Integer.parseInt(card_rooms.text.toString())
-        bedrooms =
-            if (card_bedroom.text.toString() == "") 0 else Integer.parseInt(card_bedroom.text.toString())
-        bathrooms =
-            if (card_bathroom.text.toString() == "") 0 else Integer.parseInt(card_bathroom.text.toString())
+        area = if (text_area.text.toString() == "") 0 else Integer.parseInt(text_area.text.toString())
+        rooms = if (card_rooms.text.toString() == "") 0 else Integer.parseInt(card_rooms.text.toString())
+        bedrooms = if (card_bedroom.text.toString() == "") 0 else Integer.parseInt(card_bedroom.text.toString())
+        bathrooms = if (card_bathroom.text.toString() == "") 0 else Integer.parseInt(card_bathroom.text.toString())
         price = if (card_price.text.toString() == "") 0.0 else card_price.text.toString().toDouble()
         if (chip_hospital.isChecked) hospital = true
         if (chip_school.isChecked) school = true
@@ -285,6 +280,10 @@ class AddPropertyActivity : BaseActivity(), DetailAdapter.onClickItemListener {
 
         status = getStatus()
 
+        getCoordinate()
+        if (!isUpdated){
+            notificationCreated()
+        }
     }
 
     private fun getCoordinate() {
